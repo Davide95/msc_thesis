@@ -5,7 +5,6 @@ import gc
 import logging
 import multiprocessing
 import os
-import shutil
 import sys
 import time
 from pathlib import Path
@@ -84,17 +83,9 @@ def parse_html(chunkdir):
         filenames = [
             f'{chunkdir}/{tmpfile}' for tmpfile in os.listdir(chunkdir)]
 
-        try:
-            pool.map(get_text, filenames, chunksize=1)
-            pool.close()
-            pool.join()
-        except OSError:
-            print(('Cannot allocate memory. '
-                   + 'This problem happens when you need too much RAM '
-                   + 'and the interpreter haven\'t released it.'
-                   + 'Restarting the script should fix the issue.'))
-            shutil.rmtree(parsedir)
-            sys.exit(-1)
+        pool.map(get_text, filenames, chunksize=1)
+        pool.close()
+        pool.join()
 
     raw = dd.read_parquet(f'{parsedir}/*',
                           engine='pyarrow')['content'].compute()
