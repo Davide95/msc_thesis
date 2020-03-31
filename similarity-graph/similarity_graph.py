@@ -5,8 +5,8 @@ import gc
 import logging
 import multiprocessing
 import os
-import sys
 import shutil
+import sys
 import time
 from pathlib import Path
 
