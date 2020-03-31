@@ -5,10 +5,6 @@ import gc
 import logging
 import multiprocessing
 import os
-<<<<<<< HEAD
-import sys
-=======
->>>>>>> parent of e54f292... Notification when RAM is ful
 import time
 from pathlib import Path
 
@@ -86,10 +82,6 @@ def parse_html(chunkdir):
 
         filenames = [
             f'{chunkdir}/{tmpfile}' for tmpfile in os.listdir(chunkdir)]
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of e54f292... Notification when RAM is ful
         pool.map(get_text, filenames, chunksize=1)
         pool.close()
         pool.join()
