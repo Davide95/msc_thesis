@@ -94,7 +94,7 @@ def parse_html(chunkdir):
                            + 'and the interpreter haven\'t released it.'
                            + 'Restarting the script should fix the issue.'))
             shutil.rmtree(parsedir)
-            sys.exit(0)
+            sys.exit(-1)
 
     raw = dd.read_parquet(f'{parsedir}/*',
                           engine='pyarrow')['content'].compute()
