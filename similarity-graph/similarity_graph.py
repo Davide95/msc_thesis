@@ -89,10 +89,10 @@ def parse_html(chunkdir):
             pool.close()
             pool.join()
         except OSError:
-            logging.fatal(('Cannot allocate memory. '
-                           + 'This problem happens when you need too much RAM '
-                           + 'and the interpreter haven\'t released it.'
-                           + 'Restarting the script should fix the issue.'))
+            print(('Cannot allocate memory. '
+                   + 'This problem happens when you need too much RAM '
+                   + 'and the interpreter haven\'t released it.'
+                   + 'Restarting the script should fix the issue.'))
             shutil.rmtree(parsedir)
             sys.exit(-1)
 
