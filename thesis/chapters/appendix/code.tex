@@ -14,30 +14,6 @@ All experiments were tested on a PowerEdge T630 server with the following charac
 
 Since the spider implemented is built on top of the web-crawling platform Scrapy, we refer to its documentation instead of explaining how to run it.
 
-\begin{lstlisting}[caption=requirements.txt]
-Scrapy==1.6.0
-\end{lstlisting}
+\lstinputlisting[caption=requirements.txt]{../code/spider/requirements.txt}
 
-\begin{lstlisting}[language=Python, caption=custom\_spider.py]
-'''Web Crawling of the desired website.'''
-
-import scrapy
-from scrapy.linkextractors import LinkExtractor
-
-
-class CustomSpider(scrapy.Spider):
-    name = 'Custom'
-    start_urls = ['https://www.example.org/']
-    allowed_domains = ['www.example.org']
-
-    def parse(self, response):
-        links = list(LinkExtractor(allow_domains=self.allowed_domains).extract_links(response))
-        yield {
-            'url': response.url,
-            'connected_to': [response.urljoin(url.url) for url in links],
-            'content': response.text
-        }
-
-        for link in links:
-            yield response.follow(link, callback=self.parse)
-\end{lstlisting}
+\lstinputlisting[language=Python, caption=custom\_spider.py]{../code/spider/custom_spider.py}
