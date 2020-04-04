@@ -131,3 +131,15 @@ dmypy.json
 # Thesis
 thesis/*/*.pdf
 thesis/*/*.aux
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
