@@ -148,3 +148,10 @@ thesis/*/*.aux
 *-blx.aux
 *-blx.bib
 *.run.xml
+*.bbl
+*.fdb_latexmk
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
