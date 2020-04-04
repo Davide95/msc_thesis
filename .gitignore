@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 # Thesis
-thesis/**.pdf
+thesis/*/*.pdf
