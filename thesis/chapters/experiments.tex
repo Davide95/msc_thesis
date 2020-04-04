@@ -1,0 +1,77 @@
+\chapter{Experiments}
+Introduction here
+
+\section{Crawling}
+In order to collect data, we selected some monolingual websites to experiment with (see Table \ref{table:dbinfo}).
+
+Then, we implemented a spider (see Section \ref{spider}) to download and store all HTML documents in a particular domain.
+The application can be summarized with these steps:
+\begin{enumerate}[topsep=0pt, itemsep=0pt]
+    \item first, the software starts from an URL defined by the user, putting it into a pool
+    \item if the pool is not empty, the application will get a link from it, starting its download. After getting the link, it is removed from the pool
+    \item if the content is a valid HTML document, it is stored
+    \item all links of that webpage that are in the specified domain are stored. They are also put into the pool if they were not analyzed previously
+    \item loop to step 2 until there are no links left
+\end{enumerate}
+The final result is a set of tuples \texttt{(url, connected\_to, content)}, where \texttt{url} is the URL of a particular page, \texttt{connected\_to} is its set of links and \texttt{content} is its HTML source code.
+Scrapy allows saving these results in different formats, but we choose to save everything in CSV files in order to re-use them easily in the next phases.
+
+To get an idea of the size of each dataset, we report the number of documents and the number of unique words in Table \ref{table:dbdata}.
+
+\begin{table}[H]
+    \resizebox{\columnwidth}{!}{
+        \begin{tabular}{ |l|l|l|l|l| }
+            \hline
+            ID                & URL                                & Domain                & Language & Date of acquisition \\
+            \hline
+            \hline
+            bnu               & https://english.bnu.edu.cn/        & english.bnu.edu.cn    & en       & 2020-03-06          \\
+            \hline
+            goop              & https://goop.com/                  & goop.com              & en       & 2020-03-03          \\
+            \hline
+            ilblogdellestelle & https://www.ilblogdellestelle.it/  & ilblogdellestelle.it  & it       & 2020-03-03          \\
+            \hline
+            ilpost            & https://www.ilpost.it              & ilpost.it             & it       & 2020-03-02          \\
+            \hline
+            msccrociere       & https://www.msccrociere.it/        & msccrociere.it        & it       & 2020-03-02          \\
+            \hline
+            postgraduate      & https://www.postgraduateforum.com/ & postgraduateforum.com & en       & 2020-03-03          \\
+            \hline
+            rottentomatoes    & https://www.rottentomatoes.com     & rottentomatoes.com    & en       & 2020-03-02          \\
+            \hline
+            watt              & https://www.wattpadwriters.com     & wattpadwriters.com    & en       & 2020-03-03          \\
+            \hline
+        \end{tabular}
+    }
+    \caption{List of websites crawled. Languages follow the ISO 639-1 format, while dates are represented according to ISO 8601.}
+    \label{table:dbinfo}
+\end{table}
+
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{ |l|l|l| }
+            \hline
+            ID                & N. of documents & N. of unique words \\
+            \hline
+            \hline
+            bnu               & 1350            & 15044              \\
+            \hline
+            goop              & 25147           & 116082             \\
+            \hline
+            ilblogdellestelle & 27190           & 132650             \\
+            \hline
+            ilpost            & 729372          & 459936             \\
+            \hline
+            msccrociere       & 530             & 21284              \\
+            \hline
+            postgraduate      & 48690           & 114730             \\
+            \hline
+            rottentomatoes    & 84740           & 240916             \\
+            \hline
+            watt              & 492             & 18060              \\
+            \hline
+        \end{tabular}
+    \end{center}
+    \caption{The number of documents and unique words for each dataset obtained during the crawling phase.}
+    \label{table:dbdata}
+\end{table}

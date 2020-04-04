@@ -1,0 +1,64 @@
+\documentclass{masterthesis}
+
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{amssymb}
+
+\AtBeginDocument{\counterwithin{lstlisting}{section}}
+\DeclareMathOperator*{\E}{\mathbb{E}}
+\lstset{basicstyle=\small, numbers=left, frame=shadowbox, breaklines}
+
+\begin{document}
+
+\title{A comparison study between topic modelling techniques and clustering on graphs}
+
+\author{Davide Riva}
+
+\advisor{Annalisa Barla, Davide Garbarino}
+
+\examiner{Nicoletta Noceti}
+
+\maketitle
+
+\begin{abstract}
+    \dots
+\end{abstract}
+
+\dedication{To my beloved cat}
+
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+\chapter{Introduction and motivation}
+\dots
+
+\input{chapters/wordEmbedding.tex}
+\input{chapters/topicModeling.tex}
+
+\chapter{Methods for comparing networks}
+\dots
+
+\input{chapters/experiments.tex}
+
+\chapter{Conclusions and further work}
+\dots
+
+\nocite{*}
+\bibliographystyle{alphaurl}
+\bibliography{bib}
+
+\appendix
+\input{chapters/appendix/probabilityDistributions.tex}
+\input{chapters/appendix/statisticalDistances.tex}
+\input{chapters/appendix/code.tex}
+...
+
+\include{chapters/license}
+
+\end{document}
+
