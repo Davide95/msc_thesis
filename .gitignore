@@ -130,3 +130,4 @@ dmypy.json
 
 # Thesis
 thesis/*/*.pdf
+thesis/*/*.aux
