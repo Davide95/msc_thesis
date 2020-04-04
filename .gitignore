@@ -143,3 +143,8 @@ thesis/*/*.aux
 *.cb
 *.cb2
 .*.lb
+*.bcf
+*.blg
+*-blx.aux
+*-blx.bib
+*.run.xml
