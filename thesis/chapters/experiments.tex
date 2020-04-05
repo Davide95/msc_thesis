@@ -10,7 +10,7 @@ The application can be summarized with these steps:
     \item first, the software starts from an URL defined by the user, putting it into a pool
     \item if the pool is not empty, the application will get a link from it, starting its download. After getting the link, it is removed from the pool
     \item if the content is a valid HTML document, it is stored
-    \item all links of that webpage that are in the specified domain are stored. They are also put into the pool if they were not analyzed previously
+    \item all links of that webpage which are in the specified domain are stored. They are also put into the pool if they were not analyzed previously
     \item loop to step 2 until there are no links left
 \end{enumerate}
 The final result is a set of tuples \texttt{(url, connected\_to, content)}, where \texttt{url} is the URL of a particular page, \texttt{connected\_to} is its set of links and \texttt{content} is its HTML source code.
@@ -74,7 +74,7 @@ To get an idea of the size of each dataset, we report the number of documents an
     \end{center}
     \caption{
         The number of documents and unique words for each dataset obtained during the crawling phase.
-        During the count of unique words, everything that is not text (HTML tags, CSS, Javascript, ...) is excluded.
+        During the count of unique words, everything which is not text (HTML tags, CSS, Javascript, ...) is excluded.
     }
     \label{table:dbdata}
 \end{table}
