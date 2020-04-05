@@ -33,14 +33,14 @@ It can be seen as a generalization of the Beta distribution: a Dirichlet distrib
 All considerations and constraints about the parameters of the Beta distribution presented previously (Section \ref{betad}) still holds for the Dirichlet distribution.
 
 \subsection{Probability density function}
-Given a multivariate random variable $X \sim Dir(\alpha_1, \alpha_2, ..., \alpha_K)$, the probability density function is defined as:
+Given a multivariate random variable $X \sim Dir(\alpha_1, \alpha_2, \dots, \alpha_K)$, the probability density function is defined as:
 
-$$f_{X}(x_1, x_2, ..., x_K; \alpha_1, \alpha_2, ..., \alpha_K) = \frac{1}{B(\alpha_1, \alpha_2, ..., \alpha_K)} \prod_{i=1}^{K} x_i^{\alpha_i - 1}$$
+$$f_{X}(x_1, x_2, \dots, x_K; \alpha_1, \alpha_2, \dots, \alpha_K) = \frac{1}{B(\alpha_1, \alpha_2, \dots, \alpha_K)} \prod_{i=1}^{K} x_i^{\alpha_i - 1}$$
 
-$Beta(\alpha_1, \alpha_2, ..., \alpha_K)$ is the multivariate generalization of the Beta function presented in Section \ref{betad}.
+$Beta(\alpha_1, \alpha_2, \dots, \alpha_K)$ is the multivariate generalization of the Beta function presented in Section \ref{betad}.
 
-Setting $Dir(\alpha) \coloneqq Dir(\alpha_1, \alpha_2, ..., \alpha_n)$, a simplified notation of the probability density function is used:
-$$f_{x}(x_1, x_2, ..., x_K; \alpha) = \frac{1}{B(\alpha)} \prod_{i=1}^{K} x_i^{\alpha - 1}$$
+Setting $Dir(\alpha) \coloneqq Dir(\alpha_1, \alpha_2, \dots, \alpha_n)$, a simplified notation of the probability density function is used:
+$$f_{x}(x_1, x_2, \dots, x_K; \alpha) = \frac{1}{B(\alpha)} \prod_{i=1}^{K} x_i^{\alpha - 1}$$
 
 The support is constrained by:
 \begin{itemize}[topsep=0pt]
@@ -80,7 +80,7 @@ In the literature about Topic Modeling, it is wrongly used with the name of Mult
 To keep the same notation as the papers in the bibliography, we will say that $X \sim Mult(p)$ means that X is distributed as Categorical.
 Note that a Categorical distribution $Mult(p)$ is a special case of a Multinomial distribution $Mult(n, p)$ in which $n=1$.
 
-Each $p_i$ of the parameter $p = (p_1, p_2, ..., p_K)$ represents the probability of observing $i$ by sampling from the distribution.
+Each $p_i$ of the parameter $p = (p_1, p_2, \dots, p_K)$ represents the probability of observing $i$ by sampling from the distribution.
 
 \subsection{Probability mass function}
 Given a random variable $X \in Mult(p)$, the probability mass function is defined as:
