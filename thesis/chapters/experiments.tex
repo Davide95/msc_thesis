@@ -6,7 +6,7 @@ In order to collect data, we selected some monolingual websites to experiment wi
 
 Then, we implemented a spider (see Section \ref{spider}) to download and store all HTML documents in a particular domain.
 The application can be summarized with these steps:
-\begin{enumerate}[topsep=0pt, itemsep=0pt]
+\begin{enumerate}
     \item first, the software starts from an URL defined by the user, putting it into a pool
     \item if the pool is not empty, the application will get a link from it, starting its download. After getting the link, it is removed from the pool
     \item if the content is a valid HTML document, it is stored

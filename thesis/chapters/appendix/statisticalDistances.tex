@@ -20,7 +20,7 @@ $$ \mathit{KL}(p \| q) = \sum_i p(i) \log_2 \frac{p(i)}{q(i)}$$
 Suppose we have two Categorical distributions $c_1$ and $c_2$ with parameters $p_{c_1} = (0.1, 0.2, 0.7)$ and $p_{c_2} = (0.3, 0.5, 0.2)$, respectively.
 
 Given the formula presented above, we can compute the KL divergence:
-\begin{itemize}[topsep=0pt]
+\begin{itemize}
     \item $\mathit{KL}(c_1 \| c_2) = 0.1 \log_2 \frac{0.1}{0.3} + 0.2 \log_2 \frac{0.2}{0.5} + 0.7 \log_2 \frac{0.7}{0.2} \approx 0.85$
     \item $\mathit{KL}(c_2 \| c_1) = 0.3 \log_2 \frac{0.3}{0.1} + 0.5 \log_2 \frac{0.5}{0.2} + 0.2 \log_2 \frac{0.2}{0.7} \approx 0.77$
 \end{itemize}
@@ -42,7 +42,7 @@ For this reason, $\mathit{KL}(p \| z)$ is used instead of $\mathit{KL}(z \| p)$ 
 
 \section{Hellinger distance}
 The Hellinger distance has some advantages over the Kullback–Leibler divergence:
-\begin{itemize}[topsep=0pt]
+\begin{itemize}
     \item it is symmetric: $\mathit{HD}(p, q) = \mathit{HD}(q, p)$
     \item it has an upper bound: $0 \leq \mathit{HD}(p, q) \leq 1$
 \end{itemize}
