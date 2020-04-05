@@ -1,6 +1,6 @@
 \chapter{Word Embedding} \label{wordemb}
 Documents are made by words.
-To be manipulable by an algorithm, these words need to be represented in a numerical format.
+To be manipulable by an algorithm these words need to be represented in a numerical format.
 
 This chapter covers some techniques able to fulfil this task,
 pointing out the advantages and disadvantages of choosing one instead of another.
@@ -14,14 +14,14 @@ is $ w = ("a", "cat", "is", "an", "animal", "but", "an", "animal", "is", "not", 
 while its set of terms is $d = \{"a", "cat", "is", "an", "animal", "but", "not"\}$.
 
 \section{One Hot Encoding}
-Given a list of words $w = (w_1, w_2, \dots, w_N)$
+Given a list of words $w = (w_1, w_2, \dots, w_N)$,
 we first generate a dictionary of unique words
-$d = \{d_1, d_2, ..., d_K\}$ with an arbitary order between words.
-Note that $ K \leq N $ is always true and $ K = N $ happens only when there are no repetition of words in the documents.
+$d = \{d_1, d_2, ..., d_K\}$ with an arbitrary order between words.
+Note that $ K \leq N $ is always true and $ K = N $ happens only when there is no repetition of words in the documents.
 
 Each term $d_i$ in the dictionary can now be encoded as $x_i \in R^K$ following the One Hot Encoding approach.
 All elements of $x_i$ are zero except a "1" in the position  $i$ of the vector.
-That means that two words $w_l, w_j$ in different positions in some documents will have the same value $x_i$ if and only if they correspond to the same term $d_i$.
+That means that two words $w_l, w_j$ in different positions will have the same value $x_i$ if and only if they correspond to the same term $d_i$.
 
 Applying One Hot Encoding on the previous example presented in the introduction of this chapter leads to the following values of $x_i$:
 \begin{multicols}{2}
@@ -39,7 +39,7 @@ Applying One Hot Encoding on the previous example presented in the introduction 
 Despite its simplicity and the fact that it is not computationally expensive to use, it has some disadvantages:
 \begin{itemize}
     \item vectors are sparse: only one element of each vector is not zero
-    \item there is no concept of similarity: all vectors have the same distance bewteen each other
+    \item there is no concept of similarity: all vectors have the same distance between each other
 \end{itemize}
 
 \section{Word2vec}
