@@ -19,7 +19,7 @@ we first generate a dictionary of unique words
 $d = \{d_1, d_2, ..., d_K\}$ with an arbitrary order between words.
 Note that $ K \leq N $ is always true and $ K = N $ happens only when there is no repetition of words in the documents.
 
-Each term $d_i$ in the dictionary can now be encoded as $x_i \in R^K$ following the One Hot Encoding approach.
+Each term $d_i$ in the dictionary can now be encoded as $x_i \in \{0,1\}^K$ following the One Hot Encoding approach.
 All elements of $x_i$ are zero except a "1" in the position  $i$ of the vector.
 That means that two words $w_l, w_j$ in different positions will have the same value $x_i$ if and only if they correspond to the same term $d_i$.
 
