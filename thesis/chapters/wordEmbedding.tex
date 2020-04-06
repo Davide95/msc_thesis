@@ -43,7 +43,64 @@ Despite its simplicity and the fact that it is not computationally expensive to 
 \end{itemize}
 
 \section{Word2vec}
-\dots
+
+Word2vec is a family of approaches to overcome the disadvantages of One Hot Encoding using neural networks.
+In this section two architectures will be proposed.
+Both of them will be trained using mini-batch gradient descent instead of gradient descent to allow the algorithm to scale when datasets grows.
+
+After a learning phase, both of them will be able to map each term $x_i \in \{0, 1\}^K$ to a point $y_i \in \mathbb{R}^M$, with $M \ll K$.
+Points in the new space will have a notion of similarity:
+if two terms $l$ and $j$ appear in similar contexts and/or they have the same semantic content,
+their vectors $y_l$ and $y_j$ will be close together.
+On the opposite situation, $y_l$ and $y_j$ will be distant from each other.
+
+For instance, $y_{cat}$ will probably be more close to $y_{dog}$ than $y_{computer}$.
+
+\subsection{Continuous Bag-of-Words Model (CBOW)}
+First, the entire corpus is divided into contiguous blocks of words with odd lenght $N$ called n-grams.
+
+Suppose to have a phrase \say{A cat is the best animal.} and n-grams of size $3$ ($n=1$).
+The corresponding blocks will be:
+\begin{multicols}{2}
+    \begin{itemize}
+        \item $(a, cat, is)$
+        \item $(cat, is, the)$
+        \item $(is, the, best)$
+        \item $(the, best, animal)$
+    \end{itemize}
+\end{multicols}
+
+The goal is to predict a word given its context.
+For each n-gram, the CBOW neural network have as inputs all words in the block
+except the one in the center which is used as a ground truth for the classification task.
+All words are encoded using the One Hot Encoding method.
+
+For each n-gram, the first layer takes each input word encoded as $x_i \in \{0, 1\}^K$ and project it into a smaller space $\mathbb{R}^V$
+where $V$ is an hyperparameter to tune.
+Each projection is then averaged out with the others in the same block.
+This is done throught a shared matrix $M_{K \times V}$ which represent a fully connected layer.
+Note that in this way the order of the input words of the same sequence does not matter anymore.
+
+The previous layer is then connected to a final layer in a fully connected way.
+Since the classification task is on a One Hot Encoding vector,
+a softmax activation function is used at the end to keep all nodes in the $[0, 1]$ range.
+
+Instead of using the network for the task it was trained for, we use the matrix $M_{K \times V}$ to encode all words as vectors in $\mathbb{R}^V$.
+
+Note that there is no need to compute $M x_i$ for each $i$.
+Since each $x_i$ has zero values everywhere except a \say{1} in position $i$ of the vector, the result of the multiplication $M x_i$ is the row $i$ of the matrix M.
+For this reason each row $i$ of $M$ represents the term in position $i$ of the dictionary, encoded using CBOW.
+
+\subsection{Continuous Skip-gram Model (Skip-gram)}
+An approach similar to CBOW is used in the Skip-gram model.
+
+For each n-gram, the word in the center is fed to the neural network as the only input.
+
+The second layer projects it to a smaller space through a matrix $M_{K \times V}$.
+Unlike the previous model, there is no averaging since there is just one word as input.
+
+Finally, the last layer tries to predict all remaining words of a block.
+That means that the last layer has $(N-1)K$ nodes.
 
 \section{Global Vectors for Word Representation (GloVe)}
 \dots
