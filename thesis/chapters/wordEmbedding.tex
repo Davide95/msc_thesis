@@ -6,12 +6,12 @@ This chapter covers some techniques able to fulfil this task,
 pointing out the advantages and disadvantages of choosing one instead of another.
 
 To avoid misunderstandings
-we define the term "word" as a word in a particular position in a document,
-while we use the word "term" as a generic word into a dictionary.
+we define the term \say{word} as a word in a particular position in a document,
+while we use the word \say{term} as a generic word into a dictionary.
 
-For instance, given a document "A cat is an animal but an animal is not a cat" its list of words
-is $ w = ("a", "cat", "is", "an", "animal", "but", "an", "animal", "is", "not", "a", "cat")$
-while its set of terms is $d = \{"a", "cat", "is", "an", "animal", "but", "not"\}$.
+For instance, given a document \say{A cat is an animal but an animal is not a cat} its list of words
+is $ w = (a, cat, is, an, animal, but, an, animal, is, not, a, cat)$
+while its set of terms is $d = \{a, cat, is, an, animal, but, not\}$.
 
 \section{One Hot Encoding}
 Given a list of words $w = (w_1, w_2, \dots, w_N)$,
@@ -20,7 +20,7 @@ $d = \{d_1, d_2, ..., d_K\}$ with an arbitrary order between words.
 Note that $ K \leq N $ is always true and $ K = N $ happens only when there is no repetition of words in the documents.
 
 Each term $d_i$ in the dictionary can now be encoded as $x_i \in \{0,1\}^K$ following the One Hot Encoding approach.
-All elements of $x_i$ are zero except a "1" in the position  $i$ of the vector.
+All elements of $x_i$ are zero except a \say{1} in the position  $i$ of the vector.
 That means that two words $w_l, w_j$ in different positions will have the same value $x_i$ if and only if they correspond to the same term $d_i$.
 
 Applying One Hot Encoding on the previous example presented in the introduction of this chapter leads to the following values of $x_i$:
