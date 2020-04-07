@@ -39,11 +39,11 @@ Applying One Hot Encoding on the previous example presented in the introduction 
 Despite its simplicity and the fact that it is not computationally expensive to use, it has some disadvantages:
 \begin{itemize}
     \item vectors are sparse: only one element of each vector is not zero
-    \item there is no concept of similarity: all vectors have the same distance between each other
+    \item there is no concept of similarity: all vectors have the same cosine distance between each other
 \end{itemize}
 
 \section{Word2vec}
-
+In all chapter we will
 Word2vec is a family of approaches to overcome the disadvantages of One Hot Encoding using neural networks.
 In this section, two architectures are proposed.
 Both of them should be trained using mini-batch gradient descent instead of gradient descent to allow the algorithm to scale when datasets grow in size.
