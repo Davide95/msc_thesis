@@ -101,8 +101,8 @@ Unlike the previous model, there is no averaging since there is just one word as
 
 Finally, the last layer tries to predict all remaining words of a block.
 Each predicted word is obtained multiplying the hidden layer with a shared matrix $M'_{V \times K}$.
-For each group of $K$ nodes which refers to a predicted word we apply separately a softmax function.
-To increase the accuracy, we can pick a number of output words less than $N-1$ and then sampling
+For each group of $K$ nodes which refers to a predicted word, we apply separately a softmax function.
+To increase the accuracy, we can pick the number of output words less than $N-1$ and then sampling
 words in the same phrase weighted by how distant they are from the input word.
 
 If there are $N-1$ words to predict and each word is represented as a vector in $\mathbb{R}^K$,
@@ -111,13 +111,13 @@ the total number of nodes of the final layer is $(N-1)K$.
 As previously, we use the matrix $M$ to encode each term $x_i$.
 
 \subsection{Interpretation of the results}
-The concept used in the previous method is similar to Autoencoders,
-but in this scenario we are using the intermediate representation to predict words in the same phrase.
-This leads to words that appear in the same context having close values of $y$.
+CBOW and Skip-Gram models are similar to Autoencoders,
+with the difference that we are using the intermediate representations to predict words in the same phrase.
+This leads to words having close values of $y$ if they appear often in the same context.
 
 Furthermore, the paper \cite{DBLP:journals/corr/abs-1301-3781}
-found out these models go beyond syntactic regularities: for intance,
-the operation $y_{king} - y_{man} + y_{woman}$ is closest to $y_{queen}$.
+found out that these models go beyond syntactic regularities: for example,
+the result of $y_{king} - y_{man} + y_{woman}$ is the closest vector to $y_{queen}$.
 Note that subsequent papers like \cite{nissim2019fair} scale down the previous claim,
 adding the constraint that no input vector can be returned by the prediction.
 
