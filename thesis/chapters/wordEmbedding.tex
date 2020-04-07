@@ -110,5 +110,16 @@ the total number of nodes of the final layer is $(N-1)K$.
 
 As previously, we use the matrix $M$ to encode each term $x_i$.
 
+\subsection{Interpretation of the results}
+The concept used in the previous method is similar to Autoencoders,
+but in this scenario we are using the intermediate representation to predict words in the same phrase.
+This leads to words that appear in the same context having close values of $y$.
+
+Furthermore, the paper \cite{DBLP:journals/corr/abs-1301-3781}
+found out these models go beyond syntactic regularities: for intance,
+the operation $y_{king} - y_{man} + y_{woman}$ is closest to $y_{queen}$.
+Note that subsequent papers like \cite{nissim2019fair} scale down the previous claim,
+adding the constraint that no input vector can be returned by the prediction.
+
 \section{Global Vectors for Word Representation (GloVe)}
 \dots
