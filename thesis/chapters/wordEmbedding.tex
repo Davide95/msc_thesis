@@ -56,6 +56,15 @@ On the opposite situation, $y_l$ and $y_j$ will be distant from each other.
 
 For instance, $y_{cat}$ will probably be more close to $y_{dog}$ than $y_{computer}$.
 
+\begin{figure}[h]
+    \centering
+    \subfigure{\includegraphics[width=0.5\textwidth]{images/cbow}}%
+    \hfill
+    \subfigure{\includegraphics[width=0.5\textwidth]{images/skip-gram}}
+    \caption{CBOW (left) and Skip-Gram (right) models with $K=3$ and $V=2$.}
+    \label{fig:nnwemb}
+\end{figure}
+
 \subsection{Continuous Bag-of-Words Model (CBOW)}
 First, the entire corpus is divided into contiguous blocks of words with odd length $N$ called n-grams.
 
@@ -91,6 +100,8 @@ Note that there is no need to compute $M x_i$ for each $i$.
 Since every $x_i$ has zero values everywhere except a \say{1} in the position $i$ of the vector, the result of the multiplication $M x_i$ is the row $i$ of the matrix M.
 For this reason, each row $i$ of $M$ represents the term in position $i$ of the dictionary, encoded using CBOW.
 
+An illustration of CBOW can be seen in Figure \ref{fig:nnwemb}.
+
 \subsection{Continuous Skip-gram Model (Skip-gram)}
 The Skip-gram model is the opposite approach of CBOW.
 
@@ -109,6 +120,8 @@ If there are $N-1$ words to predict and each word is represented as a vector in 
 the total number of nodes of the final layer is $(N-1)K$.
 
 As previously, we use the matrix $M$ to encode each term $x_i$.
+
+An illustration of Skip-Gram can be seen in Figure \ref{fig:nnwemb}.
 
 \subsection{Interpretation of the results}
 CBOW and Skip-Gram models are similar to Autoencoders,
