@@ -158,6 +158,7 @@ We then try to solve $\min_{u,v} \sum_{i,j} (e^{u_i^T v_j} - P_{ij})$
 in order to have vectors $u_i, v_j \in \mathbb{R}^V$ that have a high dot product if the terms $d_i$ and $d_j$
 appears frequently together and vice versa.
 The exponential keeps the left term always positive, avoiding to have dot products always positives.
+Furthermore, using it will lead to an equation with similarities with other methods (see \cite{pennington2014glove}).
 
 We can now expand the previous equation to:
 $$\min_{u,v} \sum_{i,j} (e^{u_i^T v_j} - \frac{X_{ij}}{\sum_t X_{it}})^2 =$$
@@ -178,12 +179,14 @@ To avoid this drawback, we introduce a weighting function $f(X_{ij})$ with the f
     \item $f(0) = 0$: when $X_{ij} = 0$ the previous equation is undefined, while here that co-occurrence is not considered
     \item $f$ should be non-decreasing: frequent terms must be considered more than rare ones
     \item $f$ needs to have a cutoff to avoid weighting terms that appears too often in the text and that does not convey semantic information.
-          These terms are commonly called "stop words" in the literature. Examples are \say{the}, \say{a}, \say{from} and so on and so forth.
+          These terms are commonly called \say{stop words} in the literature. Examples are \say{the}, \say{a}, \say{from} and so on and so forth.
 \end{itemize}
 An illustration of a valid $f(X_{ij})$ can viewed in Picture \ref{fig:glovef}.
 
-The final minimization problem is:
+The corresponding minimization problem is:
 $$ \min_{u,v} \sum_{i,j} f(X_{ij}) [u_i^T v_j - \log_2(X_{ij}) + b_j + b_i]^2 $$
+which is equivalent to:
+$$ \min_{u,v} \sum_{i,j} f(X_{ij}) [u_i^T v_j - \log_2(X_{ij})]^2 $$
 
 Consider that even the summation is over all combinations of terms,
 the matrix is sparse and so the minimization is not as computationally intensive
@@ -197,4 +200,19 @@ as computing it on a dense matrix.
 \end{figure}
 
 \section{Measuring distances between terms}
-\dots
+In the previous sections the term \say{close} was intentionally vague.
+Different distances between vector could be considered.
+In particular, in this document we propose two of them:
+\begin{itemize}
+    \item euclidian distance: $distance(p, q) = \sqrt{\sum_i (p_i - q_i)^2}$
+    \item cosine similarity: $distance(p, q) = \frac{p^T q}{\left\lVert p \right\rVert \left\lVert q \right\rVert} = \frac{\sum_i p_i \cdot q_i}{\sqrt{\sum_i p_i^2} \sqrt{\sum_i q_i^2}}$
+\end{itemize}
+
+While the first one measures the straight-line distance between two points, the second one returns the cosine of the angle beween the vectors related to the two points.
+
+In the literature presented the cosine similarity is the default choice to measure closeness between terms.
+One reason to prefer it instead of the euclidian distance
+can be found in \cite{DBLP:journals/corr/SchakelW15}: the magnitude of the vector representation of a word
+is correlated with the frequency of its appearance in the corpus which means that
+a term with the same semantical meaning of another could have a different
+magnitude if it appears more often in the text than the other one.
