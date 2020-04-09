@@ -43,7 +43,6 @@ Despite its simplicity and the fact that it is not computationally expensive to 
 \end{itemize}
 
 \section{Word2vec}
-In all chapter we will
 Word2vec is a family of approaches to overcome the disadvantages of One Hot Encoding using neural networks.
 In this section, two architectures are proposed.
 Both of them should be trained using mini-batch gradient descent instead of gradient descent to allow the algorithm to scale when datasets grow in size.
@@ -136,17 +135,17 @@ adding the constraint that no input vector can be returned by the prediction.
 
 \section{Global Vectors (GloVe)}
 
-GloVe was proposed to overcame the limitations of Word2vec.
+GloVe was proposed to overcome the limitations of Word2vec.
 In particular, it builds a term-term co-occurrence matrix
-to utilize the statistics of the entire corupus
+to utilize the statistics of the entire corpus
 instead of training the model on single n-grams.
 
 Let  $X$ the term-term co-occurrence matrix.
 $X_{ij}$ measures how many times the term $d_i$ occurs in the corpus near
 the term $d_j$. Based on how you define the term \say{near},
 the elements of the matrix will have different values.
-For simplicity, we increment the counter $X_{ij} = X_{ij} + 1$ every time
-two terms appear in a phrase with less than $N$ words between them, with $N$ an
+For simplicity, we increment the counter ($X_{ij} = X_{ij} + 1$) every time
+two terms appear in a phrase with less than $N$ words between them, with $N$ a
 hyperparameter to tune. Given that, $X$ is symmetric.
 
 An initial proposal could be to solve $\min_{u,v} \sum_{i,j} (u_i^T v_j - X_{ij})^2$
@@ -155,20 +154,20 @@ appear frequently together and vice versa.
 
 We then apply the logarithm to $X_{ij}$:
 $$\min_{u,v} \sum_{i,j} (u_i^T v_j - log_2(X_{ij}))^2$$
-In this way we lower the difference between frequent terms and rare ones.
+In this way, we lower the gap between frequent terms and rare ones.
 
 The huge problem with this model is that all terms are weighted in the same way,
 no matter how frequent they appear in the corpus.
 To avoid this drawback, we introduce a weighting function $f(X_{ij})$ with the following characteristics:
 \begin{itemize}
-    \item $f(0) = 0$: when $X_{ij} = 0$ the previous equation is undefined, while here that co-occurrence is not considered
+    \item $f(0) = 0$: when $X_{ij} = 0$ the previous equation is undefined, while here the co-occurrence is not considered
     \item $f$ should be non-decreasing: frequent terms must be considered more than rare ones
     \item $f$ needs to have a cutoff to avoid weighting too much terms that appear often in the text and which do not convey semantic information.
-          These terms are commonly called \say{stop words} in the literature. Examples are \say{the}, \say{a}, \say{from} and so on and so forth.
+          These terms are commonly called \say{stop words} in the literature. Examples are \say{the}, \say{a}, \say{from} and so on.
 \end{itemize}
-An illustration of a valid $f(X_{ij})$ can viewed in Picture \ref{fig:glovef}.
+An illustration of a valid $f(X_{ij})$ can be viewed in Picture \ref{fig:glovef}.
 
-After this addition, the minimization problem is:
+After this addition, the minimization problem becomes:
 $$ \min_{u,v} \sum_{i,j} f(X_{ij}) [u_i^T v_j - \log_2(X_{ij})]^2 $$
 
 Consider that even the summation is over all combinations of terms,
@@ -183,19 +182,19 @@ as computing it on a dense matrix.
 \end{figure}
 
 \section{Measuring distances between terms}
-In the previous sections the term \say{close} was intentionally vague.
-Different distances between vector could be considered.
-In particular, in this document we propose two of them:
+In the previous sections the term \say{close} was intentionally left vague.
+Different distances between vectors could be considered.
+In particular, we propose two of them:
 \begin{itemize}
     \item euclidian distance: $distance(p, q) = \sqrt{\sum_i (p_i - q_i)^2}$
-    \item cosine similarity: $distance(p, q) = \frac{p^T q}{\left\lVert p \right\rVert \left\lVert q \right\rVert} = \frac{\sum_i p_i \cdot q_i}{\sqrt{\sum_i p_i^2} \sqrt{\sum_i q_i^2}}$
+    \item cosine similarity: $distance(p, q) = \frac{p^T q}{\left\lVert p \right\rVert \left\lVert q \right\rVert} = \frac{\sum_i p_i q_i}{\sqrt{\sum_i p_i^2} \sqrt{\sum_i q_i^2}}$
 \end{itemize}
 
-While the first one measures the straight-line distance between two points, the second one returns the cosine of the angle beween the vectors related to the two points.
+While the first one measures the straight-line distance of two points, the second one returns the cosine of the angle between the corresponding vectors.
 
-In the literature presented the cosine similarity is the default choice to measure closeness between terms.
+In the literature presented, the cosine similarity is the default choice to measure the closeness between terms.
 One reason to prefer it instead of the euclidian distance
-can be found in \cite{DBLP:journals/corr/SchakelW15}: the magnitude of the vector representation of a word
+can be found in \cite{DBLP:journals/corr/SchakelW15}: the magnitude of the vector representation of a term
 is correlated with the frequency of its appearance in the corpus which means that
 a term with the same semantical meaning of another could have a different
 magnitude if it appears more often in text than the other one.
