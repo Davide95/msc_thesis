@@ -141,36 +141,21 @@ In particular, it builds a term-term co-occurrence matrix
 to utilize the statistics of the entire corupus
 instead of training the model on single n-grams.
 
-Let:
-\begin{itemize}
-    \item $X$ the term-term co-occurrence matrix.
-          $X_{ij}$ measures how many times the term $d_i$ occurs in the corpus near
-          the term $d_j$. Based on how you define the term \say{near},
-          the elements of the matrix will have different values.
-          For simplicity, we increment the counter $X_{ij} = X_{ij} + 1$ every time the
-          two terms appear in a phrase with less than $N$ words between them, with $N$ an
-          hyperparameter to tune. Given that, $X$ is symmetric.
-    \item $P_{ij} = \frac{X_{ij}}{\sum_t X_{it}}$ the probability that the term $d_j$ appears
-          near $d_i$.
-\end{itemize}
+Let  $X$ the term-term co-occurrence matrix.
+$X_{ij}$ measures how many times the term $d_i$ occurs in the corpus near
+the term $d_j$. Based on how you define the term \say{near},
+the elements of the matrix will have different values.
+For simplicity, we increment the counter $X_{ij} = X_{ij} + 1$ every time
+two terms appear in a phrase with less than $N$ words between them, with $N$ an
+hyperparameter to tune. Given that, $X$ is symmetric.
 
-We then try to solve $\min_{u,v} \sum_{i,j} (e^{u_i^T v_j} - P_{ij})$
+An initial proposal could be to solve $\min_{u,v} \sum_{i,j} (u_i^T v_j - X_{ij})^2$
 in order to have vectors $u_i, v_j \in \mathbb{R}^V$ that have a high dot product if the terms $d_i$ and $d_j$
-appears frequently together and vice versa.
-The exponential keeps the left term always positive, avoiding to have dot products always positives.
-Furthermore, using it will lead to an equation with similarities with other methods (see \cite{pennington2014glove}).
+appear frequently together and vice versa.
 
-We can now expand the previous equation to:
-$$\min_{u,v} \sum_{i,j} (e^{u_i^T v_j} - \frac{X_{ij}}{\sum_t X_{it}})^2 =$$
-$$= \min_{u,v} \sum_{i,j} [u_i^T v_j - \log_2(\frac{X_{ij}}{\sum_t X_{it}})]^2$$
-$$= \min_{u,v} \sum_{i,j} [u_i^T v_j - \log_2(X_{ij}) - \log_2(\sum_t X_{it})]^2$$
-
-The equation to be minimized is not symmetric with respect to $u$ and $j$.
-In particular we want to have a minimization function that will get us $u_k \simeq v_k$
-to reuse them as the new vector representations of the terms.
-To do so, we simplify the equation substituting the term $log_2(\sum_t X_{it})$ with a bias $b_i$.
-Finally, a bias $b_j$ is added to restore the simmetry:
-$$ \min_{u,v} \sum_{i,j} [u_i^T v_j - \log_2(X_{ij}) + b_j + b_i]^2 $$
+We then apply the logarithm to $X_{ij}$:
+$$\min_{u,v} \sum_{i,j} (u_i^T v_j - log_2(X_{ij}))^2$$
+In this way we lower the difference between frequent terms and rare ones.
 
 The huge problem with this model is that all terms are weighted in the same way,
 no matter how frequent they appear in the corpus.
@@ -178,14 +163,12 @@ To avoid this drawback, we introduce a weighting function $f(X_{ij})$ with the f
 \begin{itemize}
     \item $f(0) = 0$: when $X_{ij} = 0$ the previous equation is undefined, while here that co-occurrence is not considered
     \item $f$ should be non-decreasing: frequent terms must be considered more than rare ones
-    \item $f$ needs to have a cutoff to avoid weighting terms that appears too often in the text and that does not convey semantic information.
+    \item $f$ needs to have a cutoff to avoid weighting too much terms that appear often in the text and which do not convey semantic information.
           These terms are commonly called \say{stop words} in the literature. Examples are \say{the}, \say{a}, \say{from} and so on and so forth.
 \end{itemize}
 An illustration of a valid $f(X_{ij})$ can viewed in Picture \ref{fig:glovef}.
 
-The corresponding minimization problem is:
-$$ \min_{u,v} \sum_{i,j} f(X_{ij}) [u_i^T v_j - \log_2(X_{ij}) + b_j + b_i]^2 $$
-which is equivalent to:
+After this addition, the minimization problem is:
 $$ \min_{u,v} \sum_{i,j} f(X_{ij}) [u_i^T v_j - \log_2(X_{ij})]^2 $$
 
 Consider that even the summation is over all combinations of terms,
@@ -215,4 +198,4 @@ One reason to prefer it instead of the euclidian distance
 can be found in \cite{DBLP:journals/corr/SchakelW15}: the magnitude of the vector representation of a word
 is correlated with the frequency of its appearance in the corpus which means that
 a term with the same semantical meaning of another could have a different
-magnitude if it appears more often in the text than the other one.
+magnitude if it appears more often in text than the other one.
