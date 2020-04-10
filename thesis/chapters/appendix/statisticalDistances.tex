@@ -40,7 +40,8 @@ If we want to model a probability distribution $z$ to be close to another probab
 
 In the case of $\min_{z} \mathit{KL}(z \| p) = \min \int_x z(x) \log_2 \frac{z(x)}{q(x)}$, there exist a trivial solution which assigns low values to $z(x)$ when $q(x)$ is large.
 This leads to a solution $z$ which is very different from $p$ but has a small KL-divergence $\mathit{KL}(z \| p)$.
-For this reason, $\mathit{KL}(p \| z)$ is used instead of $\mathit{KL}(z \| p)$ to measure how well $z$ approximates $p$.
+Note that also $\min_{z} \mathit{KL}(z \| p)$ is not defined if $p(i)=0$ for one value of $i$ at least.
+For these reasons, $\mathit{KL}(p \| z)$ is used instead of $\mathit{KL}(z \| p)$ to measure how well $z$ approximates $p$.
 
 \section{Hellinger distance}
 The Hellinger distance has some advantages over the Kullback–Leibler divergence:
