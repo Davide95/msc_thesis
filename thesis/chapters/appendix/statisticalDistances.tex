@@ -38,9 +38,13 @@ and $\mathit{KL}(p \| q) \geq 0$.
 
 If we want to model a probability distribution $z$ to be close to another probability distribution $p$, we have to ask ourselves if we need to minimize $\mathit{KL}(z \| p)$ or $\mathit{KL}(p \| z)$.
 
-In the case of $\min_{z} \mathit{KL}(z \| p) = \min \int_x z(x) \log_2 \frac{z(x)}{q(x)}$, there exist a trivial solution which assigns low values to $z(x)$ when $q(x)$ is large.
-This leads to a solution $z$ which is very different from $p$ but has a small KL-divergence $\mathit{KL}(z \| p)$.
+To make everything explicit, we can rewrite it as the difference between the cross-entropy of $z$ and $p$ and the entropy of the first distribution:
+$$ \mathit{KL}(z \| p) = H(z, p) - H(z)$$
+$$ \mathit{KL}(p \| z) = H(p, z) - H(p)$$
+The first one measures the amount of information lost when $p$ is used instead of $z$; the same reasoning can be applied for the second one.
+
 Note that also $\min_{z} \mathit{KL}(z \| p)$ is not defined if $p(i)=0$ for one value of $i$ at least.
+
 For these reasons, $\mathit{KL}(p \| z)$ is used instead of $\mathit{KL}(z \| p)$ to measure how well $z$ approximates $p$.
 
 \section{Hellinger distance}
