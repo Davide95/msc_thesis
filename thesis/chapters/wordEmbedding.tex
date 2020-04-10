@@ -53,7 +53,7 @@ if two terms $d_l$ and $d_j$ appear in similar contexts and/or they have the sam
 their vectors $y_l$ and $y_j$ will be close together.
 On the opposite situation, $y_l$ and $y_j$ will be distant from each other.
 
-For instance, $y_{cat}$ will probably be more close to $y_{dog}$ than $y_{computer}$.
+For instance, $y_{cat}$ will probably be closer to $y_{dog}$ than $y_{computer}$.
 
 \begin{figure}[h]
     \centering
@@ -83,7 +83,7 @@ For each n-gram, the CBOW neural network has as inputs all words in the block
 except the one in the center which is used as ground truth for the classification task.
 All words are encoded using the One Hot Encoding method.
 
-For each n-gram, the first layer takes each input word encoded as $x_i \in \{0, 1\}^K$ and project it into a smaller space $\mathbb{R}^V$
+For each n-gram, the first layer takes each input word encoded as $x_i \in \{0, 1\}^K$ and projects it into a smaller space $\mathbb{R}^V$
 where $V$ is a hyperparameter to tune.
 This is done through a shared matrix $M_{K \times V}$ which represents a fully connected layer.
 Each projection is then averaged out with the others in the same block.
@@ -96,7 +96,7 @@ a softmax activation function is used at the end.
 Instead of using the network for the task for which it was trained, we use the matrix $M_{K \times V}$ to encode all terms as vectors in $\mathbb{R}^V$.
 
 Note that there is no need to compute $M x_i$ for each $i$.
-Since every $x_i$ has zero values everywhere except a \say{1} in the position $i$ of the vector, the result of the multiplication $M x_i$ is the row $i$ of the matrix M.
+Since every $x_i$ has zero values everywhere except a \say{1} in the position $i$ of the vector, the result of the multiplication $M x_i$ is the $i$-th row $i$ the matrix M.
 For this reason, each row $i$ of $M$ represents the term in position $i$ of the dictionary, encoded using CBOW.
 
 An illustration of CBOW can be seen in Figure \ref{fig:nnwemb}.
