@@ -418,7 +418,7 @@ Dipartimento di Informatica, Bioingegneria,\\%[-8pt]
                     {\LARGE   \bfseries\@title \vskip 10\p@}
          {\Large by \vskip 10\p@
            \@author \vskip 10\p@
-Advisor: \@advisor  \hskip \fill  Examiner: \@examiner \vskip 10\p@
+\large {Advisor: \@advisor  \hskip \fill  Examiner: \@examiner \vskip 10\p@}
          }     
       \vfill
           {\Large \@submitmonth, \@submityear}
