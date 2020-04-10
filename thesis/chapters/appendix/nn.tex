@@ -1,0 +1,60 @@
+\chapter{Neural Networks}
+
+\section{Gradient descent}
+Given a minimization problem $min_w f(w), w \in \mathbb{R}^D$,
+it is possible to find a local minimum through gradient descent.
+
+First, we compute the gradient $\nabla f(w)$ and we decide a point $w_0$ in which the algorithm has to start.
+If the problem is not convex, choosing a different $x_0$ could lead to a different
+solution.
+Since gradients point in the direction of fastest increase,
+we take small steps towards the opposite direction in order to reach a minimum.
+
+The step size is controlled by a hyperparameter $\lambda$:
+values too small for a particular problem increase
+the time needed to obtain a good solution and
+it can lead to a local minimum;
+values too big prevent convergence.
+
+The final equation is:
+$$ w_{i+1} = w_{i} - \lambda \nabla f(w_i) $$
+
+Each step is run iteratively until a stopping criterion is met.
+If the algorithm is stopped after $I$ iterations, the solution
+for the minimization problem is $w_{I}$.
+Common sense stopping criterions could be:
+\begin{itemize}
+    \item stop after a prefixed number of iterations
+    \item stop when the results are not getting better for the last $I$ steps
+    \item stop when $f(w_i) - f(w_{i+1}) < \epsilon$, with $\epsilon > 0$ small
+\end{itemize}
+
+Note that the parameter $\lambda$ could be different at each iteration:
+$$ w_{i+1} = w_{i} - \lambda_{i+1} \nabla f(w_i) $$
+For instance, we could have $\lambda_i = \frac{\lambda}{i}$ in order to take
+smaller and smaller steps until convergence.
+
+\subsection{Gradient descent in action} \label{gradesc}
+Suppose to have a dataset $X \in \mathbb{R}^{N \times D}, y \in \mathbb{R}^N$.
+
+What we want to do is linear regression, whose model is obtained resolving:
+$$ min_{w \in \mathbb{R}^D} \frac{1}{2N} \sum_i (w^T x_i - y_i)^2$$
+
+The derivative  $\frac{1}{2N} \sum_i (w^T x_i - y_i)^2 dw$ is:
+$$\frac{1}{2N} \sum_i 2 x_i(w^T x_i - y_i) = \frac{\sum_i x_i(w^T x_i - y_i)}{N}$$
+
+Therefore:
+$$ w_{n+1} = w_n - \frac{\lambda}{N} \sum_i x_i(w^T x_i - y_i) $$
+
+
+\section{Mini-batch gradient descent}
+There are situations in which using gradient descent is not computationally feasible.
+For instance, imagine that the problem explained in Section \ref{gradesc} have
+a number of points so huge that a solution can not be obtained in feasible times.
+
+Mini-batch gradient descent is an extension of gradient descent which assume that
+samples of $|M|$ elements of the dataset are a noisy representative of the entire data.
+At each step, $M$ will be re-sampled from $X$.
+
+In that case, the minimization presented in Section \ref{gradesc} can be rewritten as:
+$$ min_{w \in \mathbb{R}^D} \frac{1}{2|M|} \sum_{x_i \in M} (w^T x_i - y_i)^2 $$
