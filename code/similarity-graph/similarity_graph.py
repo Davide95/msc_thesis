@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import nltk
 import numpy as np
 import pandas as pd
-from bs4 import BeautifulSoup
+import lxml.html
 from gensim.matutils import Sparse2Corpus
 from gensim.models import HdpModel
 from nltk.corpus import stopwords
@@ -53,13 +53,9 @@ def get_text(filename):
 
     raw = [None]*len(content)  # Preallocate to avoid resizing
     for idx, page in enumerate(content):
-        soup = BeautifulSoup(page, 'html5lib')  # Parse HTML
+        html = html = lxml.html.fromstring(page)  # Parse HTML
+        raw[idx] = html.text_content()  # Get raw text
 
-        # Remove CSS & JS
-        for script in soup(['script', 'style']):
-            script.decompose()
-
-        raw[idx] = soup.get_text()  # Get raw text
     block['content'] = raw
 
     parsedir = Path(ARGS.filename).stem + '-parse_html'
