@@ -38,7 +38,7 @@ smaller and smaller steps until convergence.
 Suppose to have a dataset $X \in \mathbb{R}^{N \times D}, y \in \mathbb{R}^N$.
 
 What we want to do is linear regression, whose model is obtained resolving:
-$$ min_{w \in \mathbb{R}^D} \frac{1}{2N} \sum_i (w^T x_i - y_i)^2$$
+$$\displaystyle \min_{w \in \mathbb{R}^D} \frac{1}{2N} \sum_i (w^T x_i - y_i)^2$$
 
 The derivative  $\frac{1}{2N} \sum_i (w^T x_i - y_i)^2 dw$ is:
 $$\frac{1}{2N} \sum_i 2 x_i(w^T x_i - y_i) = \frac{\sum_i x_i(w^T x_i - y_i)}{N}$$
@@ -57,4 +57,4 @@ samples of $|M|$ elements of the dataset are a noisy representative of the entir
 At each step, $M$ will be re-sampled from $X$.
 
 In that case, the minimization presented in Section \ref{gradesc} can be rewritten as:
-$$ min_{w \in \mathbb{R}^D} \frac{1}{2|M|} \sum_{x_i \in M} (w^T x_i - y_i)^2 $$
+$$\displaystyle \min_{w \in \mathbb{R}^D} \frac{1}{2|M|} \sum_{x_i \in M} (w^T x_i - y_i)^2 $$

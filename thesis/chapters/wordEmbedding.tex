@@ -148,12 +148,12 @@ For simplicity, we increment the counter ($X_{ij} = X_{ij} + 1$) every time
 two terms appear in a phrase with less than $N$ words between them, with $N$ a
 hyperparameter to tune. Given that, $X$ is symmetric.
 
-An initial proposal could be to solve $\min_{u,v} \sum_{i,j} (u_i^T v_j - X_{ij})^2$
+An initial proposal could be to solve $ \min_{u,v} \sum_{i,j} (u_i^T v_j - X_{ij})^2$
 in order to have vectors $u_i, v_j \in \mathbb{R}^V$ that have a high dot product if the terms $d_i$ and $d_j$
 appear frequently together and vice versa.
 
 We then apply the logarithm to $X_{ij}$:
-$$\min_{u,v} \sum_{i,j} (u_i^T v_j - log_2(X_{ij}))^2$$
+$$ \displaystyle \min_{u,v} \sum_{i,j} (u_i^T v_j - log_2(X_{ij}))^2$$
 In this way, we lower the gap between frequent terms and rare ones.
 
 The huge problem with this model is that all terms are weighted in the same way,
@@ -168,7 +168,7 @@ To avoid this drawback, we introduce a weighting function $f(X_{ij})$ with the f
 An illustration of a valid $f(X_{ij})$ can be viewed in Picture \ref{fig:glovef}.
 
 After this addition, the minimization problem becomes:
-$$ \min_{u,v} \sum_{i,j} f(X_{ij}) [u_i^T v_j - \log_2(X_{ij})]^2 $$
+$$ \displaystyle \min_{u,v} \sum_{i,j} f(X_{ij}) [u_i^T v_j - \log_2(X_{ij})]^2 $$
 
 Consider that even the summation is over all combinations of terms,
 the matrix is sparse and so the minimization is not as computationally intensive
