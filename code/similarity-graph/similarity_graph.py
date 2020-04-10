@@ -4,6 +4,7 @@ import argparse
 import gc
 import logging
 import multiprocessing
+from multiprocessing.pool import ThreadPool
 import os
 import time
 from pathlib import Path
@@ -74,7 +75,7 @@ def parse_html(chunkdir):
         n_batches = multiprocessing.cpu_count() \
             if ARGS.n_jobs == -1 else ARGS.n_jobs
 
-        pool = multiprocessing.Pool(processes=n_batches, maxtasksperchild=1)
+        pool = ThreadPool(n_batches)
 
         filenames = [
             f'{chunkdir}/{tmpfile}' for tmpfile in os.listdir(chunkdir)]
