@@ -1,4 +1,7 @@
 \chapter{Neural Networks}
+The goal of this appendix is to give a simple albeit incomplete introduction of
+Neural Networks for those readers who have not a solid background on it but
+still they are interested in Chapter \ref{wordemb}.
 
 \section{Gradient descent}
 Given a minimization problem $min_w f(w), w \in \mathbb{R}^D$,
@@ -44,7 +47,7 @@ The derivative  $\frac{1}{2N} \sum_i (w^T x_i - y_i)^2 dw$ is:
 $$\frac{1}{2N} \sum_i 2 x_i(w^T x_i - y_i) = \frac{\sum_i x_i(w^T x_i - y_i)}{N}$$
 
 Therefore:
-$$ w_{n+1} = w_n - \frac{\lambda}{N} \sum_i x_i(w^T x_i - y_i) $$
+$$ w_{n+1} = w_n - \frac{\lambda}{N} \sum_i x_i(w_i^T x_i - y_i) $$
 
 
 \section{Mini-batch gradient descent}
@@ -58,3 +61,69 @@ At each step, $M$ will be re-sampled from $X$.
 
 In that case, the minimization presented in Section \ref{gradesc} can be rewritten as:
 $$\displaystyle \min_{w \in \mathbb{R}^D} \frac{1}{2|M|} \sum_{x_i \in M} (w^T x_i - y_i)^2 $$
+
+\section{Linear Neural Networks}
+The linear regression exposed in Section \ref{gradesc} can be viewed as a Neural Network
+which has $D$ inputs as a first layer and a single neuron as output connected to all previous ones.
+
+The graphical representation of it can be see in PICTURE MIAO.
+
+That the vector $w$ is simply the set of all weights.
+Starting from the equation presented in Section \ref{gradesc}:
+$$ w_{n+1} = w_n - \frac{\lambda}{N} \sum_i x_i(w^T x_i - y_i) $$
+each weight $w_i$ can be parallely updated:
+$$ w_{(n+1)j} = w_{nj} -  \frac{\lambda}{N} \sum_i x_{ij}(w^T_j x_{ij} - y_i) $$
+
+In this example the cost function is the square loss, but there is not any particular requirement when
+dealing with Neural Networks.
+
+\section{Activation functions}
+For each node, a non-linear function could be applied before moving the output to the next layer.
+For the sake of simplicity, we are going to present a model similar to the previous one,
+with the difference that a $\tanh$ function is applied to the output node:
+$$ \displaystyle \min_{w \in \mathbb{R}^D} \frac{1}{2N} \sum_i [\tanh(w^T x_i) - y_i]^2 $$
+
+To use gradient descent, we have to apply the chain rule.
+Since $\tanh(z) dz = 1 - tanh^2(z)$:
+$$ \frac{1}{2N} \sum_i [\tanh(w^T x_i) - y_i]^2 dw =
+    \frac{1}{2N} \cdot \sum_i 2[\tanh(w^T x_i) - y_i] \cdot [1 - tanh^2(w^T x_i)] \cdot x_i $$
+$$ w_{n+1} = w_n -
+    \frac{\lambda}{N} \sum_i [\tanh(w^T x_i) - y_i] [1 - tanh^2(w^T x_i)] x_i $$
+
+Other activation functions can be used instead of $\tanh$.
+The one used in the models presented in Chapter \ref{wordemb} is the softmax
+$\sigma(z), z \in \mathbb{R}^V$:
+$$\sigma(z, j) =  \frac{e^{z_i}}{\sum_j e^{z_j}}$$
+$$ \sigma(z) =
+    \begin{bmatrix}
+        \sigma(z, 1) \\ \sigma(z, 2) \\ ... \\ \sigma(z, V)
+    \end{bmatrix}
+$$
+
+\section{Multilayer Neural Networks}
+Adding intermediate layers (usually referred as hidden layers in the literature)
+to a linear Neural Network is useless
+since the product of linear components is again linear.
+As an example, construct a model which the following characteristics:
+\begin{itemize}
+    \item $X \in \mathbb{R}^{N \times 2}$: 2 nodes as input
+    \item $y \in \mathbb{R}^N$: 1 node as output
+    \item 2 nodes in the hidden layer, fully connected to the two other layers
+\end{itemize}
+Its graphical representation can be seen in Figure MIAOMIAO
+and the relative minimization function is:
+$$ \displaystyle \min_{M, w} \frac{1}{2N} \sum_i [ w(M x_i) - y_i)^2 ]
+    \ \text{with} \
+    M \in \mathbb{R}^{2 \times 2}, w \in \mathbb{R}^{2}$$
+which is again linear regression, but more computationally expensive.
+
+On the opposite, stacking more layers while using a non-linear activation function
+leads to an enriched hypothesis space. Learning weights in a deep Neural Network
+(a Neural Network with multiple hidden layers) require using the backpropagation algorithm.
+
+\subsection{Chain rule}
+The chain rule states that, given $\hat{y} = f(g(x))$ its derivative is:
+$$ \frac{d\hat{y}}{dx} = \frac{f(g)}{dg} \cdot \frac{g(x)}{dx} $$
+
+It can be seen as a Neural Network with one layer as input, one as output and one in the hidden layer.
+Its graphical representation can be viewed in Figure MIAOMIAOOO.
