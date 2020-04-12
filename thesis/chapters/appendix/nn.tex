@@ -180,9 +180,9 @@ the partial derivatives of the previous layers.
 In particular:
 $$ \frac{dE_i}{dy_i} = \frac{1}{2} \cdot 2 \{ \tanh[w^T \tanh(M X_i)] - y_i\} = \tanh(w^T h_i) - y_i $$
 $$ \frac{dE_i}{dw} = \frac{dE_i}{dy_i} \frac{dy_i}{dw} = \frac{dE_i}{dy_i} \{1 - \tanh^2[w^T \tanh(M X_i)]\} \tanh(X_i M) $$
-$$ \frac{dE_i}{dh_i} = \frac{dE_i}{dy_i} \frac{dy_i}{dh_i} = \frac{dE_i}{dy_i} \{1 - \tanh^2[w^T \tanh(M X_i)]\} w^T $$
+$$ \frac{dE_i}{dh_i} = \frac{dE_i}{dy_i} \frac{dy_i}{dh_i} = \frac{dE_i}{dy_i} \{1 - \tanh^2[w^T \tanh(M X_i)]\} w $$
 
-$$ \frac{dE_i}{dM_{dj}} = [\frac{dE_i}{dy_i} \frac{dy_i}{dh_i} \{1 - \tanh^2(X_i M)]\}_j X_{id}$$
+$$ \frac{dE_i}{dM_{dj}} = [\frac{dE_i}{dh_i} \circ \{\mathbb{1} - \tanh^2(X_i M)]\}_j X_{id}$$
 
 The power of this teqnique is that it is possible to re-use values calculated for a particular partial derivative in order to lower the computational cost of computing the others.
 
