@@ -30,7 +30,7 @@ import nltk
 import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
-from gensim.matutils import Sparse2Corpus, sparse2full
+from gensim.matutils import Sparse2Corpus, corpus2dense
 from gensim.models import HdpModel
 from nltk.corpus import stopwords
 from scipy.sparse import dok_matrix
@@ -131,11 +131,11 @@ def hda(bow_data, vocab):
     hdp = HdpModel(corpus, vocab)
 
     # Trasform doctopic into a matrix
-    doctopic = np.zeros((bow_data.shape[0], hdp.m_T), dtype=np.float32)
-    for row in range(bow_data.shape[0]):
-        doctopic[row] = sparse2full(hdp[corpus[row]], hdp.m_T)
+    doctopic = corpus2dense(hdp[corpus], num_terms=hdp.m_T,
+                            num_docs=bow_data.shape[0],
+                            dtype=np.float32)
 
-    return (doctopic, )
+    return (np.transpose(doctopic), )
 
 
 def similarity_graph_dot(doctopic):
