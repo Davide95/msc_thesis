@@ -144,21 +144,17 @@ def similarity_graph_dot(doctopic):
 def similarity_graph(doctopic):
     '''Compute the similarity graph using the Hellinger distance.'''
 
-    res = hellinger_parallel(doctopic.toarray())
+    n_docs = doctopic.shape[0]
+    res = hellinger_parallel(doctopic.toarray(), np.zeros((n_docs, n_docs)))
     return (res, )
 
 
 @jit(nopython=True, nogil=True, parallel=True, fastmath=True)
-def hellinger_parallel(doctopic):
+def hellinger_parallel(doctopic, res):
     '''Use Numba to speedup computations of similarity_graph().'''
 
-    n_docs = doctopic.shape[0]
-    res = np.zeros((n_docs, n_docs))
-
     sqdoc = np.sqrt(doctopic)
-    del doctopic
-
-    for row_i_idx in prange(res.shape[0]):
+    for row_i_idx in prange(doctopic.shape[0]):
         row_i = sqdoc[row_i_idx]
 
         for row_j_idx in prange(row_i_idx):
