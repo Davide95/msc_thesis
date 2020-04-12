@@ -145,7 +145,7 @@ def hda(bow_data, vocab):
             for pos_col, col in enumerate(cols):
                 doctopic_sparse[row, col] = elems[pos_col]
 
-    doctopic_sparse = doctopic_sparse.tocsc()
+    doctopic_sparse = doctopic_sparse.toarray()
     return (doctopic_sparse,)
 
 
@@ -162,7 +162,7 @@ def similarity_graph(doctopic):
     n_docs = doctopic.shape[0]
 
     res = np.zeros((n_docs, n_docs), dtype=np.float32)
-    hellinger_parallel(doctopic.toarray(), res)
+    hellinger_parallel(doctopic, res)
     return (res, )
 
 
