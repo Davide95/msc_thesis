@@ -6,6 +6,7 @@ import logging
 import multiprocessing
 import os
 import time
+import math
 from pathlib import Path
 
 import dask.dataframe as dd
@@ -132,16 +133,46 @@ def hda(bow_data, vocab):
     return (doctopic_sparse,)
 
 
-def similarity_graph(doctopic):
-    '''Compute the similarity graph of the document-topic matrix.'''
+def similarity_graph_dot(doctopic):
+    '''Compute the similarity graph using the dot product.'''
 
     dot = doctopic.dot(doctopic.transpose())
-    return (dot,)
+    return (dot.todense(),)
+
+
+def similarity_graph(doctopic):
+    '''Compute the similarity graph using the Hellinger distance.'''
+
+    sqdoc = doctopic.sqrt()
+    del doctopic
+
+    n_docs = sqdoc.shape[0]
+    res = np.zeros((n_docs, n_docs))
+
+    for row_i_idx in range(n_docs):
+        row_i = sqdoc[row_i_idx]
+
+        for row_j_idx in range(row_i_idx):
+            row_j = sqdoc[row_j_idx]
+
+            # Compute the distance
+            sub_ij = row_i - row_j
+            pow_ij = sub_ij.power(2)
+            sum_ij = pow_ij.sum()
+            sq_ij = math.sqrt(sum_ij)
+            res_ij = sq_ij / np.sqrt(2)
+
+            # Store the results
+            res[row_i_idx, row_j_idx] = res_ij
+            res[row_j_idx, row_i_idx] = res_ij
+
+    return (res, )
 
 
 def plot(sim_graph):
     '''Plot the similarity graph.'''
-    plt.imshow(sim_graph.todense())
+    plt.imshow(sim_graph)
+    plt.colorbar()
     plt.title(ARGS.filename)
     plt.savefig(ARGS.filename + '.svg')
 
