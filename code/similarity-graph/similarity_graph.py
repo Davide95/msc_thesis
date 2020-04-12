@@ -145,7 +145,9 @@ def similarity_graph(doctopic):
     '''Compute the similarity graph using the Hellinger distance.'''
 
     n_docs = doctopic.shape[0]
-    res = hellinger_parallel(doctopic.toarray(), np.zeros((n_docs, n_docs)))
+
+    res = np.zeros((n_docs, n_docs), dtype=np.float32)
+    hellinger_parallel(doctopic.toarray(), res)
     return (res, )
 
 
@@ -170,8 +172,6 @@ def hellinger_parallel(doctopic, res):
             # Store the results
             res[row_i_idx, row_j_idx] = res_ij
             res[row_j_idx, row_i_idx] = res_ij
-
-    return res
 
 
 def plot(sim_graph):
