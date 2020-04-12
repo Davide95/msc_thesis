@@ -191,8 +191,11 @@ def hellinger_parallel(doctopic, res):
 
 def plot(sim_graph):
     '''Plot the similarity graph.'''
+
+    plt.axis('off')
     plt.imshow(sim_graph, cmap='YlOrBr_r')
-    plt.colorbar()
+    plt.clim(0, 1)
+    plt.colorbar().ax.invert_yaxis()
     plt.title(ARGS.filename)
     plt.savefig(ARGS.filename + '.svg')
 
