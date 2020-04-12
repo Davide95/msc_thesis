@@ -20,6 +20,7 @@ from gensim.models import HdpModel
 from nltk.corpus import stopwords
 from scipy.sparse import dok_matrix
 from sklearn.feature_extraction.text import CountVectorizer
+from numba import jit, prange
 
 
 def prep_csv():
@@ -143,21 +144,29 @@ def similarity_graph_dot(doctopic):
 def similarity_graph(doctopic):
     '''Compute the similarity graph using the Hellinger distance.'''
 
-    sqdoc = doctopic.sqrt()
-    del doctopic
+    res = hellinger_parallel(doctopic.toarray())
+    return (res, )
 
-    n_docs = sqdoc.shape[0]
+
+@jit(nopython=True, nogil=True, parallel=True, fastmath=True)
+def hellinger_parallel(doctopic):
+    '''Use Numba to speedup computations of similarity_graph().'''
+
+    n_docs = doctopic.shape[0]
     res = np.zeros((n_docs, n_docs))
 
-    for row_i_idx in range(n_docs):
+    sqdoc = np.sqrt(doctopic)
+    del doctopic
+
+    for row_i_idx in prange(res.shape[0]):
         row_i = sqdoc[row_i_idx]
 
-        for row_j_idx in range(row_i_idx):
+        for row_j_idx in prange(row_i_idx):
             row_j = sqdoc[row_j_idx]
 
             # Compute the distance
             sub_ij = row_i - row_j
-            pow_ij = sub_ij.power(2)
+            pow_ij = np.power(sub_ij, 2)
             sum_ij = pow_ij.sum()
             sq_ij = math.sqrt(sum_ij)
             res_ij = sq_ij / np.sqrt(2)
@@ -166,7 +175,7 @@ def similarity_graph(doctopic):
             res[row_i_idx, row_j_idx] = res_ij
             res[row_j_idx, row_i_idx] = res_ij
 
-    return (res, )
+    return res
 
 
 def plot(sim_graph):
