@@ -17,12 +17,10 @@
 
 import argparse
 import gc
-import logging
+import math
 import multiprocessing
 import os
 import time
-from pathlib import Path
-import math
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -33,9 +31,8 @@ from bs4 import BeautifulSoup
 from gensim.matutils import Sparse2Corpus, corpus2dense
 from gensim.models import HdpModel
 from nltk.corpus import stopwords
-from scipy.sparse import dok_matrix
-from sklearn.feature_extraction.text import CountVectorizer
 from numba import jit, prange
+from sklearn.feature_extraction.text import CountVectorizer
 
 
 def prep_csv():
