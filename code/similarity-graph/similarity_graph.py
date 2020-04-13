@@ -21,10 +21,10 @@ import logging
 import multiprocessing
 import os
 import time
+from pathlib import Path
 import math
 from pathlib import Path
 
-import dask.dataframe as dd
 import matplotlib.pyplot as plt
 import nltk
 import numpy as np
@@ -103,8 +103,11 @@ def parse_html(chunkdir):
         pool.close()
         pool.join()
 
-    raw = dd.read_parquet(f'{parsedir}/*',
-                          engine='pyarrow')['content'].compute()
+    raw_files = Path(parsedir).glob('*')
+    raw = pd.concat(
+        pd.read_parquet(raw_slice, engine='pyarrow')
+        for raw_slice in raw_files
+    )['content']
 
     return (raw,)
 
