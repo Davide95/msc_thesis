@@ -66,15 +66,15 @@ $$\displaystyle \min_{w \in \mathbb{R}^D} \frac{1}{2|M|} \sum_{x_i \in M} (w^T x
 The linear regression exposed in Section \ref{gradesc} can be viewed as a Neural Network
 which has $D$ inputs as a first layer and a single neuron as output connected to all previous ones.
 
-The graphical representation of it can be see in Figure \ref{fig:nn-linear}.
+The graphical representation of it can be seen in Figure \ref{fig:nn-linear}.
 
-That the vector $w$ is simply the set of all weights.
+The vector $w$ is simply the set of all weights.
 Starting from the equation presented in Section \ref{gradesc}:
 $$ w_{n+1} = w_n - \frac{\lambda}{N} \sum_{i \in [1, N]} x_i(w^T x_i - y_i) $$
-each weight $w_i$ can be parallely updated:
-$$ w_{(n+1)j} = w_{nj} -  \frac{\lambda}{N} \sum_{i \in [1, N]} x_{ij}(w^T_j x_{ij} - y_i) $$
+each weight $w_i$ can be parallelly updated:
+$$ w_{(n+1)j} = w_{nj} -  \frac{\lambda}{N} \sum_{i \in [1, N]} x_{ij}(w^T x_i - y_i) $$
 
-In this example the cost function is the square loss, but there is not any particular requirement when
+In this example, the cost function is the square loss, but there is not any particular requirement when
 dealing with Neural Networks.
 
 \begin{figure}[h]
@@ -85,19 +85,19 @@ dealing with Neural Networks.
 \end{figure}
 
 \section{Activation functions}
-For each node, a non-linear function could be applied before moving the output to the next layer.
+In each node, a non-linear function could be applied at the data before moving the output to the next layer.
 For the sake of simplicity, we are going to present a model similar to the previous one,
-with the difference that a $\tanh$ function is applied to the output node:
+with the difference that a $\tanh(\cdot)$ function is applied to the output node:
 $$ \displaystyle \min_{w \in \mathbb{R}^D} \frac{1}{2N} \sum_{i \in [1, N]} [\tanh(w^T x_i) - y_i]^2 $$
 
-To use gradient descent, we have to apply the chain rule.
+To resolve it with gradient descent, we have to apply the chain rule.
 Since $\tanh(z) dz = 1 - tanh^2(z)$:
 $$ \frac{1}{2N} \sum_{i \in [1, N]} [\tanh(w^T x_i) - y_i]^2 dw =
     \frac{1}{2N} \cdot \sum_{i \in [1, N]} 2[\tanh(w^T x_i) - y_i] \cdot [1 - tanh^2(w^T x_i)] \cdot x_i $$
 $$ w_{n+1} = w_n -
     \frac{\lambda}{N} \sum_{i \in [1, N]} [\tanh(w^T x_i) - y_i] [1 - tanh^2(w^T x_i)] x_i $$
 
-Other activation functions can be used instead of $\tanh$.
+Other activation functions can be used instead of $\tanh(\cdot)$.
 The one used in the models presented in Chapter \ref{wordemb} is the softmax
 $\sigma(z), z \in \mathbb{R}^V$:
 $$\sigma(z, j) =  \frac{e^{z_i}}{\sum_j e^{z_j}}$$
@@ -108,10 +108,10 @@ $$ \sigma(z) =
 $$
 
 \section{Multilayer Neural Networks}
-Adding intermediate layers (usually referred as hidden layers in the literature)
+Adding intermediate layers (usually called hidden layers in the literature)
 to a linear Neural Network is useless
 since the product of linear components is again linear.
-As an example, construct a model which the following characteristics:
+As an example, construct a model with the following characteristics:
 \begin{itemize}
     \item $X \in \mathbb{R}^{N \times 2}$: 2 nodes as input
     \item $y \in \mathbb{R}^N$: 1 node as output
@@ -119,14 +119,14 @@ As an example, construct a model which the following characteristics:
 \end{itemize}
 Its graphical representation can be seen in Figure \ref{fig:nn-multi}
 and the relative minimization function is:
-$$ \displaystyle \min_{M, w} \frac{1}{2N} \sum_{i \in [1, N]} [ w^T (x_i M) - y_i)^2 ]
+$$ \displaystyle \min_{M, w} \frac{1}{2N} \sum_{i \in [1, N]} [ w^T (x_i M) - y_i ]^2
     \ \text{with} \
     M \in \mathbb{R}^{2 \times 2}, w \in \mathbb{R}^{2}$$
-which is again linear regression, but more computationally expensive.
+which is again linear regression but more computationally expensive.
 
 On the opposite, stacking more layers while using a non-linear activation function
-leads to an enriched hypothesis space. Learning weights in a deep Neural Network
-(a Neural Network with multiple hidden layers) require using the backpropagation algorithm.
+leads to an enriched hypothesis space. Learning weights in a Deep Neural Network
+(a Neural Network with multiple hidden layers) requires using the backpropagation algorithm.
 
 \begin{figure}[h]
     \centering
@@ -136,10 +136,10 @@ leads to an enriched hypothesis space. Learning weights in a deep Neural Network
 \end{figure}
 
 \subsection{Chain rule}
-The chain rule states that, given $\hat{y} = f(g(x))$ its derivative is:
+The chain rule states that given $\hat{y} = f(g(x))$ its derivative is:
 $$ \frac{d\hat{y}}{dx} = \frac{f(g)}{dg} \cdot \frac{g(x)}{dx} $$
 
-It can be seen as a Neural Network with one layer as input, one as output and one in the hidden layer.
+That formula can be seen as a Neural Network with one node as input, one as output and one in the hidden layer.
 Its graphical representation can be viewed in Figure \ref{fig:nn-chain}.
 
 \begin{figure}[h]
@@ -150,14 +150,14 @@ Its graphical representation can be viewed in Figure \ref{fig:nn-chain}.
 \end{figure}
 
 \section{Backpropagation}
-To better understand backpropagation, imagine to have a fully connected Neural Network with:
+To better understand backpropagation, imagine having a fully connected Neural Network with:
 \begin{itemize}
     \item $D$ nodes as input
     \item $J$ nodes in the hidden layer with $\tan$ as activation function
     \item 1 node as output with $\tan$ as activation function
 \end{itemize}
 
-This newtork has weights $M \in \mathbb{R}^{D \times J}$ between the first and the second layer,
+This network has weights $M \in \mathbb{R}^{D \times J}$ between the first and the second layer,
 and weights $w \in \mathbb{R}^{J} $ connecting the second layer to the third.
 
 The minimization function is
@@ -173,9 +173,9 @@ The final goal is to obtain:
 \end{multicols}
 
 In order to make the notation as light as possible, the function $\tanh(\cdot)$ is intended to be applied element-wise.
-Morover, the intermediate result $\tanh(M X_i)$ will be denoted as $h_i$.
+Moreover, the intermediate result $\tanh(M X_i)$ is denoted as $h_i$.
 
-In order to compute the partial derivatives, we can start from the last layer and then use them to compute
+To compute the partial derivatives, we can start from the output layer and then use the intermediate calculations to compute
 the partial derivatives of the previous layers.
 In particular:
 $$ \frac{dE_i}{dy_i} = \frac{1}{2} \cdot 2 \{ \tanh[w^T \tanh(M X_i)] - y_i\} = \tanh(w^T h_i) - y_i $$
@@ -184,6 +184,6 @@ $$ \frac{dE_i}{dh_i} = \frac{dE_i}{dy_i} \frac{dy_i}{dh_i} = \frac{dE_i}{dy_i} \
 
 $$ \frac{dE_i}{dM_{dj}} = [\frac{dE_i}{dh_i} \circ \{\mathbb{1} - \tanh^2(X_i M)]\}_j X_{id}$$
 
-The power of this teqnique is that it is possible to re-use values calculated for a particular partial derivative in order to lower the computational cost of computing the others.
+The power of this technique is that it is possible to re-use values calculated for a particular partial derivative to lower the computational cost of computing the others.
 
 The reasoning can be extended for multiple nodes as output.
