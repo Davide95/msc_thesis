@@ -115,6 +115,7 @@ def bow(raw):
     vectorizer = CountVectorizer(
         stop_words=stopwords.words(ARGS.lang),
         lowercase=True, strip_accents='unicode',
+        max_df=ARGS.max_df, min_df=ARGS.min_df,
         dtype=np.int32)
     bow_data = vectorizer.fit_transform(raw)
     vocab = dict([v, k] for k, v in vectorizer.vocabulary_.items())
@@ -202,6 +203,10 @@ if __name__ == "__main__":
                         help='Tradeoff between ' +
                         'performance (lower vals) and ' +
                         'memory consumption')
+    PARSER.add_argument('--max_df', type=float, default=1.0,
+                        help='Frequency threshold for stopwords')
+    PARSER.add_argument('--min_df', type=int, default=1,
+                        help='Cut-off / minimum counter threshold')
     ARGS = PARSER.parse_args()
 
     nltk.download('stopwords')
