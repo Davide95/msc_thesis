@@ -1,6 +1,6 @@
 \chapter{Neural Networks}
 The goal of this appendix is to give a simple albeit incomplete introduction of
-Neural Networks for those readers who have not a solid background on it but
+Neural Networks for those readers who do not have a solid background on it but
 still they are interested in Chapter \ref{wordemb}.
 
 \section{Gradient descent}
@@ -8,7 +8,7 @@ Given a minimization problem $min_w f(w), w \in \mathbb{R}^D$,
 it is possible to find a local minimum through gradient descent.
 
 First, we compute the gradient $\nabla f(w)$ and we decide a point $w_0$ in which the algorithm has to start.
-If the problem is not convex, choosing a different $x_0$ could lead to a different
+If the problem is not convex, choosing a different $w_0$ could lead to a different
 solution.
 Since gradients point in the direction of fastest increase,
 we take small steps towards the opposite direction in order to reach a minimum.
@@ -55,7 +55,7 @@ There are situations in which using gradient descent is not computationally feas
 For instance, imagine that the problem explained in Section \ref{gradesc} have
 a number of points so huge that a solution can not be obtained in feasible times.
 
-Mini-batch gradient descent is an extension of gradient descent which assume that
+Mini-batch gradient descent is an extension of gradient descent which assumes that
 samples of $|M|$ elements of the dataset are a noisy representative of the entire data.
 At each step, $M$ will be re-sampled from $X$.
 
