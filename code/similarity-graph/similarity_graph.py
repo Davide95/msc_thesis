@@ -139,13 +139,6 @@ def hda(bow_data, vocab):
     return (np.transpose(doctopic), )
 
 
-def similarity_graph_dot(doctopic):
-    '''Compute the similarity graph using the dot product.'''
-
-    dot = doctopic.dot(doctopic.transpose())
-    return (dot.todense(),)
-
-
 def similarity_graph(doctopic):
     '''Compute the similarity graph using the Hellinger distance.'''
 
