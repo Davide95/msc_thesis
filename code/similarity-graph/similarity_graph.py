@@ -43,7 +43,7 @@ def prep_csv():
         os.mkdir(chunkdir)
 
         # Load CSV
-        dataframe = pd.read_csv(ARGS.filename, index_col='url',
+        dataframe = pd.read_csv(ARGS.filename,
                                 usecols=['url', 'content'])
         print('Number of pages:', dataframe.shape[0])
 
