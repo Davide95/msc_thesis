@@ -153,6 +153,8 @@ def similarity_graph(doctopic):
 
     res = np.zeros((n_docs, n_docs), dtype=np.float32)
     hellinger_parallel(doctopic, res)
+
+    np.save(ARGS.filename + '-adj.npy', res)
     return (res, )
 
 
