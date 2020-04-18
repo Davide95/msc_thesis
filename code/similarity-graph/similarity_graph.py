@@ -147,7 +147,7 @@ def similarity_graph(doctopic):
     res = np.zeros((n_docs, n_docs), dtype=np.float32)
     hellinger_parallel(doctopic, res)
 
-    np.save(ARGS.filename + '-adj.npy', res)
+    np.save(Path(ARGS.filename).stem + '-adj.npy', res)
     return (res, )
 
 
@@ -182,7 +182,7 @@ def plot(sim_graph):
     plt.clim(0, 1)
     plt.colorbar().ax.invert_yaxis()
     plt.title(ARGS.filename)
-    plt.savefig(ARGS.filename + '.svg')
+    plt.savefig(Path(ARGS.filename).stem + '-plot.svg')
 
 
 # The execution starts here
