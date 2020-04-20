@@ -101,9 +101,10 @@ def parse_html(chunkdir):
         pool.join()
 
     raw_files = Path(parsedir).glob('*')
+    raw_files_sorted = sorted([int(raw_slice.stem) for raw_slice in raw_files])
     raw = pd.concat(
-        pd.read_parquet(raw_slice, engine='pyarrow')
-        for raw_slice in raw_files
+        pd.read_parquet(f'{parsedir}/{file}', engine='pyarrow')
+        for file in raw_files_sorted
     )['content']
 
     return (raw,)
