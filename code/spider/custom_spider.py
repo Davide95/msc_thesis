@@ -27,9 +27,11 @@ class CustomSpider(scrapy.Spider):
     def parse(self, response):
         links = list(LinkExtractor(
             allow_domains=self.allowed_domains).extract_links(response))
+
         yield {
-            'url': response.url,
-            'connected_to': [response.urljoin(url.url) for url in links],
+            'url': response.url.replace(',', '%2C'),
+            'connected_to': [response.urljoin(url.url.replace(',', '%2C'))
+                             for url in links],
             'content': response.text
         }
 
