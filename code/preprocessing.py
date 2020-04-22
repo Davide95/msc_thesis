@@ -19,11 +19,13 @@ import argparse
 from pathlib import Path
 import time
 import pandas as pd
+import os
 
 
 def remove_protocol(url):
-    assert url.startswith('http'), f'Formatting error: URL "{url}" not valid.'
+    '''Remove http:// or https:// from a given URL.'''
 
+    assert url.startswith('http'), f'Formatting error: URL "{url}" not valid.'
     if url.startswith('http://'):
         return url[7:]
     else:
@@ -39,20 +41,33 @@ if __name__ == "__main__":
                         help='Output folder where you can save the results')
     ARGS = PARSER.parse_args()
 
+    # Create output folder if not exist
+    Path(ARGS.output_folder).mkdir(parents=True, exist_ok=True)
+
+    # Process each csv one file at a time
     input_files = Path(ARGS.input_folder).glob('*.csv')
     for input_file in input_files:
         print('Processing', input_file.stem)
         start = time.time()
 
-        print('Removing protocols from URLs')
+        print('Removing protocols from url col...')
         data = pd.read_csv(input_file)
         data['url'] = data['url'].apply(remove_protocol)
 
-        print('Removing duplicates')
+        print('Removing duplicates from url col...')
         initial_len = len(data)
         data.drop_duplicates(subset='url', keep='first', inplace=True)
         final_len = len(data)
         print('Items removed:', initial_len-final_len)
+
+        print('Removing protocols from connected_to col...')
+        for idx, urls in data['connected_to'].iteritems():
+            if not pd.isnull(urls):
+                new_urls = ','.join(map(remove_protocol, urls.split(',')))
+                data['connected_to'][idx] = new_urls
+
+        print('Saving on disk...')
+        data.to_csv(os.path.join(ARGS.output_folder, input_file.stem + '.csv'))
 
         end = time.time()
         print('Finished in', end-start, 'sec\n')
