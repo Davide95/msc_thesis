@@ -3,7 +3,7 @@ All source code is licensed under the GNU General Public License v3.0 and it can
 In order to have a self-contained document, the realized scripts are also inserted in this appendix.
 You can find a copy of the license at \url{https://github.com/Davide95/msc_thesis/blob/master/code/LICENSE}.
 
-All code is written in Python 3.7. The external libraries used are reported in the relative \texttt{requirements.txt} file for each script and can be installed through the command \texttt{pip install -r requirements.txt}.
+All code is written in Python 3.7. The external libraries used are reported in the relative \texttt{requirements.txt} file and can be installed through the command \texttt{pip install -r requirements.txt}.
 
 All experiments were tested on a PowerEdge T630 server with the following characteristics:
 \begin{itemize}
@@ -11,14 +11,15 @@ All experiments were tested on a PowerEdge T630 server with the following charac
     \item 8x16GiB of RAM
 \end{itemize}
 
+\section{Requirements}
+\begin{minipage}{\linewidth}
+    \lstinputlisting[caption=requirements.txt]{../code/requirements.txt}
+\end{minipage}
+
 \section{Spider} \label{spider}
 
 Since the spider implemented is built on top of the web-crawling platform Scrapy, we refer to its documentation instead of explaining how to run it.
 An overview of Scrapy can be found in \cite{kouzis2016learning}.
-
-\begin{minipage}{\linewidth}
-    \lstinputlisting[caption=requirements.txt]{../code/spider/requirements.txt}
-\end{minipage}
 
 \begin{minipage}{\linewidth}
     \lstinputlisting[language=Python, caption=custom\_spider.py]{../code/spider/custom_spider.py}
