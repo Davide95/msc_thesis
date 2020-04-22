@@ -70,17 +70,45 @@ To get an idea of the size of each dataset, we report the number of documents an
     \label{table:dbdata}
 \end{table}
 
-\section{Preprocessing}
-Before using the scraped data, we performed preprocessing over it.
+\section{Pre-processing}
+Before using the scraped data, we performed pre-processing over it.
 
 In this phase we make a strong assumption about webpages:
-different URLs with the same scheme corresponds to the same page.
+different URLs with the same scheme correspond to the same page.
 For instance, \url{http://www.example.com} and \url{https://www.example.com}
 are considered links to the same resource.
 
-Following this assumtion, we removed all duplicates from the \say{url} column
-of the .csv files.
+Following this assumtion, we then removed all duplicates from the \say{url} column
+of the .csv files: only the first occurrence of each URL is kept.
 
-As we can see from Table X, blablabla.
+As we can see from Table \ref{table:dbprocdata}, the number of documents decreases after pre-processing,
+while the number of unique words is still the same for each website.
+This fact confirms empirically the validity of the assumption made before for the data considered.
 
-All the code can be found in Section \ref{preprocessing}.
+All the code can be found in Section \ref{pre-processing}.
+
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{ |l|l|l| }
+            \hline
+            ID                & N. of documents & N. of unique words \\
+            \hline
+            bnu               & 990             & 15246              \\
+            \hline
+            goop              & 26219           & 114561             \\
+            \hline
+            ilblogdellestelle & 27698           & 133299             \\
+            \hline
+            msccrociere       & 548             & 21332              \\
+            \hline
+            postgraduate      & 48805           & 114827             \\
+            \hline
+            watt              & 380             & 14499              \\
+            \hline
+        \end{tabular}
+    \end{center}
+    \caption{
+        The number of documents and unique words for each dataset after the preprocessing phase.
+    }
+    \label{table:dbprocdata}
+\end{table}
