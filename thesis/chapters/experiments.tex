@@ -69,3 +69,18 @@ To get an idea of the size of each dataset, we report the number of documents an
     }
     \label{table:dbdata}
 \end{table}
+
+\section{Preprocessing}
+Before using the scraped data, we performed preprocessing over it.
+
+In this phase we make a strong assumption about webpages:
+different URLs with the same scheme corresponds to the same page.
+For instance, \url{http://www.example.com} and \url{https://www.example.com}
+are considered links to the same resource.
+
+Following this assumtion, we removed all duplicates from the \say{url} column
+of the .csv files.
+
+As we can see from Table X, blablabla.
+
+All the code can be found in Section \ref{preprocessing}.
