@@ -21,6 +21,13 @@ All experiments were tested on a PowerEdge T630 server with the following charac
 Since the spider implemented is built on top of the web-crawling platform Scrapy, we refer to its documentation instead of explaining how to run it.
 An overview of Scrapy can be found in \cite{kouzis2016learning}.
 
-\begin{minipage}{\linewidth}
-    \lstinputlisting[language=Python, caption=custom\_spider.py]{../code/custom_spider.py}
-\end{minipage}
+\lstinputlisting[language=Python, caption=custom\_spider.py]{../code/custom_spider.py}
+
+\section{Preprocessing} \label{preprocessing}
+The script has to be launched with two mandatory parameters:
+\begin{itemize}
+    \item input\_folder: the folder in which all scraped data is stored as CSV files
+    \item output\_folder: the folder in which to save the preprocessed data. If the folder doesn't exist, it will be created at runtime
+\end{itemize}
+
+\lstinputlisting[language=Python, caption=preprocessing.py]{../code/preprocessing.py}
