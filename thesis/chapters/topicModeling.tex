@@ -15,11 +15,12 @@ The goal of the second step is to produce two matrices:
 \end{itemize}
 
 For instance, a document about bears is likely to have high intensity on some topics which in turn have high
-intensity on words related to animals.
+intensity on words related to animals; see Figure \ref{fig:topicmat} for an example.
 
 \section{Latent Semantic Analysis (LSA)}
 Given the number of topics $V$ as an hyperparameter,
-Truncated SVD is applied to the matrix obtained in the first step:
+Truncated SVD is applied to the matrix obtained in the first step
+(see Figure \ref{fig:svd} for a graphical representation):
 $$X_{N \times K} = U_{N \times V} \Sigma_{V \times V} D_{K \times V}^T$$
 
 The matrix $U$ is then used as the document-topic matrix,
@@ -32,6 +33,20 @@ The key point to observe is that both terms and documents are described as topic
 a document is frequent in the same topics, they will have a similar representation in the new space.
 
 An overview of this technique can be found at \cite{doi:10.1002/aris.1440380105}.
+
+\begin{figure}[h]
+    \centering
+    \subfigure{\includegraphics[width=0.5\textwidth]{images/svd.eps}}
+    \caption{Truncated SVD represented graphically; matrices size proportions are kept intact}
+    \label{fig:svd}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \subfigure{\includegraphics[width=\textwidth]{images/topic-mat.eps}}
+    \caption{Example of a term-topic and a document-topic matrix.}
+    \label{fig:topicmat}
+\end{figure}
 
 \section{Online LDA}
 \dots
