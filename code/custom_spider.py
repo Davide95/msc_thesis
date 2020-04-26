@@ -28,8 +28,13 @@ class CustomSpider(scrapy.Spider):
         links = list(LinkExtractor(
             allow_domains=self.allowed_domains).extract_links(response))
 
+        if 'redirect_urls' in response.request.meta:
+            url = response.request.meta['redirect_urls'][0]
+        else:
+            url = response.url
+
         yield {
-            'url': response.url.replace(',', '%2C'),
+            'url': url.replace(',', '%2C'),
             'connected_to': [response.urljoin(url.url.replace(',', '%2C'))
                              for url in links],
             'content': response.text
