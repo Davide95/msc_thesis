@@ -3,6 +3,7 @@
 In Chapter \ref{wordemb}, we presented some techniques to encode words as vectors.
 Starting from a bag-of-words model in which we assume that the order of the words
 inside a text does not matter, it is possible to follow a similar approach also for documents.
+Topic models play an important role in describing, organizing and comparing unstructured collections of documents.
 
 The first step is to generate a matrix of term counts $X$ for the entire corpus:
 each row is a document represented in the BOW format and each column represents the count of occurrence
@@ -48,11 +49,63 @@ An overview of this technique can be found at \cite{doi:10.1002/aris.1440380105}
     \label{fig:topicmat}
 \end{figure}
 
+\section{Latent Dirichlet Allocation (LDA)}
+LDA makes the same assumptions about topics as LSA, but unlike the latter it views topics and documents in a probabilistic way.
+In particular, a document is a categorical distribution over topics $\theta_d$ and a topic is categorical distribution over words $\beta_i$.
+The probability of sampling a particular document is instead modeled as a dirichlet distribution $Dir(\alpha)$.
+
+A major drawback of LDA is that the number of topics is assumed to be known a-priori and threated as an hyperparameter.
+
+Variants of this model are present in the literature: in this chapter we use \cite{10.1145/2107736.2107741} and \cite{DBLP:journals/jmlr/BleiNJ03} as a reference.
+
+\subsection{Generative process} \label{gp}
+In this section we describe LDA by its generative process, assuming we have already obtained the parameters of the model.
+
+We define:
+\begin{itemize}
+    \item $\beta_{1:K}$: $K$ topics, where each topic $\beta_i$ is a distribution over the terms in the vocabulary
+    \item $\theta_d$: a document $d$ described as a categorical distribution over topics, where $\theta_{d,k}$ is the topic proportion for topic $k$ in document $d$
+    \item $w_{d}$: observed words of document $d$, where $w_{d,n}$ is the word in position $n$ of the document $d$
+\end{itemize}
+
+The generation of a document with $N$ words can be summarized as:
+\begin{enumerate}
+    \item $\theta_d \sim Dir(\alpha)$: pick a document
+    \item $z_{d,n} \sim Mult(\theta_d)$: sample a topic
+    \item $w_{d,n} \sim \beta_{z_{d,n}}$: pick a term
+    \item use that term as a word for the document you want to generate
+    \item loop $N$ times to step 2.
+\end{enumerate}
+
+LDA can be seen as a probabilistic graphical model and it is represented graphically in Picture MIAOMIAO.
+
+\subsection{Model inference}
+The goal of LDA is to automatically discover topics over a collection of documents.
+Since only words are observed, topics are considered latent variables.
+
+Note that inference in this particular case can be seen as the reverse of the generative process explained in \ref{gp}.
+
+Mathematically speaking, inference becomes a question of computing the posterior distribution:
+$$ p(\beta_{1:K}, \theta_{1:D}, z_{1:D} | w_{1:D}) = \frac{p(\beta_{1:K}, \theta_{1:D}, z_{1:D}, w_{1:D})}{p(w_{1:D})}$$
+which is the conditional distribution of the hidden variables given the documents.
+
+The denominator $p(w_{1:D})$ is the probability of observing the corpus under all possible topic model
+and thus intractable to compute.
+For this reason in this section we approximate the posterior distribution through a variational method.
+In particular, given a family of simpler distributions over the hidden structure,
+we try to find the one which is the closest to the posterior distribution.
+
+In order to have a tractable problem, these distributions must have the characteristic
+of removing the dependence between the hidden variables.
+Each hidden variable is described by a distribution over its type:
+$$ MIAOEQ $$
+
+In our scenario, we use the Kullback–Leibler divergence as a measure of closeness.
+
+
 \section{Online LDA}
 \dots
 
-\section{Latent Dirichlet Allocation (LDA)}
-\dots
-
-\section{Hierarchical Dirichlet Process (HDA)}
-\dots
+\section{Hierarchical Dirichlet Process (HDP)}
+HDA was proposed in \cite{DBLP:journals/jmlr/WangPB11} to overcome the problem of choosing the number of topics in LDA and derived methods.
+In particular this number is not an hyperparameter of the model, but it is determined during inference.
