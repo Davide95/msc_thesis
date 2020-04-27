@@ -68,16 +68,24 @@ We define:
     \item $w_{d}$: observed words of document $d$, where $w_{d,n}$ is the word in position $n$ of the document $d$
 \end{itemize}
 
-The generation of a document with $N$ words can be summarized as:
+The generation of $M$ documents with $N$ words each can be summarized as:
 \begin{enumerate}
     \item $\theta_d \sim Dir(\alpha)$: pick a document
     \item $z_{d,n} \sim Mult(\theta_d)$: sample a topic
     \item $w_{d,n} \sim \beta_{z_{d,n}}$: pick a term
     \item use that term as a word for the document you want to generate
-    \item loop $N$ times to step 2.
+    \item loop $N$ times to step 2
+    \item loop $M$ times to step 1
 \end{enumerate}
 
-LDA can be seen as a probabilistic graphical model and it is represented graphically in Picture MIAOMIAO.
+LDA can be seen as a probabilistic graphical model and it is represented graphically in Figure \ref{fig:lda}.
+
+\begin{figure}[h]
+    \centering
+    \subfigure{\includegraphics[width=0.5\textwidth]{images/lda.png}}
+    \caption{Graphical model of LDA.}
+    \label{fig:lda}
+\end{figure}
 
 \subsection{Model inference}
 The goal of LDA is to automatically discover topics over a collection of documents.

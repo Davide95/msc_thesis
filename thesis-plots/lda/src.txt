@@ -1,0 +1,26 @@
+// README: run "sh generate.sh" to build this plot
+
+Digraph lda {
+	rankdir = LR;
+
+	α [shape=circle];
+	β [shape=circle];
+
+	subgraph cluster_M // box
+	{
+	    label = "M"
+
+	    θ [shape=circle];
+	    subgraph cluster_N
+	    {
+		label = "N"
+		z [shape=circle];
+		w [shape=circle, style=filled]
+		z->w;
+	    }
+
+	    θ -> z;
+	}
+	α -> θ;
+	β -> w;
+}
