@@ -8,7 +8,8 @@ In particular, we want to find a $q(z | v)$ over a family of distributions which
 as possible to $p$ using the Kullback–Leibler divergence as a measure of closeness:
 $$ KL(q || p) = \E_{Z \sim q} {[\log_2 \frac{q(z)}{p(z | x)}]} = \E_{Z \sim q} \log_2 [q(z)] - \E_{Z \sim q} \log_2 [p(z | x)] = $$
 $$ = \E_{Z \sim q} \log_2 [q(z)] - \E_{Z \sim q} \log_2 [\frac{p(z,x)}{p(x)}] = \E_{Z \sim q} \log_2 [q(z)] - \{ \E_{Z \sim q} \log_2 [p(z,x)] - \E_{Z \sim q} \log_2 [p(x)] \} = $$
-$$ = \E_{Z \sim q} \log_2 [q(z)] - \{ \E_{Z \sim q} \log_2 [p(z,x)] - \log_2 [p(x)] \} = \E_{Z \sim q} \log_2 [q(z)] - \E_{Z \sim q} \log_2 [p(z,x)] + \log_2 [p(x)] $$
+$$ = \E_{Z \sim q} \log_2 [q(z)] - \{ \E_{Z \sim q} \log_2 [p(z,x)] - \log_2 [p(x)] \} = $$
+$$ = \E_{Z \sim q} \log_2 [q(z)] - \E_{Z \sim q} \log_2 [p(z,x)] + \log_2 [p(x)] $$
 
 
 To do so, we start by maximizing $p(x)$:
