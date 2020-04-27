@@ -99,17 +99,8 @@ which is the conditional distribution of the hidden variables given the document
 
 The denominator $p(w_{1:D})$ is the probability of observing the corpus under all possible topic model
 and thus intractable to compute.
-For this reason in this section we approximate the posterior distribution through a variational method.
-In particular, given a family of simpler distributions over the hidden structure,
-we try to find the one which is the closest to the posterior distribution.
-
-In order to have a tractable problem, these distributions must have the characteristic
-of removing the dependence between the hidden variables.
-Each hidden variable is described by a distribution over its type:
-$$ MIAOEQ $$
-
-In our scenario, we use the Kullback–Leibler divergence as a measure of closeness.
-
+For this reason in this section we approximate the posterior distribution through a variational method
+(see Appendix \ref{vi}).
 
 \section{Online LDA}
 \dots

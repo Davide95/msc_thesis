@@ -1,0 +1,33 @@
+\chapter{Variational Inference} \label{vi}
+Variational nference is a method that approximates probability densities through optimization.
+
+Denoting $x$ as the observations and $z$ as the hidden variables,
+we want to compute the posterior distribution $p(z | x)$.
+
+In particular, we want to find a $q(z | v)$ over a family of distributions which is as similar
+as possible to $p$ using the Kullback–Leibler divergence as a measure of closeness:
+$$ KL(q || p) = \E_{Z \sim q} {[\log_2 \frac{q(z)}{p(z | x)}]} = \E_{Z \sim q} \log_2 [q(z)] - \E_{Z \sim q} \log_2 [p(z | x)] = $$
+$$ = \E_{Z \sim q} \log_2 [q(z)] - \E_{Z \sim q} \log_2 [\frac{p(z,x)}{p(x)}] = \E_{Z \sim q} \log_2 [q(z)] - \{ \E_{Z \sim q} \log_2 [p(z,x)] - \E_{Z \sim q} \log_2 [p(x)] \} = $$
+$$ = \E_{Z \sim q} \log_2 [q(z)] - \{ \E_{Z \sim q} \log_2 [p(z,x)] - \log_2 [p(x)] \} = \E_{Z \sim q} \log_2 [q(z)] - \E_{Z \sim q} \log_2 [p(z,x)] + \log_2 [p(x)] $$
+
+
+To do so, we start by maximizing $p(x)$:
+$$
+    \displaystyle \max p(x) = \max \log_2[p(x)]
+    = \max \log_2[\int p(x,z) dz]
+    = \max \log_2[\int \frac{q(z)}{q(z)} p(x,z) dz] =
+$$
+$$
+    = \max \log_2[\int q(z) \frac{p(x,z)}{q(z)} dz]
+    = \max \log_2[\E_{Z \sim q} \frac{p(x,z)}{q(z)}]
+$$
+
+The Jensen's inequality says that if a function $f$ is concave, $f(\E[x]) \geq \E[f(x)]$.
+Since the logarithm is a concave function, we can state that:
+$$ \log_2[\E_{Z \sim q} \frac{p(x,z)}{q(z)}] \geq \E_{Z \sim q} \log_2[\frac{p(x,z)}{q(z)}] $$
+$$ \log_2[\E_{Z \sim q} \frac{p(x,z)}{q(z)}] \geq \E_{Z \sim q} log_2[p(x,z)] - \E_{Z \sim q} log_2[q(z)] $$
+
+Since $ \displaystyle \E_{Z \sim q} log_2[p(x,z)] - \E_{Z \sim q} log_2[q(z)] = -\{E_{Z \sim q} log_2[p(x,z)] - \E_{Z \sim q} log_2[q(z)])\}$
+and $\log_2[p(x)]$ is a constant that does not depend on $q$,
+maximizing the lower bound of $p(x)$ means minimizing the Kullback–Leibler divergence between $q$ and $p$.
+
