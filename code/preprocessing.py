@@ -61,10 +61,13 @@ if __name__ == "__main__":
         print('Items removed:', initial_len-final_len)
 
         print('Removing protocols from connected_to col...')
-        for idx, urls in data['connected_to'].iteritems():
-            if not pd.isnull(urls):
-                new_urls = ','.join(map(remove_protocol, urls.split(',')))
-                data['connected_to'][idx] = new_urls
+        if 'connected_to' in data.columns:
+            for idx, urls in data['connected_to'].iteritems():
+                if not pd.isnull(urls):
+                    new_urls = ','.join(map(remove_protocol, urls.split(',')))
+                    data['connected_to'][idx] = new_urls
+        else:
+            print('Column not found.')
 
         print('Saving on disk...')
         data.to_csv(os.path.join(ARGS.output_folder, input_file.stem + '.csv'))
