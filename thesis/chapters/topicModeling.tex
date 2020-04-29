@@ -80,6 +80,14 @@ The generation of $M$ documents with $N$ words each can be summarized as:
 
 LDA can be seen as a probabilistic graphical model and it is represented graphically in Figure \ref{fig:lda}.
 
+The joint distribution is:
+$$ p(\theta, z, w | \alpha, \beta) = \prod_d [p(\theta_d | \alpha) \prod_n p(z_{d,n} | \theta_d) p(w_{d, n} | \beta, z_{d,n})] $$
+
+Given the distributions explained before, we can state that:
+$$ p(\theta_d | \alpha) = \frac{1}{B(\alpha)} \prod_{k=1}^K \theta_{d,k}^{\alpha_k - 1}$$
+$$ p(z_{d,n} | \theta_d) = \theta_{d, z_{d,n}} $$
+$$ p(w_{d,n} | z_{d,n}, \beta) = \beta_{z_{d,n},w_{d,n}} $$
+
 \begin{figure}[h]
     \centering
     \subfigure{\includegraphics[width=0.5\textwidth]{images/lda.png}}
@@ -101,6 +109,19 @@ The denominator $p(w_{1:D})$ is the probability of observing the corpus under al
 and thus intractable to compute.
 For this reason in this section we approximate the posterior distribution through a variational method
 (see Appendix \ref{vi}).
+In particular, we set $q$ as:
+$$ q(\theta, z) = q(\theta | \gamma) q(z | \phi) = \prod_d [q(\theta_d | \gamma_d) \prod_n q(z_{d,n} | \phi_{d,n})]$$
+
+The algorithm can be summarized as:
+\begin{enumerate}
+    \item Randomly initialize $\gamma$ and $\phi$
+    \item For each document, update $\gamma$ and $\phi$
+    \item Update $\beta$ and $\alpha$ for the entire corpus
+    \item Loop until convergence
+    \item The expectation of a given $\gamma$ for a particular document is its topic distribution
+\end{enumerate}
+
+Note that step 2 is easly parallelizable.
 
 \section{Online LDA}
 \dots

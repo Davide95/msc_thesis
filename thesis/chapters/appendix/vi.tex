@@ -31,4 +31,13 @@ $$ \log_2[\E_{Z \sim q} \frac{p(x,z)}{q(z)}] \geq \E_{Z \sim q} log_2[p(x,z)] - 
 Since $ \displaystyle \E_{Z \sim q} log_2[p(x,z)] - \E_{Z \sim q} log_2[q(z)] = -\{E_{Z \sim q} log_2[p(x,z)] - \E_{Z \sim q} log_2[q(z)])\}$
 and $\log_2[p(x)]$ is a constant that does not depend on $q$,
 maximizing the lower bound of $p(x)$ is equivalent to minimizing the Kullback–Leibler divergence between $q$ and $p$.
+From now, we refer to this lower bound as ELBO.
 
+\section{Mean field variational inference}
+In order to have a tractable problem, these distributions must have the characteristic
+of removing the dependence between the hidden variables:
+$$ q(z_1, ..., z_m) = \prod_{j=1}^m q(z_j) $$
+
+Since we want to maximize ELBO,
+the final step for obtaining a solution is to take the partial derivatives of it and set it equal to zero.
+Then, we solve the problem iteratively for each variable of interest until convergence.
