@@ -6,21 +6,27 @@ we want to compute the posterior distribution $p(z | x)$.
 
 In particular, we want to find a $q(z | v)$ over a family of densities
 which is as similar as possible to $p(z | x)$ using the Kullback–Leibler divergence as a measure of closeness:
-$$ KL(q || p) = \E_{Z \sim q} {[\log_2 \frac{q(z)}{p(z | x)}]} = \E_{Z \sim q} \log_2 [q(z)] - \E_{Z \sim q} \log_2 [p(z | x)] = $$
-$$ = \E_{Z \sim q} \log_2 [q(z)] - \E_{Z \sim q} \log_2 [\frac{p(z,x)}{p(x)}] = \E_{Z \sim q} \log_2 [q(z)] - \{ \E_{Z \sim q} \log_2 [p(z,x)] - \E_{Z \sim q} \log_2 [p(x)] \} = $$
-$$ = \E_{Z \sim q} \log_2 [q(z)] - \{ \E_{Z \sim q} \log_2 [p(z,x)] - \log_2 [p(x)] \} = $$
-$$ = \E_{Z \sim q} \log_2 [q(z)] - \E_{Z \sim q} \log_2 [p(z,x)] + \log_2 [p(x)] $$
+\begin{equation} \label{eq:klexpanded}
+    \begin{split}
+        KL(q || p) & = \E_{Z \sim q} {[\log_2 \frac{q(z)}{p(z | x)}]} \\
+        & = \E_{Z \sim q} \log_2 [q(z)] - \E_{Z \sim q} \log_2 [p(z | x)] \\
+        & = \E_{Z \sim q} \log_2 [q(z)] - \E_{Z \sim q} \log_2 [\frac{p(z,x)}{p(x)}] \\
+        & = \E_{Z \sim q} \log_2 [q(z)] - \{ \E_{Z \sim q} \log_2 [p(z,x)] - \E_{Z \sim q} \log_2 [p(x)] \} \\
+        & = \E_{Z \sim q} \log_2 [q(z)] - \{ \E_{Z \sim q} \log_2 [p(z,x)] - \log_2 [p(x)] \} \\
+        & = \E_{Z \sim q} \log_2 [q(z)] - \E_{Z \sim q} \log_2 [p(z,x)] + \log_2 [p(x)]
+    \end{split}
+\end{equation}
 Note that $q(z | v)$ does not depend on the observed data.
 
 To do so, we start by computing $p(x)$:
-$$
-    \displaystyle p(x) = \log_2[p(x)] = \log_2[\int p(x,z) dz]
-    = \log_2[\int \frac{q(z)}{q(z)} p(x,z) dz] =
-$$
-$$
-    = \log_2[\int q(z) \frac{p(x,z)}{q(z)} dz]
-    = \log_2[\E_{Z \sim q} \frac{p(x,z)}{q(z)}]
-$$
+\begin{equation*}
+    \begin{split}
+        p(x) & = \log_2[p(x)] \\
+        & = \log_2[\int p(x,z) dz]  \\
+        & = \log_2[\int \frac{q(z)}{q(z)} p(x,z) dz] = \log_2[\int q(z) \frac{p(x,z)}{q(z)} dz] \\
+        & = \log_2[\E_{Z \sim q} \frac{p(x,z)}{q(z)}]
+    \end{split}
+\end{equation*}
 
 The Jensen's inequality says that if a function $f$ is concave, $f(\E[x]) \geq \E[f(x)]$.
 Since the logarithm is a concave function, we can state that:
@@ -29,7 +35,7 @@ $$ \log_2[\E_{Z \sim q} \frac{p(x,z)}{q(z)}] \geq \E_{Z \sim q} log_2[p(x,z)] - 
 
 Given that $ \displaystyle \E_{Z \sim q} log_2[p(x,z)] - \E_{Z \sim q} log_2[q(z)] = -\{E_{Z \sim q} log_2[p(x,z)] - \E_{Z \sim q} log_2[q(z)])\}$
 and $\log_2[p(x)]$ is a constant that does not depend on $q$,
-maximizing the lower bound of $p(x)$ is equivalent to minimizing the Kullback–Leibler divergence between $q$ and $p$.
+maximizing the lower bound of $p(x)$ is equivalent to minimizing the Kullback–Leibler divergence between $q$ and $p$ (see Equation \ref{eq:klexpanded} to a comparison).
 From now, we refer to this lower bound as ELBO.
 
 \section{Mean field variational inference}
