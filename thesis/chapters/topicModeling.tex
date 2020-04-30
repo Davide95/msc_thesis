@@ -115,16 +115,17 @@ $$ q(\theta, z) = q(\theta | \gamma) q(z | \phi) = \prod_d [q(\theta_d | \gamma_
 The algorithm can be summarized as:
 \begin{enumerate}
     \item Randomly initialize $\gamma$ and $\phi$
-    \item For each document, update $\gamma$ and $\phi$
-    \item Update $\beta$ and $\alpha$ for the entire corpus
+    \item For each document, update the local latent variables $\gamma$ and $\phi$
+    \item Update the global latent variables $\beta$ and $\alpha$ for the entire corpus
     \item Loop until convergence
     \item The expectation of a given $\gamma$ for a particular document is its topic distribution
 \end{enumerate}
 
-Note that step 2 is easly parallelizable.
+The step 2 can be parallelized: each document has its own local variables which are conditionally indipendent of the other local variables and data in different documents.
 
 \section{Online LDA}
-\dots
+A major drawback of LDA is the impossibility to scale as the data grows:
+each iteration of the algorithm requires an entire scan of the corpus, which is computationally expensive.
 
 \section{Hierarchical Dirichlet Process (HDP)}
 HDA was proposed in \cite{DBLP:journals/jmlr/WangPB11} to overcome the problem of choosing the number of topics in LDA and derived methods.

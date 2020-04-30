@@ -1,26 +1,25 @@
 \chapter{Variational Inference} \label{vi}
-Variational nference is a method that approximates probability densities through optimization.
+Variational inference is a method that approximates probability densities through optimization.
 
 Denoting $x$ as the observations and $z$ as the hidden variables,
 we want to compute the posterior distribution $p(z | x)$.
 
-In particular, we want to find a $q(z | v)$ over a family of distributions which is as similar
-as possible to $p$ using the Kullback–Leibler divergence as a measure of closeness:
+In particular, we want to find a $q(z | v)$ over a family of densities
+which is as similar as possible to $p(z | x)$ using the Kullback–Leibler divergence as a measure of closeness:
 $$ KL(q || p) = \E_{Z \sim q} {[\log_2 \frac{q(z)}{p(z | x)}]} = \E_{Z \sim q} \log_2 [q(z)] - \E_{Z \sim q} \log_2 [p(z | x)] = $$
 $$ = \E_{Z \sim q} \log_2 [q(z)] - \E_{Z \sim q} \log_2 [\frac{p(z,x)}{p(x)}] = \E_{Z \sim q} \log_2 [q(z)] - \{ \E_{Z \sim q} \log_2 [p(z,x)] - \E_{Z \sim q} \log_2 [p(x)] \} = $$
 $$ = \E_{Z \sim q} \log_2 [q(z)] - \{ \E_{Z \sim q} \log_2 [p(z,x)] - \log_2 [p(x)] \} = $$
 $$ = \E_{Z \sim q} \log_2 [q(z)] - \E_{Z \sim q} \log_2 [p(z,x)] + \log_2 [p(x)] $$
+Note that $q(z | v)$ does not depend on the observed data.
 
-
-To do so, we start by maximizing $p(x)$:
+To do so, we start by computing $p(x)$:
 $$
-    \displaystyle \max p(x) = \max \log_2[p(x)]
-    = \max \log_2[\int p(x,z) dz]
-    = \max \log_2[\int \frac{q(z)}{q(z)} p(x,z) dz] =
+    \displaystyle p(x) = \log_2[p(x)] = \log_2[\int p(x,z) dz]
+    = \log_2[\int \frac{q(z)}{q(z)} p(x,z) dz] =
 $$
 $$
-    = \max \log_2[\int q(z) \frac{p(x,z)}{q(z)} dz]
-    = \max \log_2[\E_{Z \sim q} \frac{p(x,z)}{q(z)}]
+    = \log_2[\int q(z) \frac{p(x,z)}{q(z)} dz]
+    = \log_2[\E_{Z \sim q} \frac{p(x,z)}{q(z)}]
 $$
 
 The Jensen's inequality says that if a function $f$ is concave, $f(\E[x]) \geq \E[f(x)]$.
@@ -28,16 +27,20 @@ Since the logarithm is a concave function, we can state that:
 $$ \log_2[\E_{Z \sim q} \frac{p(x,z)}{q(z)}] \geq \E_{Z \sim q} \log_2[\frac{p(x,z)}{q(z)}] $$
 $$ \log_2[\E_{Z \sim q} \frac{p(x,z)}{q(z)}] \geq \E_{Z \sim q} log_2[p(x,z)] - \E_{Z \sim q} log_2[q(z)] $$
 
-Since $ \displaystyle \E_{Z \sim q} log_2[p(x,z)] - \E_{Z \sim q} log_2[q(z)] = -\{E_{Z \sim q} log_2[p(x,z)] - \E_{Z \sim q} log_2[q(z)])\}$
+Given that $ \displaystyle \E_{Z \sim q} log_2[p(x,z)] - \E_{Z \sim q} log_2[q(z)] = -\{E_{Z \sim q} log_2[p(x,z)] - \E_{Z \sim q} log_2[q(z)])\}$
 and $\log_2[p(x)]$ is a constant that does not depend on $q$,
 maximizing the lower bound of $p(x)$ is equivalent to minimizing the Kullback–Leibler divergence between $q$ and $p$.
 From now, we refer to this lower bound as ELBO.
 
 \section{Mean field variational inference}
 In order to have a tractable problem, these distributions must have the characteristic
-of removing the dependence between the hidden variables:
+of removing the mutual dependence between the hidden variables:
 $$ q(z_1, ..., z_m) = \prod_{j=1}^m q(z_j) $$
 
 Since we want to maximize ELBO,
 the final step for obtaining a solution is to take the partial derivatives of it and set it equal to zero.
-Then, we solve the problem iteratively for each variable of interest until convergence.
+Then, we solve the problem iteratively for each variable of interest using coordinate-ascent optimization until convergence.
+Note that the algorithm converges to a local maximum and not a global one.
+
+\section{References}
+The interested reader is advised to read \cite{Blei_2017} in conjunction with this in order to have an overall idea of the topic.
