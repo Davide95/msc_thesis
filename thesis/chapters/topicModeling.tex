@@ -121,7 +121,18 @@ The algorithm can be summarized as:
     \item The expectation of a given $\gamma$ for a particular document is its topic distribution
 \end{enumerate}
 
-The step 2 can be parallelized: each document has its own local variables which are conditionally indipendent of the other local variables and data in different documents.
+The step 2 can be parallelized: each document has its own local variables which are conditionally indipendent 
+of the other local variables and data in different documents. 
+
+\subsection{Sparsity considerations}
+Using the dirichlet governed by the $\alpha$ parameter to induce sparsity  
+allows us to have documents described by fewer topics than using an uninformative prior. 
+The same reasoning can be applied to topics, introducting a dirichlet that governs the 
+probability of having a topic with a particular set of terms. 
+
+Inducing sparsity combined with a number of topics much less than the number of documents 
+lower the risk of obtaining two different topics with a similar distribution of words.
+
 
 \section{Online LDA}
 A major drawback of LDA is the impossibility to scale as the data grows:
