@@ -1,6 +1,6 @@
 '''Web Crawling of the desired website.'''
 
-# Copyright (C) 2020  Davide Riva <driva95@protonmail.com>
+# Copyright (C) 2020 MaLGa ML4DS
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
