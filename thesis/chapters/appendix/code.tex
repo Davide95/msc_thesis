@@ -24,10 +24,7 @@ An overview of Scrapy can be found in \cite{kouzis2016learning}.
 \lstinputlisting[language=Python, caption=custom\_spider.py]{../code/custom_spider.py}
 
 \section{Pre-processing} \label{preprocessing}
-The script has to be launched with two mandatory parameters:
-\begin{itemize}
-    \item input\_folder: the folder in which all scraped data is stored as CSV files
-    \item output\_folder: the folder in which to save the pre-processed data. If the folder doesn't exist, it will be created at runtime
-\end{itemize}
+The script has some mandatory and optional parameters. 
+Run \say{python preprocessing.py --help} for more information.
 
 \lstinputlisting[language=Python, caption=preprocessing.py]{../code/preprocessing.py}
