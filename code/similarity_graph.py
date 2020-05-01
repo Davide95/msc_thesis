@@ -178,13 +178,15 @@ def hellinger_parallel(doctopic, res):
 def plot(sim_graph):
     '''Plot the similarity graph.'''
 
-    plt.axis('off')
-    plt.imshow(sim_graph, cmap='YlOrBr_r')
-    plt.clim(0, 1)
-    plt.colorbar().ax.invert_yaxis()
-    plt.title(ARGS.filename)
-    plt.savefig(Path(ARGS.filename).stem + '-plot.svg')
+    if ARGS.plot_sim is not None:
+        plt.axis('off')
+        plt.imshow(sim_graph, cmap='YlOrBr_r')
+        plt.clim(0, 1)
+        plt.colorbar().ax.invert_yaxis()
+        plt.title(ARGS.filename)
+        plt.savefig(ARGS.plot_sim)
 
+    return (sim_graph, )
 
 # The execution starts here
 if __name__ == "__main__":
@@ -203,6 +205,8 @@ if __name__ == "__main__":
                         help='Frequency threshold for stopwords')
     PARSER.add_argument('--min_df', type=int, default=1,
                         help='Cut-off / minimum counter threshold')
+    PARSER.add_argument('--plot_sim', type=str, default=None,
+                    help='Path where to plot the similarity graph')                 
     ARGS = PARSER.parse_args()
 
     nltk.download('stopwords')
