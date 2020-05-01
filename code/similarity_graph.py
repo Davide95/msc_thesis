@@ -140,6 +140,28 @@ def hda(bow_data, vocab):
     return (np.transpose(doctopic), )
 
 
+def plot_topic_importance(doctopic):
+    '''Plot the importance of each topic.'''
+
+    if ARGS.plot_topics is not None:
+        bins_idx = np.arange(doctopic.shape[1])
+        bins_int = np.average(doctopic, axis=0)
+
+        plt.bar(bins_idx, bins_int)
+        plt.tick_params(axis='x',
+                        which='both',
+                        bottom=False,
+                        top=False,
+                        labelbottom=False)
+        plt.ylabel('Average value')
+        plt.xlabel('Topic index')
+        plt.ylim([0, 1])
+        plt.title(ARGS.filename)
+        plt.savefig(ARGS.plot_topics)
+
+    return (doctopic, )
+
+
 def similarity_graph(doctopic):
     '''Compute the similarity graph using the Hellinger distance.'''
 
@@ -175,7 +197,7 @@ def hellinger_parallel(doctopic, res):
             res[row_j_idx, row_i_idx] = res_ij
 
 
-def plot(sim_graph):
+def plot_sim_graph(sim_graph):
     '''Plot the similarity graph.'''
 
     if ARGS.plot_sim is not None:
@@ -187,6 +209,7 @@ def plot(sim_graph):
         plt.savefig(ARGS.plot_sim)
 
     return (sim_graph, )
+
 
 # The execution starts here
 if __name__ == "__main__":
@@ -206,13 +229,16 @@ if __name__ == "__main__":
     PARSER.add_argument('--min_df', type=int, default=1,
                         help='Cut-off / minimum counter threshold')
     PARSER.add_argument('--plot_sim', type=str, default=None,
-                    help='Path where to plot the similarity graph')                 
+                        help='Path where to plot the similarity graph')
+    PARSER.add_argument('--plot_topics', type=str, default=None,
+                        help='Path where to plot the bar chart of topics importance')
     ARGS = PARSER.parse_args()
 
     nltk.download('stopwords')
 
     params = ()
-    STEPS = [prep_csv, parse_html, bow, hda, similarity_graph, plot]
+    STEPS = [prep_csv, parse_html, bow, hda, plot_topic_importance,
+             similarity_graph, plot_sim_graph]
     for step in STEPS:
         print('Running step', step.__name__)
 
