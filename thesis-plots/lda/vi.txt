@@ -1,0 +1,22 @@
+// README: run "sh generate.sh" to build this plot
+
+Digraph vd {
+	rankdir = LR;
+
+	subgraph cluster_M // box
+	{
+	    label = "M"
+
+	    θ [shape=circle];
+		𝛾 [shape=circle];
+		θ -> 𝛾
+
+	    subgraph cluster_N
+	    {
+		label = "N"
+		ɸ [shape=circle];
+		z [shape=circle]
+		ɸ->z;
+	    }
+	}
+}
