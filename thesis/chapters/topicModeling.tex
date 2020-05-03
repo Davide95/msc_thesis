@@ -105,7 +105,7 @@ Mathematically speaking, inference becomes a question of computing the posterior
 $$ p(\beta_{1:K}, \theta_{1:D}, z_{1:D} | w_{1:D}) = \frac{p(\beta_{1:K}, \theta_{1:D}, z_{1:D}, w_{1:D})}{p(w_{1:D})}$$
 which is the conditional distribution of the hidden variables given the documents.
 
-The denominator $p(w_{1:D})$ is the probability of observing the corpus under all possible topic model
+The denominator $p(w_{1:D})$ is the probability of observing the corpus under all possible topic model combinations
 and thus intractable to compute.
 For this reason in this section we approximate the posterior distribution through a variational method
 (see Appendix \ref{vi}).
