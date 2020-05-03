@@ -90,8 +90,9 @@ $$ p(w_{d,n} | z_{d,n}, \beta) = \beta_{z_{d,n},w_{d,n}} $$
 
 \begin{figure}[h]
     \centering
-    \subfigure{\includegraphics[width=0.5\textwidth]{images/lda.png}}
-    \caption{Graphical model of LDA. Nodes are random variables, shaded if observed. An edge denotes a possible dependence between random variables. Plates denotes multiplicity.}
+    \subfigure{\includegraphics[height=150px]{images/lda.png}}
+    \subfigure{\includegraphics[height=150px]{images/lda-vi.png}}
+    \caption{Graphical model representation of LDA (left) and graphical model representation of the variational distribution (right). Nodes are random variables, shaded if observed. An edge denotes a possible dependence between random variables. Plates denotes multiplicity.}
     \label{fig:lda}
 \end{figure}
 
@@ -111,6 +112,7 @@ For this reason in this section we approximate the posterior distribution throug
 (see Appendix \ref{vi}).
 In particular, we set $q$ as:
 $$ q(\theta, z) = q(\theta | \gamma) q(z | \phi) = \prod_d [q(\theta_d | \gamma_d) \prod_n q(z_{d,n} | \phi_{d,n})]$$
+Its graphical representation can be seen in Figure \ref{fig:lda}.
 
 The algorithm can be summarized as:
 \begin{enumerate}
@@ -121,16 +123,16 @@ The algorithm can be summarized as:
     \item The expectation of a given $\gamma$ for a particular document is its topic distribution
 \end{enumerate}
 
-The step 2 can be parallelized: each document has its own local variables which are conditionally indipendent 
-of the other local variables and data in different documents. 
+The step 2 can be parallelized: each document has its own local variables which are conditionally indipendent
+of the other local variables and data in different documents.
 
 \subsection{Sparsity considerations}
-Using the dirichlet governed by the $\alpha$ parameter to induce sparsity  
-allows us to have documents described by fewer topics than using an uninformative prior. 
-The same reasoning can be applied to topics, introducting a dirichlet that governs the 
-probability of having a topic with a particular set of terms. 
+Using the dirichlet governed by the $\alpha$ parameter to induce sparsity
+allows us to have documents described by fewer topics than using an uninformative prior.
+The same reasoning can be applied to topics, introducting a dirichlet that governs the
+probability of having a topic with a particular set of terms.
 
-Inducing sparsity combined with a number of topics much less than the number of documents 
+Inducing sparsity combined with a number of topics much less than the number of documents
 lower the risk of obtaining two different topics with a similar distribution of words.
 
 
