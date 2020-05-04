@@ -141,10 +141,12 @@ we intentionally present only an hasty description of the update algorithm:
     \item Loop to 2 until convergence
     \item The expectation of a given $\gamma$ for a particular document is its topic distribution
 \end{enumerate}
+The interested reader can find more details looking at Appendix A of \cite{DBLP:journals/jmlr/BleiNJ03}.
+
 Note that the step 2 can be parallelized: each document has its own local variables which are conditionally indipendent
 of the other local variables and data in different documents.
 
-The interested reader can find more details looking at Appendix A of \cite{DBLP:journals/jmlr/BleiNJ03}.
+Each row $d$ of the final document-topic matrix is the expectation of $q(\theta_d | \gamma_d)$ after the execution of the algorithm.
 
 \subsection{Sparsity considerations}
 Using the dirichlet governed by the $\alpha$ parameter to induce sparsity
