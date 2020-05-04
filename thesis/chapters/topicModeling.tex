@@ -50,13 +50,13 @@ An overview of this technique can be found at \cite{doi:10.1002/aris.1440380105}
 \end{figure}
 
 \section{Latent Dirichlet Allocation (LDA)}
-LDA makes the same assumptions about topics as LSA, but unlike the latter it views topics and documents in a probabilistic way.
-In particular, a document is a categorical distribution over topics $\theta_d$ and a topic is categorical distribution over words $\beta_i$.
-The probability of sampling a particular document is instead modeled as a dirichlet distribution $Dir(\alpha)$.
+LDA makes the same assumptions about topics as LSA but unlike the latter, it views topics and documents in a probabilistic way.
+In particular, a document is a categorical distribution over topics $\theta_d$ and a topic is a categorical distribution over words $\beta_i$.
+The probability of sampling a document is instead modelled as a Dirichlet distribution $Dir(\alpha)$.
 
-A major drawback of LDA is that the number of topics is assumed to be known a-priori and threated as an hyperparameter.
+A major drawback of LDA is that the number of topics is assumed to be known a-priori and treated as a hyperparameter.
 
-Variants of this model are present in the literature: in this chapter we use \cite{10.1145/2107736.2107741} and \cite{DBLP:journals/jmlr/BleiNJ03} as a reference.
+Variants of this model are present in the literature: in this chapter, we use \cite{10.1145/2107736.2107741} and \cite{DBLP:journals/jmlr/BleiNJ03} as a reference.
 
 \subsection{Generative process} \label{gp}
 In this section we describe LDA by its generative process, assuming we have already obtained the parameters of the model.
@@ -65,7 +65,7 @@ We define:
 \begin{itemize}
     \item $\beta_{1:K}$: $K$ topics, where each topic $\beta_i$ is a distribution over the terms in the vocabulary
     \item $\theta_d$: a document $d$ described as a categorical distribution over topics, where $\theta_{d,k}$ is the topic proportion for topic $k$ in document $d$
-    \item $w_{d}$: observed words of document $d$, where $w_{d,n}$ is the word in position $n$ of the document $d$
+    \item $w_{d}$: observed words of document $d$, where $w_{d,n}$ is the word in position $n$ of document $d$
 \end{itemize}
 
 The generation of $M$ documents with $N$ words each can be summarized as:
@@ -78,7 +78,7 @@ The generation of $M$ documents with $N$ words each can be summarized as:
     \item loop $M$ times to step 1
 \end{enumerate}
 
-LDA can be seen as a probabilistic graphical model and it is represented graphically in Figure \ref{fig:lda}.
+LDA is a probabilistic graphical model and it is represented graphically in Figure \ref{fig:lda}.
 
 The joint distribution is:
 \begin{equation*}
@@ -97,7 +97,7 @@ $$ p(w_{d,n} | z_{d,n}, \beta) = \beta_{z_{d,n},w_{d,n}} $$
     \centering
     \subfigure{\includegraphics[height=150px]{images/lda.png}}
     \subfigure{\includegraphics[height=150px]{images/lda-vi.png}}
-    \caption{Graphical model representation of LDA (left) and graphical model representation of the variational distribution (right). Nodes are random variables, shaded if observed. An edge denotes a possible dependence between random variables. Plates denotes multiplicity.}
+    \caption{Graphical model representation of LDA (left) and graphical model representation of the variational distribution (right). Nodes are random variables, shaded if observed. An edge denotes a dependence between two random variables. Plates denote multiplicity.}
     \label{fig:lda}
 \end{figure}
 
@@ -105,15 +105,14 @@ $$ p(w_{d,n} | z_{d,n}, \beta) = \beta_{z_{d,n},w_{d,n}} $$
 The goal of LDA is to automatically discover topics over a collection of documents.
 Since only words are observed, topics are considered latent variables.
 
-Note that inference in this particular case can be seen as the reverse of the generative process explained in \ref{gp}.
+Note that inference in this case can be seen as the reverse of the generative process explained in Chapter \ref{gp}.
 
 Mathematically speaking, inference becomes a question of computing the posterior distribution:
 $$ p(\theta, z | w, \alpha, \beta) = \frac{p(\theta, z, w | \alpha, \beta)}{p(w| \alpha, \beta)}$$
-which is the conditional distribution of the hidden variables given the documents.
 
 The denominator $p(w_{1:D} | \alpha, \beta)$ is the probability of observing the corpus under all possible topic model combinations
 and thus intractable to compute.
-For this reason in this section we approximate the posterior distribution through a variational method
+For this reason, in this section we approximate the posterior distribution through a variational method
 (see Appendix \ref{vi}).
 In particular, we set $q$ as:
 \begin{equation*}
@@ -127,34 +126,33 @@ Its graphical representation can be seen in Figure \ref{fig:lda}.
 
 To do model inference from a collection of documents, we start defining the ELBO function:
 \begin{equation*}
-    \sum_d log_2 [p_d(w | \alpha, \beta)] \geq \sum_d \E_{q_d} log_2[p_d(w, \theta, z | \alpha, \beta)] - \E_{q_d} log_2[q_d(\theta, z | \gamma, \phi)]
+    \sum_d log_2 [p_d(w | \alpha, \beta)] \geq \sum_d \E_{q_d} \{ log_2[p_d(w, \theta, z | \alpha, \beta)] - log_2[q_d(\theta, z | \gamma, \phi)] \}
 \end{equation*}
 
 Since constrained maximization and
-the Newton-Raphson algorithm are required to solve the problem
+the Newton-Raphson algorithm are needed to solve the problem
 instead of traditional variational inference,
-we intentionally present only an hasty description of the update algorithm:
+we intentionally present only a hasty description of the update algorithm:
 \begin{enumerate}
-    \item Initialize $\beta$ randomly, set each $\phi_{d,n}$ as $\frac{1}{K}$ and each $\gamma_d$ as $\alpha_d + \frac{N}{K}$
-    \item For each document, update the local latent variables $\gamma$ and $\phi$ until convergence
-    \item Update the global latent variables $\beta$ and $\alpha$ for the entire corpus until convergence
-    \item Loop to 2 until convergence
-    \item The expectation of a given $\gamma$ for a particular document is its topic distribution
+    \item initialize $\beta$ randomly, set each $\phi_{d,n}$ as $\frac{1}{K}$ and each $\gamma_d$ as $\alpha_d + \frac{N}{K}$
+    \item for each document, update the local latent variables $\gamma$ and $\phi$ until convergence
+    \item update the global latent variables $\beta$ and $\alpha$ for the entire corpus until convergence
+    \item loop to 2 until convergence
 \end{enumerate}
 The interested reader can find more details looking at Appendix A of \cite{DBLP:journals/jmlr/BleiNJ03}.
 
-Note that the step 2 can be parallelized: each document has its own local variables which are conditionally indipendent
+Note that step 2 can be parallelized: each document has its local variables that are conditionally independent
 of the other local variables and data in different documents.
 
-Each row $d$ of the final document-topic matrix is the expectation of $q(\theta_d | \gamma_d)$ after the execution of the algorithm.
+After the execution of the algorithm, each row $d$ of the final document-topic matrix can be obtained using the Maximum Likelihood Estimation method over $q(\theta_d | \gamma_d)$.
 
 \subsection{Sparsity considerations}
-Using the dirichlet governed by the $\alpha$ parameter to induce sparsity
+Using the Dirichlet governed by the $\alpha$ parameter to induce sparsity
 allows us to have documents described by fewer topics than using an uninformative prior.
-The same reasoning can be applied to topics, introducting a dirichlet that governs the
+The same reasoning can be applied to topics, introducing a Dirichlet that governs the
 probability of having a topic with a particular set of terms.
 
-Inducing sparsity combined with a number of topics much less than the number of documents
+Inducing sparsity combined with the number of topics much less than the number of documents
 lower the risk of obtaining two different topics with a similar distribution of words.
 
 
