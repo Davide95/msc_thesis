@@ -11,16 +11,16 @@
 \usepackage{amsmath}
 \usepackage{mathtools}
 \usepackage{float}
-\usepackage{listings}
 \usepackage{amssymb}
 \usepackage{multicol}
 \usepackage{dirtytalk}
 \usepackage{subfigure}
 \usepackage{bbold}
+\usepackage{minted}
 
-\AtBeginDocument{\counterwithin{lstlisting}{section}}
+\setminted{frame=lines, linenos}
+
 \DeclareMathOperator*{\E}{\mathbb{E}}
-\lstset{basicstyle=\small, numbers=left, frame=shadowbox, breaklines}
 \setlist[itemize]{topsep=0pt}
 \setlist[enumerate]{topsep=0pt, itemsep=0pt}
 

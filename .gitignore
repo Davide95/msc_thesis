@@ -157,3 +157,7 @@ thesis/*/*.aux
 *.synctex.gz
 *.synctex.gz(busy)
 *.pdfsync
+
+# Minted
+*.pygtex
+*.pygstyle
