@@ -14,7 +14,7 @@ In this appendix, we cover the ones which are used in the thesis.
 
 \section{Kullback–Leibler divergence}
 Given two probability distributions $p(x)$ and $q(x)$, we define the KL divergence as:
-$$ \mathit{KL}(p \| q) = \int_x p(x) \log_2 \frac{p(x)}{q(x)} = \E_{X \sim p}{[\log_2 \frac{p(x)}{q(x)}]}$$
+$$ \mathit{KL}(p \| q) = \int_x p(x) \log_2 \frac{p(x)}{q(x)} = \E_p{[\log_2 \frac{p(x)}{q(x)}]}$$
 
 If the two distributions are discrete, it can be rewritten as:
 $$ \mathit{KL}(p \| q) = \sum_i p(i) \log_2 \frac{p(i)}{q(i)}$$
