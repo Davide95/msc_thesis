@@ -129,6 +129,11 @@ To do model inference from a collection of documents, we start defining the ELBO
     \sum_d log_2 [p_d(w | \alpha, \beta)] \geq \sum_d \E_{q_d} \{ log_2[p_d(w, \theta, z | \alpha, \beta)] - log_2[q_d(\theta, z | \gamma, \phi)] \}
 \end{equation*}
 
+First, we fix $\alpha$ and $\beta$ to find the best $q(\theta, z | \gamma, \phi)$ that minimizes the KL-divergence between $q$ and $p$.
+Then, we fix $(\theta, z | \gamma, \phi)$ to find the best $\alpha$ and $\beta$ that maximize the lower bound.
+This process, if done iteratively, converges to a local optimum.
+In the literature, it is called expectation-maximization (EM).
+
 Since constrained maximization and
 the Newton-Raphson algorithm are needed to solve the problem
 instead of traditional variational inference,
@@ -139,6 +144,15 @@ we intentionally present only a hasty description of the update algorithm:
     \item update the global latent variables $\beta$ and $\alpha$ for the entire corpus until convergence
     \item loop to 2 until convergence
 \end{enumerate}
+
+The updates are affected by:
+\begin{itemize}
+    \item $\phi_{d,n,k} \propto \beta_{k, w_n} e^{\Psi(\gamma_{d,k}) - \sum_j^K \Psi(\gamma_{d,j})}$, where $\Psi$ is the first derivative of the logarithm of the gamma function
+    \item $\gamma_{d,k} = \alpha_k + \sum_n \phi_{d,n,k}$
+    \item $\beta_{k,j} \propto \sum_d \sum_n \mathbb{1}_{[w_{d,n} == j]} \phi_{d,n,k}$
+    \item $\frac{\partial \mathit{ELBO}}{ \partial \alpha_k} = \sum_d [ \Psi(\sum_j^K \alpha_j) - \Psi(\alpha_k) + \Psi(\gamma_{d,k}) - \Psi(\sum_j^K \gamma_{d,j})]$
+\end{itemize}
+
 The interested reader can find more details looking at Appendix A of \cite{DBLP:journals/jmlr/BleiNJ03}.
 
 Note that step 2 can be parallelized: each document has its local variables that are conditionally independent
