@@ -101,7 +101,7 @@ $$ p(w_{d,n} | z_{d,n}, \beta) = \beta_{z_{d,n},w_{d,n}} $$
     \label{fig:lda}
 \end{figure}
 
-\subsection{Model inference}
+\subsection{Model inference} \label{modelinference}
 The goal of LDA is to automatically discover topics over a collection of documents.
 Since only words are observed, topics are considered latent variables.
 
@@ -126,7 +126,7 @@ Its graphical representation can be seen in Figure \ref{fig:lda}.
 
 To do model inference from a collection of documents, we start defining the ELBO function:
 \begin{equation*}
-    \sum_d log_2 [p_d(w | \alpha, \beta)] \geq \sum_d \E_{q_d} \{ log_2[p_d(w, \theta, z | \alpha, \beta)] - log_2[q_d(\theta, z | \gamma, \phi)] \}
+    \ln[\prod_d p_d(w | \alpha, \beta)] = \sum_d \ln [p_d(w | \alpha, \beta)] \geq \sum_d \E_{q_d} \{ \ln[p_d(w, \theta, z | \alpha, \beta)] - \ln[q_d(\theta, z | \gamma, \phi)] \}
 \end{equation*}
 
 First, we fix $\alpha$ and $\beta$ to find the best $q(\theta, z | \gamma, \phi)$ that minimizes the KL-divergence between $q$ and $p$.
@@ -160,7 +160,7 @@ of the other local variables and data in different documents.
 
 After the execution of the algorithm, each row $d$ of the final document-topic matrix can be obtained using the Maximum Likelihood Estimation method over $q(\theta_d | \gamma_d)$.
 
-\subsection{Sparsity considerations}
+\subsection{Sparsity considerations} \label{sparsity_lda}
 Using the Dirichlet governed by the $\alpha$ parameter to induce sparsity
 allows us to have documents described by fewer topics than using an uninformative prior.
 The same reasoning can be applied to topics, introducing a Dirichlet that governs the
@@ -173,6 +173,52 @@ lower the risk of obtaining two different topics with a similar distribution of 
 \section{Online LDA}
 A major drawback of LDA is the impossibility to scale as the data grows:
 each iteration of the algorithm requires an entire scan of the corpus, which is computationally expensive.
+
+For this reason, \cite{NIPS2010_3902} proposed an online learning variation based on the original LDA model.
+This algorithm called online LDA do not need to store all documents toghether,
+but they can arrive in a stream and be discarded after one look.
+
+The main difference between the graphical model presented in Chapter \ref{modelinference} and this one
+is that the latter assumes each $\beta_k$ sampled from a Dirichlet distribution as presented in Chapter \ref{sparsity_lda}:
+\begin{equation}
+    \beta_k \sim Dir(\eta)
+\end{equation}
+For this reason, $q$ becomes:
+\begin{equation*}
+    \begin{split}
+        q(\beta, \theta, z| \lambda, \gamma, \phi) & = [\prod_k q_k(\beta | \lambda)] [\prod_d q_d(\theta, z | \gamma, \phi)] \\
+        & = [\prod_k q(\beta_k | \lambda_k)] [\prod_d q_d(\theta | \gamma) q_d(z | \phi)] \\
+        & = [\prod_k q(\beta_k | \lambda_k)] \{\prod_d [q(\theta_d | \gamma_d) \prod_n q(z_{d,n} | \phi_{d,n})]\}
+    \end{split}
+\end{equation*}
+Due to that change, the ELBO is now:
+\begin{equation*}
+    \ln [p(w | \alpha, \eta)] \geq \E_q\{ \ln [p(w, z, \theta, \beta | \alpha, \eta)] - \ln[q(z, \theta, \beta | \gamma, \phi, \lambda)] \}
+\end{equation*}
+If we have $M$ documents, the ELBO can be factorized as:
+\begin{equation*}
+    \begin{split}
+        \{\sum_{d=1}^M \E_{q} [ \ln p_d(w | \theta, z, \beta) + \ln p_d(z | \theta) & - \ln q_d(z | \phi) + \ln p_d(\theta | \alpha) - \ln q_d(\theta | \gamma)]\} \\
+        & + \E_q[\ln p(\beta | \eta) - \ln q(\beta | \lambda)] = \\
+        \{\sum_{d=1}^M \E_{q} [ \ln p_d(w | \theta, z, \beta) + \ln p_d(z | \theta) & - \ln q_d(z | \phi) + \ln p_d(\theta | \alpha) - \ln q_d(\theta | \gamma)] \\
+        & + [\ln p(\beta | \eta) - \ln q(\beta | \lambda)]/M \} \\
+    \end{split}
+\end{equation*}
+
+Similar to LDA, we could maximize the lower bound using coordinate ascent over the variational parameters.
+As for LDA, it requires a full pass through the entire corpus at each iteration.
+
+To fix this issue, we load documents in batches. For each batch $t \in \{1,2,\dots,T\}$, we compute the local parameters $\phi_t$ and $\gamma_t$, holding $\lambda$ fixed.
+Then, we compute an estimate of $\lambda$ related to that batch that we call $\tilde{\lambda_t}$.
+Lambda is finally updated as a weighted average between its previous value and $\tilde{\lambda_t}$:
+\begin{equation*}
+    \lambda = (1 - \rho_t) \lambda + \rho_t \tilde{\lambda_t}, \, \rho_t = (\tau_0 + t)^{-k}
+\end{equation*}
+$\rho_t$ controls the importance of old values given the new ones. In particular:
+\begin{itemize}
+    \item increasing the value of $\tau_0 \geq 0$ slows down the initial updates
+    \item $k \in (0.5, 1]$ controls the rate at which old information is forgotten
+\end{itemize}
 
 \section{Hierarchical Dirichlet Process (HDP)}
 HDA was proposed in \cite{DBLP:journals/jmlr/WangPB11} to overcome the problem of choosing the number of topics in LDA and derived methods.
