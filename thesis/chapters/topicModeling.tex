@@ -235,6 +235,8 @@ The updates are affected by:
     \item $\tilde{\eta}_t = [\mathit{Hess}^{-1}(l)] [\nabla_{\eta} l]$
 \end{itemize}
 
+Note that if the batch size $|S|$ is equal to one, the algorithm becomes online.
+
 After the execution of the algorithm, each row $d$ of the final document-topic matrix
 can be obtained using the Maximum Likelihood Estimation method over $q(\theta_d | \gamma_d)$.
 The same reasoning can be applied for topics, using MLE over $q(\beta_k | \lambda_k)$.
