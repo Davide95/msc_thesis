@@ -30,8 +30,8 @@ To do so, we start by computing $p(x)$:
 
 The Jensen's inequality says that if a function $f$ is concave, $f(\E[x]) \geq \E[f(x)]$.
 Since the logarithm is a concave function, we can state that:
-$$ \ln[\E_q \frac{p(x,z)}{q(z | v)}] \geq \E_q \ln[\frac{p(x,z)}{q(z | v)}] $$
-$$ \ln[\E_q \frac{p(x,z)}{q(z | v)}] \geq \E_q \ln[p(x,z)] - \E_q \ln[q(z | v)] $$
+\[ \ln[\E_q \frac{p(x,z)}{q(z | v)}] \geq \E_q \ln[\frac{p(x,z)}{q(z | v)}] \]
+\[ \ln[\E_q \frac{p(x,z)}{q(z | v)}] \geq \E_q \ln[p(x,z)] - \E_q \ln[q(z | v)] \]
 
 Given that $ \displaystyle \E_q \{\ln[p(x,z)] - \ln[q(z | v)]\} = - E_q \{ \ln[p(x,z)] -\ln[q(z | v)]) \}$
 and the fact that $\ln[p(x)]$ is a constant that does not depend on $q$,
@@ -41,7 +41,7 @@ From now, we refer to this lower bound as ELBO.
 \section{Mean field variational inference}
 In order to have a tractable problem, these distributions must have the characteristic
 of removing the mutual dependence between the hidden variables:
-$$ q(z_1, ..., z_m| v) = \prod_{j=1}^m q(z_j | v_j) $$
+\[ q(z_1, ..., z_m| v) = \prod_{j=1}^m q(z_j | v_j) \]
 
 Since we want to maximize ELBO,
 the final step for obtaining a solution is to take the partial derivatives of it and set them equal to zero.

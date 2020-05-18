@@ -20,7 +20,7 @@ it can lead to a local minimum;
 values too big prevent convergence.
 
 The final equation is:
-$$ w_{i+1} = w_{i} - \lambda \nabla f(w_i) $$
+\[ w_{i+1} = w_{i} - \lambda \nabla f(w_i) \]
 
 Each step is run iteratively until a stopping criterion is met.
 If the algorithm is stopped after $I$ iterations, the solution
@@ -33,7 +33,7 @@ Common sense stopping criterions could be:
 \end{itemize}
 
 Note that the parameter $\lambda$ could be different at each iteration:
-$$ w_{i+1} = w_{i} - \lambda_{i+1} \nabla f(w_i) $$
+\[ w_{i+1} = w_{i} - \lambda_{i+1} \nabla f(w_i) \]
 For instance, we could have $\lambda_i = \frac{\lambda}{i}$ in order to take
 smaller and smaller steps until convergence.
 
@@ -41,13 +41,13 @@ smaller and smaller steps until convergence.
 Suppose to have a dataset $X \in \mathbb{R}^{N \times D}, y \in \mathbb{R}^N$.
 
 What we want to do is linear regression, whose model is obtained resolving:
-$$\displaystyle \min_{w \in \mathbb{R}^D} \frac{1}{2N} \sum_{i \in [1, N]} (w^T x_i - y_i)^2$$
+\[\displaystyle \min_{w \in \mathbb{R}^D} \frac{1}{2N} \sum_{i \in [1, N]} (w^T x_i - y_i)^2\]
 
 The derivative  $\frac{1}{2N} \sum_i (w^T x_i - y_i)^2 dw$ is:
-$$\frac{1}{2N} \sum_{i \in [1, N]} 2 x_i(w^T x_i - y_i) = \frac{\sum_{i \in [1, N]} x_i(w^T x_i - y_i)}{N}$$
+\[\frac{1}{2N} \sum_{i \in [1, N]} 2 x_i(w^T x_i - y_i) = \frac{\sum_{i \in [1, N]} x_i(w^T x_i - y_i)}{N}\]
 
 Therefore:
-$$ w_{n+1} = w_n - \frac{\lambda}{N} \sum_{i \in [1, N]} x_i(w_i^T x_i - y_i) $$
+\[ w_{n+1} = w_n - \frac{\lambda}{N} \sum_{i \in [1, N]} x_i(w_i^T x_i - y_i) \]
 
 
 \section{Mini-batch gradient descent}
@@ -60,7 +60,7 @@ samples of $|M|$ elements of the dataset are a noisy representative of the entir
 At each step, $M$ will be re-sampled from $X$.
 
 In that case, the minimization presented in Section \ref{gradesc} can be rewritten as:
-$$\displaystyle \min_{w \in \mathbb{R}^D} \frac{1}{2|M|} \sum_{x_i \in M} (w^T x_i - y_i)^2 $$
+\[\displaystyle \min_{w \in \mathbb{R}^D} \frac{1}{2|M|} \sum_{x_i \in M} (w^T x_i - y_i)^2 \]
 
 \section{Linear Neural Networks}
 The linear regression exposed in Section \ref{gradesc} can be viewed as a Neural Network
@@ -70,9 +70,9 @@ The graphical representation of it can be seen in Figure \ref{fig:nn-linear}.
 
 The vector $w$ is simply the set of all weights.
 Starting from the equation presented in Section \ref{gradesc}:
-$$ w_{n+1} = w_n - \frac{\lambda}{N} \sum_{i \in [1, N]} x_i(w^T x_i - y_i) $$
+\[ w_{n+1} = w_n - \frac{\lambda}{N} \sum_{i \in [1, N]} x_i(w^T x_i - y_i) \]
 each weight $w_i$ can be parallelly updated:
-$$ w_{(n+1)j} = w_{nj} -  \frac{\lambda}{N} \sum_{i \in [1, N]} x_{ij}(w^T x_i - y_i) $$
+\[ w_{(n+1)j} = w_{nj} -  \frac{\lambda}{N} \sum_{i \in [1, N]} x_{ij}(w^T x_i - y_i) \]
 
 In this example, the cost function is the square loss, but there is not any particular requirement when
 dealing with Neural Networks.
@@ -88,24 +88,24 @@ dealing with Neural Networks.
 In each node, a non-linear function could be applied at the data before moving the output to the next layer.
 For the sake of simplicity, we are going to present a model similar to the previous one,
 with the difference that a $\tanh(\cdot)$ function is applied to the output node:
-$$ \displaystyle \min_{w \in \mathbb{R}^D} \frac{1}{2N} \sum_{i \in [1, N]} [\tanh(w^T x_i) - y_i]^2 $$
+\[ \displaystyle \min_{w \in \mathbb{R}^D} \frac{1}{2N} \sum_{i \in [1, N]} [\tanh(w^T x_i) - y_i]^2 \]
 
 To resolve it with gradient descent, we have to apply the chain rule.
 Since $\tanh(z) dz = 1 - tanh^2(z)$:
-$$ \frac{1}{2N} \sum_{i \in [1, N]} [\tanh(w^T x_i) - y_i]^2 dw =
-    \frac{1}{2N} \cdot \sum_{i \in [1, N]} 2[\tanh(w^T x_i) - y_i] \cdot [1 - tanh^2(w^T x_i)] \cdot x_i $$
-$$ w_{n+1} = w_n -
-    \frac{\lambda}{N} \sum_{i \in [1, N]} [\tanh(w^T x_i) - y_i] [1 - tanh^2(w^T x_i)] x_i $$
+\[ \frac{1}{2N} \sum_{i \in [1, N]} [\tanh(w^T x_i) - y_i]^2 dw =
+    \frac{1}{2N} \cdot \sum_{i \in [1, N]} 2[\tanh(w^T x_i) - y_i] \cdot [1 - tanh^2(w^T x_i)] \cdot x_i \]
+\[ w_{n+1} = w_n -
+    \frac{\lambda}{N} \sum_{i \in [1, N]} [\tanh(w^T x_i) - y_i] [1 - tanh^2(w^T x_i)] x_i \]
 
 Other activation functions can be used instead of $\tanh(\cdot)$.
 The one used in the models presented in Chapter \ref{wordemb} is the softmax
 $\sigma(z), z \in \mathbb{R}^V$:
-$$\sigma(z, j) =  \frac{e^{z_i}}{\sum_j e^{z_j}}$$
-$$ \sigma(z) =
+\[\sigma(z, j) =  \frac{e^{z_i}}{\sum_j e^{z_j}}\]
+\[ \sigma(z) =
     \begin{bmatrix}
         \sigma(z, 1) \\ \sigma(z, 2) \\ ... \\ \sigma(z, V)
     \end{bmatrix}
-$$
+\]
 
 \section{Multilayer Neural Networks}
 Adding intermediate layers (usually called hidden layers in the literature)
@@ -119,9 +119,9 @@ As an example, construct a model with the following characteristics:
 \end{itemize}
 Its graphical representation can be seen in Figure \ref{fig:nn-multi}
 and the relative minimization function is:
-$$ \displaystyle \min_{M, w} \frac{1}{2N} \sum_{i \in [1, N]} [ w^T (x_i M) - y_i ]^2
+\[ \displaystyle \min_{M, w} \frac{1}{2N} \sum_{i \in [1, N]} [ w^T (x_i M) - y_i ]^2
     \ \text{with} \
-    M \in \mathbb{R}^{2 \times 2}, w \in \mathbb{R}^{2}$$
+    M \in \mathbb{R}^{2 \times 2}, w \in \mathbb{R}^{2}\]
 which is again linear regression but more computationally expensive.
 
 On the opposite, stacking more layers while using a non-linear activation function
@@ -137,7 +137,7 @@ leads to an enriched hypothesis space. Learning weights in a Deep Neural Network
 
 \subsection{Chain rule}
 The chain rule states that given $\hat{y} = f(g(x))$ its derivative is:
-$$ \frac{d\hat{y}}{dx} = \frac{f(g)}{dg} \cdot \frac{g(x)}{dx} $$
+\[ \frac{d\hat{y}}{dx} = \frac{f(g)}{dg} \cdot \frac{g(x)}{dx} \]
 
 That formula can be seen as a Neural Network with one node as input, one as output and one in the hidden layer.
 Its graphical representation can be viewed in Figure \ref{fig:nn-chain}.
@@ -161,8 +161,8 @@ This network has weights $M \in \mathbb{R}^{D \times J}$ between the first and t
 and weights $w \in \mathbb{R}^{J} $ connecting the second layer to the third.
 
 The minimization function is
-$$\displaystyle \min_{M, w} \frac{1}{2} \sum_{i \in [1, N]} E(X, y)_i =
-    \min_{M, w} \frac{1}{2} \sum_{i \in [1, N]} \{ \tanh[w^T \tanh(X_i M)] - y_i\}^2 $$
+\[\displaystyle \min_{M, w} \frac{1}{2} \sum_{i \in [1, N]} E(X, y)_i =
+    \min_{M, w} \frac{1}{2} \sum_{i \in [1, N]} \{ \tanh[w^T \tanh(X_i M)] - y_i\}^2 \]
 
 The final goal is to obtain:
 \begin{multicols}{2}
@@ -178,11 +178,11 @@ Moreover, the intermediate result $\tanh(M X_i)$ is denoted as $h_i$ and the sym
 To compute the partial derivatives, we can start from the output layer and then use the intermediate calculations to compute
 the partial derivatives of the previous layers.
 In particular:
-$$ \frac{dE_i}{dy_i} = \frac{1}{2} \cdot 2 \{ \tanh[w^T \tanh(M X_i)] - y_i\} = \tanh(w^T h_i) - y_i $$
-$$ \frac{dE_i}{dw} = \frac{dE_i}{dy_i} \frac{dy_i}{dw} = \frac{dE_i}{dy_i} \{1 - \tanh^2[w^T \tanh(M X_i)]\} \tanh(X_i M) $$
-$$ \frac{dE_i}{dh_i} = \frac{dE_i}{dy_i} \frac{dy_i}{dh_i} = \frac{dE_i}{dy_i} \{1 - \tanh^2[w^T \tanh(M X_i)]\} w $$
+\[ \frac{dE_i}{dy_i} = \frac{1}{2} \cdot 2 \{ \tanh[w^T \tanh(M X_i)] - y_i\} = \tanh(w^T h_i) - y_i \]
+\[ \frac{dE_i}{dw} = \frac{dE_i}{dy_i} \frac{dy_i}{dw} = \frac{dE_i}{dy_i} \{1 - \tanh^2[w^T \tanh(M X_i)]\} \tanh(X_i M) \]
+\[ \frac{dE_i}{dh_i} = \frac{dE_i}{dy_i} \frac{dy_i}{dh_i} = \frac{dE_i}{dy_i} \{1 - \tanh^2[w^T \tanh(M X_i)]\} w \]
 
-$$ \frac{dE_i}{dM_{dj}} = [\frac{dE_i}{dh_i} \circ \{\mathbb{1} - \tanh^2(X_i M)]\}_j X_{id}$$
+\[ \frac{dE_i}{dM_{dj}} = [\frac{dE_i}{dh_i} \circ \{\mathbb{1} - \tanh^2(X_i M)]\}_j X_{id} \]
 
 The power of this technique is that it is possible to re-use values calculated for a particular partial derivative to lower the computational cost of computing the others.
 

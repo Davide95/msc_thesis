@@ -14,10 +14,10 @@ In this appendix, we cover the ones which are used in the thesis.
 
 \section{Kullback–Leibler divergence}
 Given two probability distributions $p(x)$ and $q(x)$, we define the KL divergence as:
-$$ \mathit{KL}(p \| q) = \int_x p(x) \log_2 \frac{p(x)}{q(x)} = \E_p{[\log_2 \frac{p(x)}{q(x)}]}$$
+\[ \mathit{KL}(p \| q) = \int_x p(x) \log_2 \frac{p(x)}{q(x)} = \E_p{[\log_2 \frac{p(x)}{q(x)}]}\]
 
 If the two distributions are discrete, it can be rewritten as:
-$$ \mathit{KL}(p \| q) = \sum_i p(i) \log_2 \frac{p(i)}{q(i)}$$
+\[ \mathit{KL}(p \| q) = \sum_i p(i) \log_2 \frac{p(i)}{q(i)}\]
 
 Suppose we have two Categorical distributions $c_1$ and $c_2$ with parameters $p_{c_1}$ = $(0.1, 0.2, 0.7)$ and $p_{c_2}$ = $(0.3, 0.5, 0.2)$, respectively.
 
@@ -42,7 +42,7 @@ The Hellinger distance has some advantages over the Kullback–Leibler divergenc
 \end{itemize}
 
 Given two discrete probability distributions $p$ and $q$, the Hellinger distance is defined as:
-$$\mathit{HD}(p, q) = \mathit{HD}(q, p) = \frac{1}{\sqrt{2}} \sqrt{\sum_i (\sqrt{p(i)} - \sqrt{q(i)})^2}$$
+\[\mathit{HD}(p, q) = \mathit{HD}(q, p) = \frac{1}{\sqrt{2}} \sqrt{\sum_i (\sqrt{p(i)} - \sqrt{q(i)})^2}\]
 Note that in the literature the Hellinger distance is defined in different ways (e.g. with or without $\frac{1}{\sqrt{2}}$).
 
 \section{References}

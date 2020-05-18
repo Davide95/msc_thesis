@@ -22,7 +22,7 @@ intensity on words related to animals; see Figure \ref{fig:topicmat} for an exam
 Given the number of topics $V$ as an hyperparameter,
 Truncated SVD is applied to the matrix obtained in the first step
 (see Figure \ref{fig:svd} for a graphical representation):
-$$X_{N \times K} = U_{N \times V} \Sigma_{V \times V} D_{K \times V}^T$$
+\[X_{N \times K} = U_{N \times V} \Sigma_{V \times V} D_{K \times V}^T\]
 
 The matrix $U$ is then used as the document-topic matrix,
 while $D$ represents the term-topic matrix.
@@ -89,9 +89,9 @@ The joint distribution is:
 \end{equation*}
 
 Given the distributions explained before, we can state that:
-$$ p(\theta_d | \alpha) = \frac{1}{B(\alpha)} \prod_{k=1}^K \theta_{d,k}^{\alpha_k - 1}$$
-$$ p(z_{d,n} | \theta_d) = \theta_{d, z_{d,n}} $$
-$$ p(w_{d,n} | z_{d,n}, \beta) = \beta_{z_{d,n},w_{d,n}} $$
+\[ p(\theta_d | \alpha) = \frac{1}{B(\alpha)} \prod_{k=1}^K \theta_{d,k}^{\alpha_k - 1} \]
+\[ p(z_{d,n} | \theta_d) = \theta_{d, z_{d,n}} \]
+\[ p(w_{d,n} | z_{d,n}, \beta) = \beta_{z_{d,n},w_{d,n}} \]
 
 \begin{figure}[h]
     \centering
@@ -108,7 +108,7 @@ Since only words are observed, topics are considered latent variables.
 Note that inference in this case can be seen as the reverse of the generative process explained in Chapter \ref{gp}.
 
 Mathematically speaking, inference becomes a question of computing the posterior distribution:
-$$ p(\theta, z | w, \alpha, \beta) = \frac{p(\theta, z, w | \alpha, \beta)}{p(w| \alpha, \beta)}$$
+\[ p(\theta, z | w, \alpha, \beta) = \frac{p(\theta, z, w | \alpha, \beta)}{p(w| \alpha, \beta)} \]
 
 The denominator $p(w_{1:D} | \alpha, \beta)$ is the probability of observing the corpus under all possible topic model combinations
 and thus intractable to compute.

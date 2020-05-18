@@ -22,7 +22,7 @@ Due to its characteristics, it is suited to model probabilistic outcomes (for ex
 
 \subsection{Probability density function}
 Given a random variable $X \sim \mathit{Beta}(\alpha, \beta)$, the probability density function is defined as:
-$$f_X(x) = \frac{1}{B(\alpha, \beta)}x^{\alpha - 1}(1-x)^{\beta - 1}$$
+\[f_X(x) = \frac{1}{B(\alpha, \beta)}x^{\alpha - 1}(1-x)^{\beta - 1}\]
 $\mathit{Beta}(\alpha, \beta)$ is the Beta function and it acts as a normalization constant to ensure that $\int_0^1 f_X(x) dx = 1$.
 
 \section{Dirichlet distribution}
@@ -35,12 +35,12 @@ All considerations and constraints about the parameters of the Beta distribution
 \subsection{Probability density function}
 Given a multivariate random variable $X \sim \mathit{Dir}(\alpha_1, \alpha_2, \dots, \alpha_K)$, the probability density function is defined as:
 
-$$f_{X}(x_1, x_2, \dots, x_K; \alpha_1, \alpha_2, \dots, \alpha_K) = \frac{1}{B(\alpha_1, \alpha_2, \dots, \alpha_K)} \prod_{i=1}^{K} x_i^{\alpha_i - 1}$$
+\[f_{X}(x_1, x_2, \dots, x_K; \alpha_1, \alpha_2, \dots, \alpha_K) = \frac{1}{B(\alpha_1, \alpha_2, \dots, \alpha_K)} \prod_{i=1}^{K} x_i^{\alpha_i - 1}\]
 
 $\mathit{Beta}(\alpha_1, \alpha_2, \dots, \alpha_K)$ is the multivariate generalization of the Beta function presented in Section \ref{betad}.
 
 Setting $\mathit{Dir}(\alpha) \coloneqq \mathit{Dir}(\alpha_1, \alpha_2, \dots, \alpha_n)$, a simplified notation of the probability density function is used:
-$$f_{x}(x_1, x_2, \dots, x_K; \alpha) = \frac{1}{B(\alpha)} \prod_{i=1}^{K} x_i^{\alpha - 1}$$
+\[f_{x}(x_1, x_2, \dots, x_K; \alpha) = \frac{1}{B(\alpha)} \prod_{i=1}^{K} x_i^{\alpha - 1}\]
 
 The support is constrained by:
 \begin{itemize}
@@ -86,7 +86,7 @@ Each $p_i$ of the parameter $p = (p_1, p_2, \dots, p_K)$ represents the probabil
 
 \subsection{Probability mass function}
 Given a random variable $X \in \mathit{Mult}(p)$, the probability mass function is defined as:
-$$P(x == i) = p_i$$
+\[P(x == i) = p_i\]
 
 \section{References}
 The interested reader may refer to \cite{Gupta2011}, \cite{DBLP:journals/jmlr/BleiNJ03} and \cite{Seber2011} to use them as references.

@@ -157,7 +157,7 @@ in order to have vectors $u_i, v_j \in \mathbb{R}^V$ that have a high dot produc
 appear frequently together and vice versa.
 
 We then apply the logarithm to $X_{ij}$:
-$$ \displaystyle \min_{u,v} \sum_{i,j} (u_i^T v_j - log_2(X_{ij}))^2$$
+\[ \displaystyle \min_{u,v} \sum_{i,j} (u_i^T v_j - log_2(X_{ij}))^2 \]
 In this way, we lower the gap between frequent terms and rare ones.
 
 The huge problem with this model is that all terms are weighted in the same way,
@@ -172,7 +172,7 @@ To avoid this drawback, we introduce a weighting function $f(X_{ij})$ with the f
 An illustration of a valid $f(X_{ij})$ can be viewed in Picture \ref{fig:glovef}.
 
 After this addition, the minimization problem becomes:
-$$ \displaystyle \min_{u,v} \sum_{i,j} f(X_{ij}) [u_i^T v_j - \log_2(X_{ij})]^2 $$
+\[ \displaystyle \min_{u,v} \sum_{i,j} f(X_{ij}) [u_i^T v_j - \log_2(X_{ij})]^2 \]
 
 Consider that even the summation is over all combinations of terms,
 the matrix is sparse and so the minimization is not as computationally intensive
@@ -182,7 +182,7 @@ After taking gradient descent to resolve that minimization, we will obtain vecto
 $u_j, v_j$ similar between each other because of the symmetricity of $X$.
 Since $u_j \simeq v_j$, a reasonable choice for our new vector representation of
 each term $d_j$ could be taking their average:
-$$y_j = \frac{u_j + v_j}{2}$$
+\[y_j = \frac{u_j + v_j}{2}\]
 
 \begin{figure}[h]
     \centering
