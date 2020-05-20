@@ -231,11 +231,11 @@ We can also incorporate updates of $\alpha$ and $\eta$:
 
 The updates are affected by:
 \begin{itemize}
+    \item $\tilde{\alpha}_t = [\mathit{Hess}^{-1}(l)] [\nabla_{\alpha} l]$, where l is the sum of the ELBO of each document of the batch
+    \item $\tilde{\eta}_t = [\mathit{Hess}^{-1}(l)] [\nabla_{\eta} l]$
     \item $\phi_{d,n,k} \propto e^{\E_q[\ln \theta_{d,k}] + \E_q[\ln \beta_{k, w_n}]}$
     \item $\gamma_{d,k} = \alpha_k + \sum_n \phi_{d,n,k}$
     \item $\tilde{\lambda}_{t,k,n} = \eta_k + \frac{D}{|S|} \sum_{d = t \cdot S}^{(t+1) S - 1} \phi_{d,n,k} $
-    \item $\tilde{\alpha}_t = [\mathit{Hess}^{-1}(l)] [\nabla_{\alpha} l]$, where l is the sum of the ELBO of each document of the batch
-    \item $\tilde{\eta}_t = [\mathit{Hess}^{-1}(l)] [\nabla_{\eta} l]$
 \end{itemize}
 
 Note that if the batch size $|S|$ is equal to one, the algorithm becomes online.
