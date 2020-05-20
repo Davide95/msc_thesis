@@ -43,8 +43,8 @@ In order to have a tractable problem, these distributions must have the characte
 of removing the mutual dependence between the hidden variables:
 \[ q(z_1, ..., z_m| v) = \prod_{j=1}^m q(z_j | v_j) \]
 
-Since we want to maximize ELBO,
-the final step for obtaining a solution is to take the partial derivatives of it and set them equal to zero.
+Since we want to maximize ELBO, we first check that it is a concave function
+and then we take the partial derivatives of it and set them equal to zero.
 Then, we solve the problem iteratively for each variable of interest using coordinate-ascent optimization until convergence.
 Note that the algorithm converges to a local maximum and not a global one.
 
