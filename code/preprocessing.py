@@ -16,10 +16,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import argparse
-from pathlib import Path
-import time
-import pandas as pd
 import os
+import time
+from pathlib import Path
+
+import pandas as pd
 
 
 def remove_protocol(url):
@@ -28,8 +29,8 @@ def remove_protocol(url):
     assert url.startswith('http'), f'Formatting error: URL "{url}" not valid.'
     if url.startswith('http://'):
         return url[7:]
-    else:
-        return url[8:]
+
+    return url[8:]
 
 
 # The execution starts here
@@ -70,7 +71,8 @@ if __name__ == "__main__":
             print('Column not found.')
 
         print('Saving on disk...')
-        data.to_csv(os.path.join(ARGS.output_folder, input_file.stem + '.csv'))
+        data.to_csv(os.path.join(ARGS.output_folder,
+                                 input_file.stem + '.csv'), index=False)
 
         end = time.time()
         print('Finished in', end-start, 'sec\n')
