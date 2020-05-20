@@ -1,0 +1,5 @@
+url,connected_to,content
+http://www.example.com/home,http://www.example.com/demo,A
+http://www.example.com/map,http://www.example.com/demo,B
+https://www.example.com/map,http://www.example.com/demo,B
+https://www.example.com/demo,https://www.example.com/demo,C
