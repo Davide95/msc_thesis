@@ -28,11 +28,12 @@ import nltk
 import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
-from gensim.matutils import Sparse2Corpus, corpus2dense
-from gensim.models import HdpModel
 from nltk.corpus import stopwords
 from numba import jit, prange
 from sklearn.feature_extraction.text import CountVectorizer
+
+from gensim.matutils import Sparse2Corpus, corpus2dense
+from gensim.models import HdpModel
 
 
 def prep_csv():
