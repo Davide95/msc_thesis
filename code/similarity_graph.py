@@ -55,7 +55,7 @@ def prep_csv():
         # Save chunks
         for chunk_id, df_i in enumerate(np.array_split(dataframe, n_chunks)):
             filename = f'{chunkdir}/{chunk_id}'
-            df_i.to_parquet(filename, engine='pyarrow', index=False)
+            df_i.to_parquet(filename, engine='pyarrow')
 
     return (chunkdir,)
 
