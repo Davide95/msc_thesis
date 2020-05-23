@@ -245,6 +245,46 @@ can be obtained using the Maximum Likelihood Estimation method over $q(\theta_d 
 The same reasoning can be applied for topics, using MLE over $q(\beta_k | \lambda_k)$.
 
 
-\section{Hierarchical Dirichlet Process (HDP)}
-HDP was proposed in \cite{DBLP:journals/jmlr/WangPB11} to overcome the problem of choosing the number of topics in LDA and derived methods.
+\section{Hierarchical Dirichlet process (HDP)}
+
+\framebox[\textwidth]{NB: this section is still a draft. Do not look at it, please. Seriously.}
+
+HDP was proposed in \cite{DBLP:journals/jmlr/WangPB11} and it can overcome the problem of choosing the number of topics in LDA and derived methods.
 In particular this number is not an hyperparameter of the model, but it is determined during inference.
+
+Since this method uses the Dirichlet process, we need to introduce it first.
+
+\subsection{Dirichlet process (DP)}
+As the Dirichlet distribution, it is a distribution over distributions.
+
+Formally, it is defined as a two parameter distribution $\mathit{DP}(\alpha, G)$,
+where $\alpha$ is the concentration parameter and G is the base distribution.
+
+To get an intuition on how it works, it can be viewed as a black-box
+which takes as input $G$ and produces a distribution $G'$
+whose similarity with $G$ is governed by $\alpha$: as $\alpha \to \infty$, $G' = G$.
+
+The procedure of generating $G$ can be described through the stick-breaking process.
+The basic idea is that you have a stick and you break off it.
+At each iteration $i$, you pick the remaining part of the stick and you break off it again and again.
+The entire process takes an infinite number of steps, since you can always break off the remaining part
+of a stick ending up to smaller and smaller pieces.
+
+More formally:
+\begin{equation*}
+    V_i \sim Beta(1, \alpha)
+\end{equation*}
+\begin{equation*}
+    C_i = V_i \prod_{j=1}^{i-1} (1 - V_j)
+\end{equation*}
+where $V_i$ is the percentage of the remaining stick that will be break off
+and $C_i$ is the size of the broken stick after step $i$.
+
+Due to the fact that this process requires an infinite number of steps,
+truncation is needed at some point to transform it into an algorithm.
+
+Note that the probability of assign the point to a new cluster
+is proportional to $\alpha$ and that can be used to tweak the number of clusters.
+
+\subsection{HDP nesting DPs}
+\dots
