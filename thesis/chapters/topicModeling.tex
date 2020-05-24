@@ -255,16 +255,17 @@ In particular this number is not an hyperparameter of the model, but it is deter
 Since this method uses the Dirichlet process, we need to introduce it first.
 
 \subsection{Dirichlet process (DP)}
-As the Dirichlet distribution, it is a distribution over distributions.
+The Dirichlet process can be seen as a generalization of the Dirichlet distribution
+in which we do not have a fixed number of dimensions.
 
-Formally, it is defined as a two parameter distribution $\mathit{DP}(\alpha, G)$,
-where $\alpha$ is the concentration parameter and G is the base distribution.
+Formally, it is defined as a two parameter distribution $\mathit{DP}(\alpha, H)$,
+where $\alpha$ is the concentration parameter and H is the base distribution.
 
 To get an intuition on how it works, it can be viewed as a black-box
-which takes as input $G$ and produces a distribution $G'$
-whose similarity with $G$ is governed by $\alpha$: as $\alpha \to \infty$, $G' = G$.
+which takes as input a continuous distribution $H$ and produces a discrete distribution $H'$
+whose similarity with $H$ is governed by $\alpha$: as $\alpha \to \infty$, $H' = H$.
 
-The procedure of generating $G$ can be described through the stick-breaking process.
+The procedure of generating $H$ can be described through the stick-breaking process.
 The basic idea is that you have a stick and you break off it.
 At each iteration $i$, you pick the remaining part of the stick and you break off it again and again.
 The entire process takes an infinite number of steps, since you can always break off the remaining part
@@ -272,13 +273,22 @@ of a stick ending up to smaller and smaller pieces.
 
 More formally:
 \begin{equation*}
-    V_i \sim Beta(1, \alpha)
+    \beta_i' \sim Beta(1, \alpha)
 \end{equation*}
 \begin{equation*}
-    C_i = V_i \prod_{j=1}^{i-1} (1 - V_j)
+    \beta_i = \beta_i' \prod_{j=1}^{i-1} (1 - \beta_j')
 \end{equation*}
 where $V_i$ is the percentage of the remaining stick that will be break off
 and $C_i$ is the size of the broken stick after step $i$.
+All $\beta_i$ are then used as weight during the sampling from $H$:
+
+\begin{equation*}
+    x_k \sim H
+\end{equation*}
+\begin{equation*}
+    H'(x) = \sum_{k=1}^{\infty} \mathbb{1}_{[x == x_k]} \beta_k
+\end{equation*}
+where $x_k$ are samples from the distribution $H$.
 
 Due to the fact that this process requires an infinite number of steps,
 truncation is needed at some point to transform it into an algorithm.
