@@ -3,7 +3,7 @@
 Digraph vd {
 	rankdir = LR;
 
-	subgraph cluster_M // box
+	subgraph cluster_M
 	{
 	    label = "M"
 
@@ -15,7 +15,7 @@ Digraph vd {
 	    {
 		label = "N"
 		ɸ [shape=circle];
-		z [shape=circle]
+		z [shape=circle];
 		ɸ->z;
 	    }
 	}

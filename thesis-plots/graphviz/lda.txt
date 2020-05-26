@@ -6,7 +6,7 @@ Digraph lda {
 	α [shape=circle];
 	β [shape=circle];
 
-	subgraph cluster_M // box
+	subgraph cluster_M
 	{
 	    label = "M"
 
