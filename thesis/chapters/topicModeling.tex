@@ -248,14 +248,14 @@ The same reasoning can be applied for topics, using MLE over $q(\beta_k | \lambd
 \section{Hierarchical Dirichlet process (HDP)}
 
 HDP was proposed in \cite{DBLP:journals/jmlr/WangPB11} as a way to overcome the problem of choosing the number of topics in LDA and derived methods
-while using an online variational inference algorithm to do inference.
+while using an online variational inference algorithm.
 In particular, the number of topics is inferred from data.
 
 Since this method uses the Dirichlet process, we need to introduce it first.
 
 \subsection{Dirichlet process (DP)} \label{dipro}
-The Dirichlet process can be seen as a generalization of the Dirichlet distribution
-which can be used without setting a fixed number of topics.
+The Dirichlet process can be used as a generalization of the Dirichlet distribution
+which do not have a fixed number of topics.
 
 Formally, it is defined as a two parameter distribution $\mathit{DP}(\alpha, H)$,
 where $\alpha$ is the concentration parameter and H is the base distribution.
@@ -265,10 +265,10 @@ which takes as input a continuous distribution $H$ and produces a discrete distr
 whose similarity with $H$ is governed by $\alpha$: as $\alpha \to \infty$, $G_0 = H$.
 
 The procedure of generating $H$ can be described through the stick-breaking process.
-The basic idea is that you have a stick on unit lenght and you break off it.
-At each iteration $i$, you pick the remaining part of the stick and you break off it again and again.
-The entire process takes an infinite number of steps, since you can always break off the remaining part
-of a stick ending up to smaller and smaller pieces.
+The basic idea is that you have a stick on unit lenght and you break it off.
+At each iteration $i$, you pick the remaining part of the stick and you break it off again and again.
+The entire process takes an infinite number of steps since you can always break off the remaining part
+of a stick, ending up to smaller and smaller pieces.
 
 More formally:
 \begin{equation*}
@@ -277,9 +277,9 @@ More formally:
 \begin{equation*}
     \beta_k = \beta_k' \prod_{l=1}^{k-1} (1 - \beta_l')
 \end{equation*}
-where $\beta_k'$ is the percentage of the remaining stick that will be break off
-and $\beta_k$ is the size of the broken stick after step $k$.
-All $\beta_k$ are then used as weight during the sampling from $H$:
+where $\beta_k'$ is the percentage of the remaining stick that is break off
+and $\beta_k$ is the size of the broken part of the stick after step $k$.
+All $\beta_k$ are then used as weights:
 
 \begin{equation*}
     \phi_k \sim H
@@ -287,28 +287,24 @@ All $\beta_k$ are then used as weight during the sampling from $H$:
 \begin{equation*}
     G(x) = \sum_{k=1}^{\infty} \mathbb{1}_{[x == \phi_k]} \beta_k
 \end{equation*}
-where $x_k$ are samples from the distribution $H$.
-
-Note that the probability of assign the point to a new cluster
-is proportional to $\alpha$ and that can be used to tweak the number of clusters.
 
 \subsection{HDP nesting DPs}
 Using HDP instead of LDA or Online LDA requires the definition of a new model.
 First, we describe the generative process.
-Then, we analyze the step of model inference.
+Then, we analyze the steps of model inference.
 
 \subsubsection{Generative process}
 The model is composed by two layers:
 \begin{itemize}
     \item $\boldsymbol{G_d | G_0 \sim \mathit{DP}(\alpha, G_0)}$: each document $d$ is described by its own DP $G_d$
-    \item $\boldsymbol{G_0 \sim \mathit{DP}(\gamma, H)}$: each $G_d$ is sampled from another DP $G_0$; in this way all $G_d$ have the same atoms and they differ only in their weight
+    \item $\boldsymbol{G_0 \sim \mathit{DP}(\gamma, H)}$: each $G_d$ is sampled from another DP $G_0$; in this way all $G_d$ have the same atoms and they differ only in their weights
 \end{itemize}
 where $H$ is a symmetric Dirichlet distribution over the vocabulary.
 
 The stick-breaking construction of $G_0$ is the same as the one presented in Chapter \ref{dipro}.
 The one for each $G_d$ is instead:
 \begin{itemize}
-    \item $c_{j,k} \sim \mathit{Mult}(\beta)$
+    \item $c_{d,k} \sim \mathit{Mult}(\beta)$
     \item $\pi_{d,k}' \sim \mathit{Beta(1, \alpha)}$
     \item $\pi_{d,k} = \pi_{d,k}' \prod_{l=1}^{k-1} (1 - \pi_{d,l}')$
     \item $G_j(x) = \sum_{k=1}^{\infty} \mathbb{1}_{[x == \phi_{c_{d,k}}]} \pi_{d,k}$
@@ -325,7 +321,7 @@ The generation of a word in position $n$ is then:
 Due to the fact that this process requires an infinite number of steps,
 truncation is needed to view the generative process and the inference as algorithms.
 In particular, we set a maximum number of global topics $K$ and a maximum number of local topics $T$.
-Note that a good choice is to set $T \ll K$ since the number of topics needed for a single documents is
+Note that a reasonable choice is to set $T \ll K$ since the number of topics needed for a single document is
 less than the number of topics required for the full corpus.
 
 Our variational distribution is:
@@ -334,11 +330,11 @@ Our variational distribution is:
 \end{equation*}
 Factorizing it results in:
 \begin{itemize}
-    \item $q(\beta' | u, v) = \prod_{k=1}^K q(\beta_k' | u_k, v_k)$
-    \item $q(\pi' | a, b) = \prod_d \prod_{t=1}^T q(\pi_{d,t}' | a_{d,t}, b_{d,t})$
     \item $q(c | \varphi) = \prod_d \prod_{t=1}^T q(c_{d,t} | \varphi_{d,t})$
     \item $q(z | \zeta) = \prod_d \prod_n q(z_{d,n} | \zeta_{d,n})$
     \item $q(\phi | \lambda) = \prod_{k=1}^{K} q(\phi_k | \lambda_k)$
+    \item $q(\beta' | u, v) = \prod_{k=1}^{K-1} q(\beta_k' | u_k, v_k)$
+    \item $q(\pi' | a, b) = \prod_d \prod_{t=1}^{T-1} q(\pi_{d,t}' | a_{d,t}, b_{d,t})$
 \end{itemize}
 where $q(\beta_K' = 1) = 1$ and $\forall d \; q(\pi_{d,T}' = 1) = 1$.
 
@@ -346,10 +342,10 @@ As we did for LDA and Online LDA we take derivatives of the ELBO
 with respect to each variational parameter.
 The results are both document-level updates obtained using coordinate ascent
 and corpus-level updates computed using gradient ascent.
-These updates can be performed online,
+These updates can be performed in an online fashion,
 computing local updates only for a small portion of documents
 for each iteration and then updating the corpus-level updates using a noisy estimation
 of the gradient.
 Since the updates and the steps required to obtain them are similar to previous methods,
-we deliberatively removed from the description of HDP. However, the interested reader can
+we deliberatively removed them from the description of HDP. However, the interested reader can
 found all the details at \cite{DBLP:journals/jmlr/WangPB11}.
