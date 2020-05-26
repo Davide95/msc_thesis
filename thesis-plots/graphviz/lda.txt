@@ -3,14 +3,14 @@
 Digraph lda {
 	rankdir = LR;
 
-	α [shape=circle];
-	β [shape=circle];
+	alpha [shape=circle, label=<&alpha;>];
+	beta [shape=circle, label=<&beta;>];
 
 	subgraph cluster_M
 	{
 	    label = "M"
 
-	    θ [shape=circle];
+	    theta [shape=circle, label=<&theta;>];
 	    subgraph cluster_N
 	    {
 		label = "N"
@@ -19,8 +19,8 @@ Digraph lda {
 		z->w;
 	    }
 
-	    θ -> z;
+	    theta -> z;
 	}
-	α -> θ;
-	β -> w;
+	alpha -> theta;
+	beta -> w;
 }

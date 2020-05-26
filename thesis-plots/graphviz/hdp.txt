@@ -4,10 +4,10 @@ Digraph hdp {
 	rankdir = LR;
 
 	H [shape=circle];
-	𝛾 [shape=circle];
+	gamma [shape=circle, label=<&gamma;>];
 	Gzero [label=<G<SUB>0</SUB>>, shape=circle];
 
-    α [shape=circle];
+    alpha [shape=circle, label=<&alpha;>];
 
     subgraph cluster_M
 	{
@@ -29,8 +29,8 @@ Digraph hdp {
     }
 
     H -> Gzero;
-    𝛾 -> Gzero;
+    gamma -> Gzero;
 
-    α -> Gj;
+    alpha -> Gj;
     Gzero -> Gj;
 }

@@ -7,16 +7,16 @@ Digraph vd {
 	{
 	    label = "M"
 
-	    θ [shape=circle];
-		𝛾 [shape=circle];
-		θ -> 𝛾
+	    theta [shape=circle, label=<&theta;>];
+		gamma [shape=circle, label=<&gamma;>];
+		gamma -> theta;
 
 	    subgraph cluster_N
 	    {
 		label = "N"
-		ɸ [shape=circle];
+		phi [shape=circle, label=<&phi;>];
 		z [shape=circle];
-		ɸ->z;
+		phi->z;
 	    }
 	}
 }
