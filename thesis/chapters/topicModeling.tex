@@ -255,7 +255,7 @@ Since this method uses the Dirichlet process, we need to introduce it first.
 
 \subsection{Dirichlet process (DP)} \label{dipro}
 The Dirichlet process can be used as a generalization of the Dirichlet distribution
-which do not have a fixed number of topics.
+which does not have a fixed number of topics.
 
 Formally, it is defined as a two parameter distribution $\mathit{DP}(\alpha, H)$,
 where $\alpha$ is the concentration parameter and H is the base distribution.
@@ -264,8 +264,8 @@ To get an intuition on how it works, it can be viewed as a black-box
 which takes as input a continuous distribution $H$ and produces a discrete distribution $G_0$
 whose similarity with $H$ is governed by $\alpha$: as $\alpha \to \infty$, $G_0 = H$.
 
-The procedure of generating $H$ can be described through the stick-breaking process.
-The basic idea is that you have a stick on unit lenght and you break it off.
+The procedure of generating $G_0$ can be described through the stick-breaking process.
+The basic idea is that you have a stick of unit length and you break it off.
 At each iteration $i$, you pick the remaining part of the stick and you break it off again and again.
 The entire process takes an infinite number of steps since you can always break off the remaining part
 of a stick, ending up to smaller and smaller pieces.
@@ -290,11 +290,11 @@ All $\beta_k$ are then used as weights:
 
 \subsection{HDP nesting DPs}
 Using HDP instead of LDA or Online LDA requires the definition of a new model.
-First, we describe the generative process.
-Then, we analyze the steps of model inference.
+First, we will describe the generative process.
+Then, we will analyse the steps of model inference.
 
 \subsubsection{Generative process}
-The model is composed by two layers:
+The model is composed of two layers:
 \begin{itemize}
     \item $\boldsymbol{G_d | G_0 \sim \mathit{DP}(\alpha, G_0)}$: each document $d$ is described by its own DP $G_d$
     \item $\boldsymbol{G_0 \sim \mathit{DP}(\gamma, H)}$: each $G_d$ is sampled from another DP $G_0$; in this way all $G_d$ have the same atoms and they differ only in their weights
@@ -317,7 +317,7 @@ The generation of a word in position $n$ is then:
     \item $w_{d,n} \sim \mathit{Mult}(\theta_{d,n})$
 \end{itemize}
 
-The plate notation of HDP can be viewed in Figure \ref{fig:hdp}.
+The plate notation of HDP is represented in Figure \ref{fig:hdp}.
 
 \begin{figure}[h]
     \centering
@@ -352,8 +352,8 @@ with respect to each variational parameter.
 The results are both document-level updates obtained using coordinate ascent
 and corpus-level updates computed using gradient ascent.
 These updates can be performed in an online fashion,
-computing local updates only for a small portion of documents
-for each iteration and then updating the corpus-level updates using a noisy estimation
+computing local updates only for a small part of documents
+for each iteration and then performing the corpus-level updates using a noisy estimation
 of the gradient.
 Since the updates and the steps required to obtain them are similar to previous methods,
 we deliberatively removed them from the description of HDP. However, the interested reader can
