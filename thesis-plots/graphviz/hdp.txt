@@ -1,0 +1,36 @@
+// README: run "sh generate.sh" to build this plot
+
+Digraph hdp {
+	rankdir = LR;
+
+	H [shape=circle];
+	𝛾 [shape=circle];
+	Gzero [label=<G<SUB>0</SUB>>, shape=circle];
+
+    α [shape=circle];
+
+    subgraph cluster_M
+	{
+	    label = "M"
+
+        Gj [label=<G<SUB>j</SUB>>, shape=circle];
+
+        subgraph cluster_N
+        {
+            label = "N"
+
+            z [shape=circle];
+            w [shape=circle];
+
+            z -> w;
+        }
+
+        Gj -> z;
+    }
+
+    H -> Gzero;
+    𝛾 -> Gzero;
+
+    α -> Gj;
+    Gzero -> Gj;
+}

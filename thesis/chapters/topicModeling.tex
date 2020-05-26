@@ -37,14 +37,14 @@ An overview of this technique can be found at \cite{doi:10.1002/aris.1440380105}
 
 \begin{figure}[h]
     \centering
-    \subfigure{\includegraphics[width=0.5\textwidth]{images/svd.eps}}
+    \includegraphics[width=0.5\textwidth]{images/svd.eps}
     \caption{Truncated SVD represented graphically; matrices size proportions are kept intact}
     \label{fig:svd}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-    \subfigure{\includegraphics[width=\textwidth]{images/topic-mat.eps}}
+    \includegraphics[width=\textwidth]{images/topic-mat.eps}
     \caption{Example of a term-topic and a document-topic matrix.}
     \label{fig:topicmat}
 \end{figure}
@@ -312,10 +312,19 @@ The one for each $G_d$ is instead:
 
 The generation of a word in position $n$ is then:
 \begin{itemize}
-    \item $z_{d,n} = \mathit{Mult}(\pi_d)$
+    \item $z_{d,n} \sim \mathit{Mult}(\pi_d)$
     \item $\theta_{d,n} = \phi_{c_{d,z_{d,n}}}$
     \item $w_{d,n} \sim \mathit{Mult}(\theta_{d,n})$
 \end{itemize}
+
+The plate notation of HDP can be viewed in Figure \ref{fig:hdp}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/hdp.png}
+    \caption{Graphical model representation of HDP.}
+    \label{fig:hdp}
+\end{figure}
 
 \subsubsection{Model inference}
 Due to the fact that this process requires an infinite number of steps,
