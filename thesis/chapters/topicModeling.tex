@@ -35,14 +35,14 @@ a document is frequent in the same topics, they will have a similar representati
 
 An overview of this technique can be found at \cite{doi:10.1002/aris.1440380105}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.5\textwidth]{images/svd.eps}
     \caption{Truncated SVD represented graphically; matrices size proportions are kept intact}
     \label{fig:svd}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{images/topic-mat.eps}
     \caption{Example of a term-topic and a document-topic matrix.}
@@ -93,7 +93,7 @@ Given the distributions explained before, we can state that:
 \[ p(z_{d,n} | \theta_d) = \theta_{d, z_{d,n}} \]
 \[ p(w_{d,n} | z_{d,n}, \beta) = \beta_{z_{d,n},w_{d,n}} \]
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \subfigure{\includegraphics[height=150px]{images/lda.pdf}}
     \subfigure{\includegraphics[height=150px]{images/lda-vi.pdf}}
