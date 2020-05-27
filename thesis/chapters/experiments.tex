@@ -86,7 +86,7 @@ As we can see from Table \ref{table:dbprocdata}, the number of documents decreas
 while the number of unique words is still the same for each website.
 This fact confirms empirically the validity of the assumption made before for the data considered.
 
-All the code can be found in Section \ref{preprocessing}.
+All code can be found in Section \ref{preprocessing}.
 
 \begin{table}[H]
     \begin{center}
@@ -115,7 +115,7 @@ All the code can be found in Section \ref{preprocessing}.
 \end{table}
 
 \section{Similarity graph}
-For each dataset obtained in the phase described in Chapter \ref{preprocessing},
+For each dataset obtained in the phase described in Section \ref{preprocessing},
 we perform Topic Modeling using HDP. In particular, the content of each HTML document is
 parsed and only the raw text is kept to be used for inference. Common stop words are also removed.
 
@@ -132,3 +132,5 @@ To avoid this issue, we decided to filter out the words that appear in more than
 To compare the filtered version with the non-filtered, we plot the average value of each topic in the corpus.
 As we can see from Figure MIAOMIAO, applying a filter removes topics that are prevalent in all documents.
 For this reason, we decided to use the filtered one from now on.
+
+All code can be found in Section \ref{simgra}.

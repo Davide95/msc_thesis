@@ -105,7 +105,7 @@ Given the distributions explained before, we can state that:
 The goal of LDA is to automatically discover topics over a collection of documents.
 Since only words are observed, topics are considered latent variables.
 
-Note that inference in this case can be seen as the reverse of the generative process explained in Chapter \ref{gp}.
+Note that inference in this case can be seen as the reverse of the generative process explained in Section \ref{gp}.
 
 Mathematically speaking, inference becomes a question of computing the posterior distribution:
 \[ p(\theta, z | w, \alpha, \beta) = \frac{p(\theta, z, w | \alpha, \beta)}{p(w| \alpha, \beta)} \]
@@ -179,8 +179,8 @@ For this reason, \cite{NIPS2010_3902} proposes an online learning variation base
 This algorithm called online LDA does not need to store all documents together,
 but they can arrive in a stream and be discarded after one look.
 
-The main difference between the graphical model presented in Chapter \ref{modelinference} and this one
-is that the latter assumes each $\beta_k$ sampled from a Dirichlet distribution as presented in Chapter \ref{sparsity_lda}:
+The main difference between the graphical model presented in Section \ref{modelinference} and this one
+is that the latter assumes each $\beta_k$ sampled from a Dirichlet distribution as presented in Section \ref{sparsity_lda}:
 \begin{equation}
     \beta_k \sim Dir(\eta)
 \end{equation}
@@ -301,7 +301,7 @@ The model is composed of two layers:
 \end{itemize}
 where $H$ is a symmetric Dirichlet distribution over the vocabulary.
 
-The stick-breaking construction of $G_0$ is the same as the one presented in Chapter \ref{dipro}.
+The stick-breaking construction of $G_0$ is the same as the one presented in Section \ref{dipro}.
 The one for each $G_d$ is instead:
 \begin{itemize}
     \item $c_{d,k} \sim \mathit{Mult}(\beta)$
