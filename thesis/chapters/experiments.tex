@@ -125,10 +125,10 @@ The final output is a sort of similarity graph represented through an adjacency 
 Each edge weight $w$ is in the interval $[0, 1]$;
 $1-w$ can be viewed as how the two pages are similar.
 
-One problem that we have to deal with is the fact that
+One problem that we must deal with is the fact that
 webpages in a domain could have portions of HTML in common which are not relevant to the content of the page itself.
-An example are the headers and footers in websites.
+An example is the headers and footers on websites.
 To avoid this issue, we decided to filter out the words that appear in more than 50\% of documents.
 To compare the filtered version with the non-filtered, we plot the average value of each topic in the corpus.
-As we can see from Figure MIAOMIAO, applying a filter removes topics which are prevalent in all documents.
+As we can see from Figure MIAOMIAO, applying a filter removes topics that are prevalent in all documents.
 For this reason, we decided to use the filtered one from now on.
