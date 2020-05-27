@@ -148,6 +148,7 @@ def plot_topic_importance(doctopic):
         bins_idx = np.arange(doctopic.shape[1])
         bins_int = np.average(doctopic, axis=0)
 
+        plt.figure(1)
         plt.bar(bins_idx, bins_int)
         plt.tick_params(axis='x',
                         which='both',
@@ -157,7 +158,7 @@ def plot_topic_importance(doctopic):
         plt.ylabel('Average value')
         plt.xlabel('Topic index')
         plt.ylim([0, 1])
-        plt.title(ARGS.filename)
+        plt.title(ARGS.dataset_id)
         plt.savefig(ARGS.plot_topics)
 
     return (doctopic, )
@@ -202,11 +203,12 @@ def plot_sim_graph(sim_graph):
     '''Plot the similarity graph.'''
 
     if ARGS.plot_sim is not None:
+        plt.figure(2)
         plt.axis('off')
         plt.imshow(sim_graph, cmap='YlOrBr_r')
         plt.clim(0, 1)
         plt.colorbar().ax.invert_yaxis()
-        plt.title(ARGS.filename)
+        plt.title(ARGS.dataset_id)
         plt.savefig(ARGS.plot_sim)
 
     return (sim_graph, )
@@ -232,7 +234,9 @@ if __name__ == "__main__":
     PARSER.add_argument('--plot_sim', type=str, default=None,
                         help='Path where to plot the similarity graph')
     PARSER.add_argument('--plot_topics', type=str, default=None,
-                        help='Path where to plot the bar chart of topics importance')
+                        help='Path where to plot the topics importance')
+    PARSER.add_argument('--dataset_id', type=str, default='',
+                        help='Title of the plots')
     ARGS = PARSER.parse_args()
 
     nltk.download('stopwords')
