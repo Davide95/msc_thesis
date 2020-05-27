@@ -55,7 +55,7 @@ def prep_csv():
         # Save chunks
         for chunk_id, df_i in enumerate(np.array_split(dataframe, n_chunks)):
             filename = f'{chunkdir}/{chunk_id}'
-            df_i.to_parquet(filename, engine='pyarrow')
+            df_i.to_parquet(filename, engine='pyarrow', index=False)
 
     return (chunkdir,)
 
@@ -80,7 +80,7 @@ def get_text(filename):
     parsedir = Path(ARGS.filename).stem + '-parse_html'
     stemname = Path(filename).stem
     new_filename = f'{parsedir}/{stemname}'
-    block.to_parquet(new_filename, engine='pyarrow')
+    block.to_parquet(new_filename, engine='pyarrow', index=False)
 
 
 def parse_html(chunkdir):
