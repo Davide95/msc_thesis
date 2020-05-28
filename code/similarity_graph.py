@@ -238,7 +238,7 @@ if __name__ == "__main__":
                         help='Path where to plot the topics importance')
     PARSER.add_argument('--dataset_id', type=str, default='',
                         help='Title of the plots')
-    PARSER.add_argument('--max_time', type=int, default=1,
+    PARSER.add_argument('--max_time', type=int, default=np.iinfo('int32').max,
                         help='Maximum number of seconds of training time')
     ARGS = PARSER.parse_args()
 
