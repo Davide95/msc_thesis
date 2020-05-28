@@ -131,7 +131,8 @@ def hda(bow_data, vocab):
     '''Perform HDA on the dataset.'''
 
     corpus = Sparse2Corpus(bow_data, documents_columns=False)
-    hdp = HdpModel(corpus, vocab)
+    hdp = HdpModel(corpus, vocab,
+                   max_time=ARGS.max_time, max_chunks=np.iinfo('int32').max)
 
     # Trasform doctopic into a matrix
     doctopic = corpus2dense(hdp[corpus], num_terms=hdp.m_T,
@@ -237,6 +238,8 @@ if __name__ == "__main__":
                         help='Path where to plot the topics importance')
     PARSER.add_argument('--dataset_id', type=str, default='',
                         help='Title of the plots')
+    PARSER.add_argument('--max_time', type=int, default=1,
+                        help='Maximum number of seconds of training time')
     ARGS = PARSER.parse_args()
 
     nltk.download('stopwords')
