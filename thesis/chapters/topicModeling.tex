@@ -127,7 +127,14 @@ Its graphical representation can be seen in Figure \ref{fig:lda}.
 
 To do model inference from a collection of documents, we start defining the ELBO function:
 \begin{equation*}
-    \ln[\prod_d p_d(w | \alpha, \beta)] = \sum_d \ln [p_d(w | \alpha, \beta)] \geq \sum_d \E_{q_d} \{ \ln[p_d(w, \theta, z | \alpha, \beta)] - \ln[q_d(\theta, z | \gamma, \phi)] \}
+    \begin{split}
+        \ln[\prod_d p_d(w | \alpha, \beta)] & \geq
+        \E_q \{ \ln[p(w, \theta, z | \alpha, \beta)] - \ln[q(\theta, z | \gamma, \phi)] \} \\
+        & = \E_q \{ \ln[\prod_d p_d(w, \theta, z | \alpha, \beta)] - \ln[ \prod_d q_q(\theta, z | \gamma, \phi)] \} \\
+        & = \E_q \{ \sum_d \ln[p_d(w, \theta, z | \alpha, \beta)] - \sum_d \ln[q_q(\theta, z | \gamma, \phi)] \} \\
+        & = \sum_d \E_q \{ \ln[p_d(w, \theta, z | \alpha, \beta)] - \ln[q_q(\theta, z | \gamma, \phi)] \} \\
+        & = \sum_d \E_{q_d} \{ \ln[p_d(w, \theta, z | \alpha, \beta)] - \ln[q_d(\theta, z | \gamma, \phi)] \} \\
+    \end{split}
 \end{equation*}
 
 First, we fix $\alpha$ and $\beta$ to find the best $q(\theta, z | \gamma, \phi)$ that minimizes the KL-divergence between $q$ and $p$.
