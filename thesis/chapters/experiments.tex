@@ -1,6 +1,8 @@
 \chapter{Experiments}
-This chapter explains step-by-step our original work, built on top of the theory presented in the previous Chapters.
+This chapter explains step-by-step our original work, built on top of the theory presented in the previous chapters.
 Steps are grouped into sections, sorted by chronological order.
+
+The last section (Section \ref{scaling}) considers instead the scalability issues that we encountered and how we managed them.
 
 \section{Crawling}
 In order to collect data, we selected some monolingual websites to experiment with (see Table \ref{table:dbinfo}).
@@ -115,7 +117,7 @@ All code can be found in Section \ref{preprocessing-code}.
     \label{table:dbprocdata}
 \end{table}
 
-\section{Similarity graph}
+\section{Similarity graph} \label{sgexp}
 For each dataset obtained in the phase described in Section \ref{preprocessing},
 we perform Topic Modeling using HDP. In particular, the content of each HTML document is
 parsed and only the raw text is kept to be used for inference. Common stop words are also removed.
@@ -135,3 +137,70 @@ As we can see from the figures in Section \ref{sgfig}, applying a filter in some
 We then finally decided to use the filtered version from now on.
 
 All code can be found in Section \ref{simgra}.
+
+\section{How we wrote scalable code} \label{scaling}
+During the writing of the source code, we encountered some scalability issues related to
+the size of the datasets and the computational complexity of the algorithms used.
+This section contains a summary of the main strategies used to overcome this
+problem.
+
+\subsection{NumPy}
+The majority of operations in our source code are applied to vectors and matrices.
+Modern CPUs provide SIMD (Single Instruction, Multiple Data) instructions like
+Intel\textsuperscript{®} AVX-512 to speed up this kind of computations.
+In order to use them in the source code, we make use of a library called NumPy\footnote{https://numpy.org/}
+which is interoperable between different hardware and computing platforms.
+
+Furthermore, it allows us to have more numerical stability when dealing with huge
+matrices and vectors since it takes into account the limitations
+related to storing real numbers using finite-precision floating-point representations
+(for instance, using pairwise summation in its source code at
+\href{https://github.com/numpy/numpy/blob/v1.18.1/numpy/core/src/umath/loops.c.src}{numpy/core/src/umath/loops.c.src}).
+
+The interested reader can found more advantages of using NumPy reading \cite{5725236}.
+
+\subsection{Numba}
+When vectorization is not enough due to the computational costs of the algorithms used, we
+compile portions of the Python code to machine code through Numba\footnote{https://numba.pydata.org/}.
+
+Thanks to this tool, portions of the software can:
+\begin{itemize}
+    \item run at native machine code speed
+    \item run without the involvement of the Python interpreter
+    \item be parallelized using multithreading
+\end{itemize}
+In particular, parallelization is done releasing first the GIL (Global Interpreter Lock).
+The interested reader can find more details about it
+at \url{https://docs.python.org/3/glossary.html\#term-global-interpreter-lock}.
+
+A basic introduction to how Numba works can be found at \cite{10.1145/2833157.2833162}.
+
+\subsection{Multiprocessing}
+We are not able to use NumPy nor Numba where the code is not numerically orientated.
+Furthermore, it is not possible to release the GIL in some portions of the code
+due to the limitations of the imported libraries.
+For these reasons, there are situations in which multiprocessing is used.
+
+In particular, we have to use multiprocessing instead of multithreading during the parsing of
+HTML documents explained in Section \ref{sgexp}.
+This choice allows us to scale using all the cores of our machine
+but at the cost of increasing the memory consumption of the application.
+To have a trade-off between computational costs
+and memory issues, we decided to add two parameters that can be tweaked (see Section \ref{simgra}).
+
+\subsection{Optimizing memory usage}
+In Python, it is not possible to deallocate manually memory blocks; a GC (Garbage Collector)
+is instead responsible to remove data from memory when needed.
+
+To help its work, we try to avoid using the Jupyter Notebook when we found high memory usage.
+The reason is mainly that it tends to abuse the use of the global scope for storing variables
+and it keeps additional references to objects. Furthermore, we split the code into different steps,
+each step restrained in a function.
+Between each step, we manually force the GC to collect unused resources.
+
+Finally, we avoid using lists when they do not have a fixed size.
+The reason is that frequent append operations in a short time lead in multiple reallocations of
+memory which could not be deallocated in time and a memory shortage might happen.
+For a more detailed explanation of how memory management works for lists in Python, please refer to
+its source code at
+\href{https://github.com/python/cpython/blob/3.7/Objects/listobject.c}{Objects/listobject.c}.

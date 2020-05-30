@@ -225,7 +225,7 @@ if __name__ == "__main__":
                         help='number of jobs to run in parallel; ' +
                         'default uses all cpus')
     PARSER.add_argument('--mul', type=int, default=1,
-                        help='Tradeoff between ' +
+                        help='Trade-off between ' +
                         'performance (lower vals) and ' +
                         'memory consumption')
     PARSER.add_argument('--max_df', type=float, default=1.0,
