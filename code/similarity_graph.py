@@ -16,6 +16,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import argparse
+import logging
 import gc
 import math
 import multiprocessing
@@ -216,6 +217,9 @@ def plot_sim_graph(sim_graph):
 
 # The execution starts here
 if __name__ == "__main__":
+    logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
+                        level=logging.INFO)
+
     PARSER = argparse.ArgumentParser()
     PARSER.add_argument('filename',
                         help='filename of the CSV containing the data')
@@ -237,7 +241,7 @@ if __name__ == "__main__":
                         help='Path where to plot the topics importance')
     PARSER.add_argument('--dataset_id', type=str, default='',
                         help='Title of the plots')
-    PARSER.add_argument('--max_time', type=int, default=np.iinfo('int32').max,
+    PARSER.add_argument('--max_time', type=int, default=3600,
                         help='Maximum number of seconds of training time')
     ARGS = PARSER.parse_args()
 
