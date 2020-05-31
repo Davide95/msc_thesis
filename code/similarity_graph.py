@@ -139,7 +139,11 @@ def hda(bow_data, vocab):
                             num_docs=bow_data.shape[0],
                             dtype=np.float32)
 
-    return (np.transpose(doctopic), )
+    sums = doctopic.sum(axis=0, keepdims=1)
+    sums[sums == 0] = 1
+    doctopic = np.transpose(doctopic / sums)
+
+    return (doctopic, )
 
 
 def plot_topic_importance(doctopic):
