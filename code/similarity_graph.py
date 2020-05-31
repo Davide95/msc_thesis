@@ -135,15 +135,12 @@ def hda(bow_data, vocab):
     hdp = HdpModel(corpus, vocab, max_time=ARGS.max_time)
 
     # Trasform doctopic into a matrix
-    doctopic = corpus2dense(hdp[corpus], num_terms=hdp.m_T,
+    inference = [hdp.__getitem__(document, eps=0.0) for document in corpus]
+    doctopic = corpus2dense(inference, num_terms=hdp.m_T,
                             num_docs=bow_data.shape[0],
                             dtype=np.float32)
 
-    sums = doctopic.sum(axis=0, keepdims=1)
-    sums[sums == 0] = 1
-    doctopic = np.transpose(doctopic / sums)
-
-    return (doctopic, )
+    return (np.transpose(doctopic), )
 
 
 def plot_topic_importance(doctopic):
