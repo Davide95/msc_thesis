@@ -23,7 +23,7 @@ Due to its characteristics, it is suited to model probabilistic outcomes (for ex
 \subsection{Probability density function}
 Given a random variable $X \sim \mathit{Beta}(\alpha, \beta)$, the probability density function is defined as:
 \[f_X(x) = \frac{1}{B(\alpha, \beta)}x^{\alpha - 1}(1-x)^{\beta - 1}\]
-$\mathit{Beta}(\alpha, \beta)$ is the Beta function and it acts as a normalization constant to ensure that $\int_0^1 f_X(x) dx = 1$.
+$B(\alpha, \beta)$ is the Beta function and it acts as a normalization constant to ensure that $\int_0^1 f_X(x) dx = 1$.
 
 \section{Dirichlet distribution}
 The Dirichlet distribution is a family of multivariate distributions.
@@ -37,7 +37,7 @@ Given a multivariate random variable $X \sim \mathit{Dir}(\alpha_1, \alpha_2, \d
 
 \[f_{X}(x_1, x_2, \dots, x_K; \alpha_1, \alpha_2, \dots, \alpha_K) = \frac{1}{B(\alpha_1, \alpha_2, \dots, \alpha_K)} \prod_{i=1}^{K} x_i^{\alpha_i - 1}\]
 
-$\mathit{Beta}(\alpha_1, \alpha_2, \dots, \alpha_K)$ is the multivariate generalization of the Beta function presented in Section \ref{betad}.
+$B(\alpha_1, \alpha_2, \dots, \alpha_K)$ is the multivariate generalization of the Beta function presented in Section \ref{betad}.
 
 Setting $\mathit{Dir}(\alpha) \coloneqq \mathit{Dir}(\alpha_1, \alpha_2, \dots, \alpha_n)$, a simplified notation of the probability density function is used:
 \[f_{x}(x_1, x_2, \dots, x_K; \alpha) = \frac{1}{B(\alpha)} \prod_{i=1}^{K} x_i^{\alpha - 1}\]
