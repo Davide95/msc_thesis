@@ -131,8 +131,7 @@ def hda(bow_data, vocab):
     '''Perform HDA on the dataset.'''
 
     corpus = Sparse2Corpus(bow_data, documents_columns=False)
-    hdp = HdpModel(corpus, vocab,
-                   max_time=ARGS.max_time, max_chunks=np.iinfo('int32').max)
+    hdp = HdpModel(corpus, vocab, max_time=ARGS.max_time)
 
     # Trasform doctopic into a matrix
     doctopic = corpus2dense(hdp[corpus], num_terms=hdp.m_T,
