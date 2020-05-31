@@ -201,6 +201,9 @@ Between each step, we manually force the GC to collect unused resources.
 Finally, we avoid using lists when they do not have a fixed size.
 The reason is that frequent append operations in a short time lead in multiple reallocations of
 memory which could not be deallocated in time and a memory shortage might happen.
+In particular, the problem is that lists in Python are not linked lists but they use
+exponential over-allocation every time they lack space. To make a comparison, they have the same
+mechanism as ArrayList in Java.
 For a more detailed explanation of how memory management works for lists in Python, please refer to
 its source code at
 \href{https://github.com/python/cpython/blob/3.7/Objects/listobject.c}{Objects/listobject.c}.
