@@ -123,7 +123,8 @@ we perform Topic Modeling using HDP. In particular, the content of each HTML doc
 parsed and only the raw text is kept to be used for inference. Common stop words are also removed.
 
 Given the document-topic matrix,
-we compute the Hellinger distance between each pair of documents.
+we compute the Hellinger distance (see Section \ref{hd}) between each pair of documents $(p, q)$:
+\[\mathit{HD}(p, q) = \mathit{HD}(q, p) = \frac{1}{\sqrt{2}} \sqrt{\sum_i (\sqrt{p(i)} - \sqrt{q(i)})^2}\]
 The final output is a sort of similarity graph represented through an adjacency matrix.
 Each edge weight $w$ is in the interval $[0, 1]$;
 $1-w$ can be viewed as how the two pages are similar.
