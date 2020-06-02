@@ -1,4 +1,4 @@
-'''Preprocessing on the scraped data.'''
+'''Data preparation on the scraped data.'''
 
 # Copyright (C) 2020 MaLGa ML4DS
 #
