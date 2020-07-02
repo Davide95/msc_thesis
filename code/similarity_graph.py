@@ -1,4 +1,4 @@
-'''Compute the similarity graph.'''
+'''Compute the doctopic matrix.'''
 
 # Copyright (C) 2020 MaLGa ML4DS
 #
@@ -18,7 +18,6 @@
 import argparse
 import logging
 import gc
-import math
 import multiprocessing
 import os
 import time
@@ -30,7 +29,6 @@ import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
-from numba import jit, prange
 from sklearn.feature_extraction.text import CountVectorizer
 
 from gensim.matutils import Sparse2Corpus, corpus2dense
@@ -141,7 +139,7 @@ def hda(bow_data, vocab):
                             dtype=np.float32)
 
     out = np.transpose(doctopic)
-    np.save(Path(ARGS.filename).stem + '-topics.npy', out)
+    np.save(Path(ARGS.filename).stem + '-doctopic.npy', out)
 
     return (out, )
 
@@ -169,56 +167,6 @@ def plot_topic_importance(doctopic):
     return (doctopic, )
 
 
-def similarity_graph(doctopic):
-    '''Compute the similarity graph using the Hellinger distance.'''
-
-    n_docs = doctopic.shape[0]
-
-    res = np.zeros((n_docs, n_docs), dtype=np.float32)
-    hellinger_parallel(doctopic, res)
-
-    np.save(Path(ARGS.filename).stem + '-adj.npy', res)
-    return (res, )
-
-
-@jit(nopython=True, nogil=True, parallel=True, fastmath=True)
-def hellinger_parallel(doctopic, res):
-    '''Use Numba to speedup computations of similarity_graph().'''
-
-    sqdoc = np.sqrt(doctopic)
-    for row_i_idx in prange(doctopic.shape[0]):
-        row_i = sqdoc[row_i_idx]
-
-        for row_j_idx in prange(row_i_idx):
-            row_j = sqdoc[row_j_idx]
-
-            # Compute the distance
-            sub_ij = row_i - row_j
-            pow_ij = np.power(sub_ij, 2)
-            sum_ij = pow_ij.sum()
-            sq_ij = math.sqrt(sum_ij)
-            res_ij = sq_ij / np.sqrt(2)
-
-            # Store the results
-            res[row_i_idx, row_j_idx] = res_ij
-            res[row_j_idx, row_i_idx] = res_ij
-
-
-def plot_sim_graph(sim_graph):
-    '''Plot the similarity graph.'''
-
-    if ARGS.plot_sim is not None:
-        plt.figure(2)
-        plt.axis('off')
-        plt.imshow(sim_graph, cmap='YlOrBr_r')
-        plt.clim(0, 1)
-        plt.colorbar().ax.invert_yaxis()
-        plt.title(ARGS.dataset_id)
-        plt.savefig(ARGS.plot_sim)
-
-    return (sim_graph, )
-
-
 # The execution starts here
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
@@ -239,8 +187,6 @@ if __name__ == "__main__":
                         help='Frequency threshold for stopwords')
     PARSER.add_argument('--min_df', type=int, default=1,
                         help='Cut-off / minimum counter threshold')
-    PARSER.add_argument('--plot_sim', type=str, default=None,
-                        help='Path where to plot the similarity graph')
     PARSER.add_argument('--plot_topics', type=str, default=None,
                         help='Path where to plot the topics importance')
     PARSER.add_argument('--dataset_id', type=str, default='',
@@ -251,14 +197,13 @@ if __name__ == "__main__":
 
     nltk.download('stopwords')
 
-    params = ()
-    STEPS = [prep_csv, parse_html, bow, hda, plot_topic_importance,
-             similarity_graph, plot_sim_graph]
+    PARAMS = ()
+    STEPS = [prep_csv, parse_html, bow, hda, plot_topic_importance]
     for step in STEPS:
         print('Running step', step.__name__)
 
         start = time.time()
-        params = step(*params)
+        PARAMS = step(*PARAMS)
         end = time.time()
         print(step.__name__, 'finished in', end-start, 'sec')
 
