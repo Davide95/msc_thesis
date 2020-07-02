@@ -57,15 +57,62 @@ def hellinger_parallel(doctopic, res):
             res[row_j_idx, row_i_idx] = res_ij
 
 
+def js_distance(doctopic):
+    '''Computing distances using the Jensen-Shannon divergence.'''
+
+    n_docs = doctopic.shape[0]
+
+    res = np.zeros((n_docs, n_docs), dtype=np.float32)
+    js_parallel(doctopic, res)
+
+    return res
+
+
+@jit(nopython=True, nogil=True, parallel=True, fastmath=True)
+def js_parallel(doctopic, res):
+    '''Jensen-Shannon divergence over multiple cores.'''
+
+    for row_i_idx in prange(doctopic.shape[0]):
+        row_i = doctopic[row_i_idx]
+
+        for row_j_idx in prange(row_i_idx):
+            row_j = doctopic[row_j_idx]
+
+            # Compute the divergence
+            kl_ij = kl_divergence(row_i, row_j)
+            kl_ji = kl_divergence(row_j, row_i)
+            divergence = (kl_ij + kl_ji) / 2
+
+            # Store the results
+            res[row_i_idx, row_j_idx] = divergence
+            res[row_j_idx, row_i_idx] = divergence
+
+
+@jit(nopython=True, nogil=True, fastmath=True)
+def kl_divergence(p, q):
+    '''Hellinger distance over multiple cores.'''
+
+    log_2 = np.log(p / q) / np.log(2)
+    res_vect = np.multiply(p, log_2)
+    return np.sum(res_vect)
+
+
 # The execution starts here
 if __name__ == "__main__":
     PARSER = argparse.ArgumentParser()
     PARSER.add_argument('filename',
                         help='filename of the doctopic matrix in .npy format')
     ARGS = PARSER.parse_args()
-
     FILENAME_ONLY = Path(ARGS.filename).stem
 
     DOCTOPIC = np.load(ARGS.filename)
+
+    print('Computing the Hellinger distance matrix...')
     HD_MATRIX = hellinger_distance(DOCTOPIC)
     np.save(FILENAME_ONLY + '-hd.npy', HD_MATRIX)
+
+    print('Computing the Jensen-Shannon distance matrix...')
+    JS_MATRIX = js_distance(DOCTOPIC)
+    np.save(FILENAME_ONLY + '-js.npy', HD_MATRIX)
+
+    print('Finished.')
