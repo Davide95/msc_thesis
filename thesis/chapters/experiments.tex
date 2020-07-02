@@ -137,7 +137,7 @@ To compare the filtered version with the non-filtered, we plot the average value
 As we can see from the figures in Section \ref{sgfig}, applying a filter in some cases tends to smooth topics preponderance.
 We then finally decided to use the filtered version from now on.
 
-All code can be found in Section \ref{simgra}.
+All code can be found in Section \ref{doctopic_code}.
 
 \section{How we wrote scalable code} \label{scaling}
 During the writing of the source code, we encountered some scalability issues related to
@@ -187,7 +187,7 @@ HTML documents explained in Section \ref{sgexp}.
 This choice allows us to scale using every core of our machine
 but at the cost of increasing the memory consumption of the application.
 To have a trade-off between computational costs
-and memory issues, we decided to add two parameters that can be tweaked (see Section \ref{simgra}).
+and memory issues, we decided to add two parameters that can be tweaked (see Section \ref{doctopic_code}).
 
 \subsection{Optimizing memory usage}
 In Python, it is not possible to deallocate manually memory blocks; a GC (Garbage Collector)
