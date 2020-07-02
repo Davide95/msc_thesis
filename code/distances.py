@@ -113,6 +113,6 @@ if __name__ == "__main__":
 
     print('Computing the Jensen-Shannon distance matrix...')
     JS_MATRIX = js_distance(DOCTOPIC)
-    np.save(FILENAME_ONLY + '-js.npy', HD_MATRIX)
+    np.save(FILENAME_ONLY + '-js.npy', JS_MATRIX)
 
     print('Finished.')
