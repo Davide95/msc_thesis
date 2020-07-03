@@ -77,11 +77,12 @@ def js_parallel(doctopic, res):
 
         for row_j_idx in prange(row_i_idx):
             row_j = doctopic[row_j_idx]
+            m = (row_i + row_j) / 2.0
 
             # Compute the divergence
-            kl_ij = kl_divergence(row_i, row_j)
-            kl_ji = kl_divergence(row_j, row_i)
-            divergence = (kl_ij + kl_ji) / 2
+            kl_ij = kl_divergence(row_i, m)
+            kl_ji = kl_divergence(row_j, m)
+            divergence = (kl_ij + kl_ji) / 2.0
 
             # Store the results
             res[row_i_idx, row_j_idx] = divergence

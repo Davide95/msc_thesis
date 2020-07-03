@@ -47,7 +47,8 @@ Note that in the literature the Hellinger distance is defined in different ways 
 
 \section{Jensen–Shannon divergence}
 The Jensen–Shannon divergence of two probability distributions $p$ and $q$ is defined as:
-\[ \mathit{JS}(p \| q) = \frac{\mathit{KL}(p \| q) + \mathit{KL}(q \| p)}{2} \]
+\[ \mathit{JS}(p \| q) = \frac{\mathit{KL}(p \| m) + \mathit{KL}(q \| m)}{2} \]
+where $m = \frac{p+q}{2}$.
 
 Note that it has the same advantages over the Kullback–Leibler divergence
 as previously discussed for the Hellinger distance.
