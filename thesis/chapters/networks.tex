@@ -25,6 +25,9 @@ Mutual Information is a measure of relatedness between two random variables.
 For two discrete variables $x$ and $y$, it is defined as:
 \[ \mathit{MI}(x, y) = H(x) + H(y) - C(x, y) \]
 where $H(x)$ is the entropy of $x$ and $C(x, y)$ is the joint entropy between $x$ and $y$.
+Note that from the definition of Mutual Information,
+$\mathit{MI}(x, y) = 0$
+if and only if $P(x, y) = P(x) P(y)$.
 
 In our case, for each combination of genes $x, y$,
 we want to obtain $\mathit{MI}(\{ x_i \}_{i=1,\dots,M}, \{ y_i \}_{i=1,\dots,M})$.
@@ -38,10 +41,6 @@ where $i$ is an index which iterates through all observations of a gene $x$
 and $K(.)$ is a kernel.
 In particular, \cite{DBLP:journals/bmcbi/MargolinNBWSFC06} proposes
 $K(.)$ to be a Gaussian kernel.
-
-Note that from the definition of Mutual Information,
-$\mathit{MI}(x, y) = 0$
-if and only if $P(x, y) = P(x) P(y)$.
 
 \subsection{Identification of a meaningful threshold}
 Since the MI can not be zero by construction
