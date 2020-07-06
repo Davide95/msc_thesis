@@ -26,23 +26,22 @@ For two discrete variables $x$ and $y$, it is defined as:
 \[ \mathit{MI}(x, y) = H(x) + H(y) - C(x, y) \]
 where $H(x)$ is the entropy of $x$ and $C(x, y)$ is the joint entropy between $x$ and $y$.
 
-In our case, for each combination of genes $g_i, g_j$,
-we want to obtain $\mathit{MI}(g_i, g_j)$.
+In our case, for each combination of genes $x, y$,
+we want to obtain $\mathit{MI}(\{ x_i \}_{i=1,\dots,M}, \{ y_i \}_{i=1,\dots,M})$.
 Since microarray data is expressed by continuous variables,
 we have to use the differential entropy instead of the entropy
 and the joint differential entropy instead of the joint entropy.
-For this reason, an estimation of $p(g_i)$
+For this reason, an estimation of $p(x)$
 using Kernel Density Estimation (KDE) is first needed:
-\[ \hat{p}(g_i) = \frac{1}{M} \sum_{k=1}^{M} K(g_i - g_{k}) \]
-where $i$ and $k$ are both indexes of genes,
-$K(.)$ is a kernel and each $g_k$
-represents a sample of a particular gene $k$ in our data.
+\[ \hat{p}(x) = \frac{1}{M} \sum_{i=1}^{M} K(x - x_i) \]
+where $i$ is an index which iterates through all observations of a gene $x$
+and $K(.)$ is a kernel.
 In particular, \cite{DBLP:journals/bmcbi/MargolinNBWSFC06} proposes
 $K(.)$ to be a Gaussian kernel.
 
 Note that from the definition of Mutual Information,
-$\mathit{MI}(g_i, g_j) = 0$
-if and only if $P(g_i, g_j) = P(g_i) P(g_j)$.
+$\mathit{MI}(x, y) = 0$
+if and only if $P(x, y) = P(x) P(y)$.
 
 \subsection{Identification of a meaningful threshold}
 Since the MI can not be zero by construction
@@ -66,9 +65,9 @@ we now set to zero the ones lower than the threshold.
 Finally, the DPI step prunes indirect relationships for which two
 genes are co-regulated by a third one but their MI is nonzero.
 
-Given each possible triplet of genes $(g_i, g_j, g_k)$,
-it checks if $\mathit{MI}(g_i, g_k) \leq \min[\mathit{MI}(g_i, g_j), \mathit{MI}(g_j, g_k)]$
-and in that case it sets $\mathit{MI}(g_i, g_k) = 0$.
+Given each possible triplet of genes $(x, y, z)$,
+it checks if $\mathit{MI}(x, z) \leq \min[\mathit{MI}(x, y), \mathit{MI}(y, z)]$
+and in that case it sets $\mathit{MI}(x, z) = 0$.
 
 At the end, two genes are connected by an undirected link if and only if
 their final MI is greater than zero.
