@@ -4,10 +4,24 @@ Steps are grouped into sections, sorted by chronological order.
 
 The last section (Section \ref{scaling}) considers instead the scalability issues that we encountered and how we managed them.
 
+\section{Source code}
+All source code is licensed under the GNU General Public License v3.0 and it can be found at \url{https://github.com/Davide95/msc_thesis/tree/master/code}.
+
+All code is written in Python 3.7. The external libraries used are reported in the relative \texttt{requirements.txt} file and can be installed through the command \texttt{pip install -r requirements.txt}.
+
+A set of tests that can be found at \url{https://github.com/Davide95/msc_thesis/tree/master/tests} were done to check the validity of the code.
+The source code was also analyzed with \say{flake8} and \say{pylint}.
+
+All experiments were tested on a PowerEdge T630 server with the following characteristics:
+\begin{itemize}
+    \item Intel(R) Xeon(R) CPU E5-2630 v3 @ 2.40GHz (2 sockets)
+    \item 8x16GiB of RAM
+\end{itemize}
+
 \section{Crawling}
 In order to collect data, we selected some monolingual websites to experiment with (see Table \ref{table:dbinfo}).
 
-Then, we implemented a spider (see Section \ref{spider}) to download and store all HTML documents in a particular domain.
+Then, we implemented a spider to download and store all HTML documents in a particular domain.
 The application can be summarized with these steps:
 \begin{enumerate}
     \item first, the software starts from an URL defined by the user, putting it into a pool
@@ -89,8 +103,6 @@ As we can see from Table \ref{table:dbprocdata}, the number of documents decreas
 while the number of unique words is still the same for each website.
 This fact confirms empirically the validity of the assumption made before for the data considered.
 
-All code can be found in Section \ref{preprocessing-code}.
-
 \begin{table}[H]
     \begin{center}
         \begin{tabular}{ |l|l|l| }
@@ -134,17 +146,15 @@ webpages in a domain could have portions of HTML in common which are not relevan
 An example is the headers and footers on websites.
 To avoid this issue, we decided to filter out the words that appear in more than 50\% of documents.
 To compare the filtered version with the non-filtered, we plot the average value of each topic in the corpus.
-As we can see from the figures in Section \ref{sgfig}, applying a filter in some cases tends to smooth topics preponderance.
+Applying a filter in some cases tends to smooth topics preponderance.
 We then finally decided to use the filtered version from now on.
 
-All code can be found in Section \ref{doctopic_code}.
-
-\section{How we wrote scalable code} \label{scaling}
 During the writing of the source code, we encountered some scalability issues related to
 the size of the datasets and the computational complexity of the algorithms used.
 This section contains a summary of the main strategies used to overcome this
 problem.
 
+\section{Scaling issues} \label{scaling}
 \subsection{NumPy}
 The majority of operations in our source code are applied to vectors and matrices.
 Modern CPUs provide SIMD (Single Instruction, Multiple Data) instructions like
@@ -187,7 +197,7 @@ HTML documents explained in Section \ref{sgexp}.
 This choice allows us to scale using every core of our machine
 but at the cost of increasing the memory consumption of the application.
 To have a trade-off between computational costs
-and memory issues, we decided to add two parameters that can be tweaked (see Section \ref{doctopic_code}).
+and memory issues, we decided to add two parameters that can be tweaked.
 
 \subsection{Optimizing memory usage}
 In Python, it is not possible to deallocate manually memory blocks; a GC (Garbage Collector)
