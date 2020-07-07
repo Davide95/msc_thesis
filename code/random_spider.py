@@ -35,5 +35,5 @@ class RandomSpider(scrapy.Spider):
     def parse(self, response):
         yield {
             'url': response.url.replace(',', '%2C'),
-            'content': response.text
+            'content': response.css('#content').get()
         }
