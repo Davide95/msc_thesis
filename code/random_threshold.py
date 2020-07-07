@@ -16,13 +16,14 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import argparse
+import glob
 
 import numpy as np
 
 
-def random_threshold():
+def random_threshold(filename):
     # Load data
-    content = np.load(ARGS.filename)
+    content = np.load(filename)
     content = 1 - content
 
     # Remove the diagonal
@@ -37,17 +38,26 @@ def random_threshold():
     threshold_idx = np.argmax(counts <= ARGS.p_value)
     threshold = vals[threshold_idx]
 
-    print('Threshold:', threshold)
+    return threshold
 
 
 # The execution starts here
 if __name__ == "__main__":
     PARSER = argparse.ArgumentParser()
-    PARSER.add_argument('filename',
-                        help='filename of the CSV containing the data')
+    PARSER.add_argument('pathname',
+                        help='pathname of the CSVs containing the data')
     PARSER.add_argument(
         'p_value', type=float,
         help='Prior belief on how much our documents are truly indipdendent')
     ARGS = PARSER.parse_args()
-
-    random_threshold()
+    
+    filenames = glob.glob(ARGS.pathname)
+    print('Filenames extracted:', filenames)
+    
+    thresholds = []
+    for filename in filenames:
+    	threshold = random_threshold(filename)
+    	thresholds.append(threshold)
+    	
+    print('Threshold average:', np.average(thresholds))
+    print('Threshold standard deviation:', np.std(thresholds))
