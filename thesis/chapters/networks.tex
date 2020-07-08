@@ -29,7 +29,7 @@ Note that from the definition of Mutual Information,
 $\mathit{MI}(x, y) = 0$
 if and only if $P(x, y) = P(x) P(y)$.
 
-In our case, for each combination of genes $x, y$ we want to obtain:
+In our case, for each combination of genes $x, y$ with $M$ observations we want to obtain:
 \[ \mathit{MI}(\{ x_i \}_{i=1,\dots,M}, \{ y_i \}_{i=1,\dots,M}) \]
 Since microarray data is expressed by continuous variables,
 we have to use the differential entropy instead of the entropy
@@ -41,6 +41,12 @@ where $i$ is an index which iterates through all observations of a gene $x$
 and $K(.)$ is a kernel.
 In particular, \cite{DBLP:journals/bmcbi/MargolinNBWSFC06} proposes
 $K(.)$ to be a Gaussian kernel.
+
+Finally, we compute the MI between two genes $x, y$ using the formula:
+\begin{align*}
+    \mathit{MI}(\{ x_i \}, \{ y_i \}) & = \iint \hat{p}(x, y) \log [\frac{\hat{p}(x, y)}{\hat{p}(x) \hat{p}(y)}] \, dx \, dy          \\
+                                      & \approx \frac{1}{M} \sum_{i=1}^{M} \log [\frac{\hat{p}(x_i, y_i)}{\hat{p}(x_i) \hat{p}(y_i)}]
+\end{align*}
 
 \subsection{Identification of a meaningful threshold}
 Since the MI can not be zero by construction
