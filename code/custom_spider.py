@@ -21,8 +21,8 @@ from scrapy.linkextractors import LinkExtractor
 
 class CustomSpider(scrapy.Spider):
     name = 'Custom'
-    start_urls = ['https://www.example.org/']
-    allowed_domains = ['www.example.org']
+    start_urls = ['https://corsi.unige.it']
+    allowed_domains = ['corsi.unige.it']
 
     def parse(self, response):
         links = list(LinkExtractor(
@@ -37,7 +37,7 @@ class CustomSpider(scrapy.Spider):
             'url': url.replace(',', '%2C'),
             'connected_to': [response.urljoin(url.url.replace(',', '%2C'))
                              for url in links],
-            'content': response.text
+            'content': response.css('main').get()
         }
 
         for link in links:
