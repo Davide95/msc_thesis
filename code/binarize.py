@@ -19,6 +19,7 @@ import argparse
 from pathlib import Path
 
 import numpy as np
+from scipy.sparse import coo_matrix, save_npz
 
 
 def binarize():
@@ -26,7 +27,7 @@ def binarize():
     binarized = data >= ARGS.threshold
     np.fill_diagonal(binarized, False)
 
-    return binarized
+    return coo_matrix(binarized)
 
 
 # The execution starts here
@@ -40,7 +41,7 @@ if __name__ == "__main__":
     ARGS = PARSER.parse_args()
 
     NETWORK = binarize()
-    PATH = Path(ARGS.filename).stem + '-adj.npy'
+    PATH = Path(ARGS.filename).stem + '-adj.npz'
 
-    np.save(PATH, NETWORK)
+    save_npz(PATH, NETWORK)
     print('Output saved at:', PATH)
