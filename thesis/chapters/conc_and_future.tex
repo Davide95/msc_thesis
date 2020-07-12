@@ -1,0 +1,25 @@
+\chapter{Conclusions and further work}
+The main purpose of this work was to inference
+the similarities between documents in a collection,
+obtaining a network in which vertices are documents and
+edges express similarity of content.
+In particular we worked with scraped websites,
+showing that for our data it is possible to construct
+a graph of relations between thousand of webpages
+without scaling issues.
+
+Due to limited time, we have worked with monolingual
+websites but we propose an approach to overcome this issue.
+The problem can be divided into two steps:
+an automatical identification of the language of a document and
+the production of an algorithm to have the same bag-of-words
+representation for each concept expressed in different languages.
+
+Since we are working with web data, it is possible to retrieve the language
+of the content of each webpage by reading the Content-Language entity header
+(see \cite{rfc7231}) or the lang global attribute
+(see the HTML 5.1 W3C Recommendation\footnote{\url{https://www.w3.org/TR/html51/dom.html\#the-lang-and-xmllang-attributes}}).
+Note that the second approach is preferable when \say{lang} is provided
+since it handles the situation in which at least
+one webpage is composed of sections with different languages each.
+

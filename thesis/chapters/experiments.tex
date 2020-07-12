@@ -159,7 +159,7 @@ problem.
 The majority of operations in our source code are applied to vectors and matrices.
 Modern CPUs provide SIMD (Single Instruction, Multiple Data) instructions like
 Intel\textsuperscript{®} AVX-512 to speed up this kind of computations.
-In order to use them in the source code, we make use of a library called NumPy\footnote{https://numpy.org/}
+In order to use them in the source code, we make use of a library called NumPy\footnote{\url{https://numpy.org/}}
 which is interoperable between different hardware and computing platforms.
 
 Furthermore, it allows us to have more numerical stability when dealing with huge
@@ -172,7 +172,7 @@ The interested reader can find more advantages of using NumPy reading \cite{5725
 
 \subsection{Numba}
 When vectorization is not enough due to the computational costs of the algorithms used, we
-compile portions of the Python code to machine code through Numba\footnote{https://numba.pydata.org/}.
+compile portions of the Python code to machine code through Numba\footnote{\url{https://numba.pydata.org/}}.
 
 Thanks to this tool, portions of the software can:
 \begin{itemize}
