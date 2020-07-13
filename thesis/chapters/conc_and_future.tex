@@ -5,13 +5,13 @@ obtaining a network in which vertices are documents and
 edges express similarities of the content.
 In particular, we worked with scraped websites
 showing that for our data it is possible to construct
-a graph of relations between thousand of webpages
+a graph of relations between thousands of webpages
 without scaling issues.
 
 Due to limited time, we dealt with monolingual
-websites but we propose an approach to overcome this issue.
+websites, but we propose an approach to overcome this issue.
 The problem can be divided into two steps:
-an automatical identification of the language of a portion of text and
+an automatic identification of the language of a portion of text and
 the production of an algorithm to have the same Bag-of-Words
 representation for each concept expressed in different languages.
 
@@ -22,7 +22,7 @@ of the content of each webpage by looking at the Content-Language entity header
 Note that the second approach is preferable when \say{lang} is provided
 since it handles the situation in which at least
 one webpage is composed of sections with different languages.
-When both of the options are not available,
+When both options are not available,
 a language identification model
 (see fastText resources\footnote{\url{https://fasttext.cc/docs/en/language-identification.html}})
 could be used as a failover.
@@ -30,12 +30,12 @@ could be used as a failover.
 In order to have different languages with a common Bag-of-Words
 representation, we could translate each document to a pre-defined language
 and then compute the BoW format for each document as previously done.
-The lack of pre-trained models that cover a wide range of languages
-requires to find alternative solutions to the problem of translation.
-The option that we suggest is to find already trained multilingual word embeddings
+The lack of pre-trained models covering a wide range
+of languages requires to find alternative solutions to the problem of translation.
+we suggest to look for already trained multilingual word embeddings
 which are aligned in a common space (see fastText resources\footnote{\url{https://fasttext.cc/docs/en/english-vectors.html}})
 to use them to find an association between words expressing the same concept in different languages.
 The assumption we made in the last scenario is that words in different languages share
-the same meaning and for this reason different word vectors of different languages differ only in the basis
+the same meaning and for this reason different word vectors of different languages differ only on the basis
 of the vector space in which they are represented.
 The interested reader may refer to \cite{DBLP:journals/corr/abs-1804-07745} for further analysis of the topic.
