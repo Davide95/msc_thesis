@@ -22,4 +22,20 @@ of the content of each webpage by reading the Content-Language entity header
 Note that the second approach is preferable when \say{lang} is provided
 since it handles the situation in which at least
 one webpage is composed of sections with different languages each.
+When both of the options are not available,
+a language identification model
+(see \footnote{\url{https://fasttext.cc/docs/en/language-identification.html}})
+could be used as a failover.
 
+In order to have different languages with a common bag-of-words
+representation, we could translate each document to a pre-defined language
+and then compute the BoW format for each document as previously done.
+The lack of pre-trained models that cover a wide range of languages
+requires to find alternative solutions to the problem of translation.
+The option that we suggest is to find already trained multilingual word embeddings
+that are aligned in a common space (see \footnote{\url{https://fasttext.cc/docs/en/english-vectors.html}}),
+using them to find an association between words in a language expressing the same concept and an unique BoW representation.
+The assumption we made in the last scenario is that words in different languages share
+the same meaning and for this reason different word embedding differ only in the basis
+of the vector space in which they are represented.
+The interested reader may refer to \cite{DBLP:journals/corr/abs-1804-07745} for further analysis of the topic.
