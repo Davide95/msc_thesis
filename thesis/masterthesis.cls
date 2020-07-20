@@ -1,6 +1,7 @@
 %%
 %%    File : disithesis.cls    (LaTeX2e class file)
-%%  Author : Davide Ancona (davide.ancona@unige.it) 
+%%  Author(s) : Davide Ancona (davide.ancona@unige.it) 
+%%            : Davide Ancona (davide.ancona@unige.it) 
 %% Version : 1.0 [17/10/2018]
 %%
 %% This file contains a class definition, disithesis, for the LaTeX2e
@@ -20,8 +21,7 @@
 \RequirePackage{graphics}
 
 \newcommand{\degreetext}{}
-\newcommand{\department}{Dipartimento di Informatica, Bioingegneria, \vskip 0pt 
-  Robotica e Ingegneria dei Sistemi (DIBRIS)}
+\newcommand{\department}{Dipartimento di Informatica, Bioingegneria, Robotica e Ingegneria dei Sistemi (DIBRIS)}
 \newcommand{\university}{Universit\`a degli Studi di Genova}
 \newcommand{\@chapteralignment}{\centering}
 \newcommand{\draftmessage}{}
@@ -47,7 +47,7 @@
 
 \DeclareOption{final}{\renewcommand{\degreetext}{
     MSc  Computer  Science\\
-    \small Data  Science  and  Engineering}}
+    \small Data  Science  and  Engineering Curriculum}}
 
 \DeclareOption{centerchapter,centrechapter}
    {\renewcommand{\@chapteralignment}{\centering}}
@@ -371,21 +371,18 @@
 {%%%% else
 \renewcommand{\maketitle}{
 \begin{titlepage}%
-  {{\LARGE%
+  {%
       \begin{tabular}[b]{l}
-        \includegraphics{logoDIBRIS} \\
-Dipartimento di Informatica, Bioingegneria,\\%[-8pt]
-  Robotica e Ingegneria dei Sistemi (DIBRIS)\\
-   \end{tabular}  \hfill }
+        \includegraphics[width=.7\textwidth]{dibris_extended_black} \\
+   \end{tabular} 
    
-   \hrulefill
+   %\hrulefill
 
    \vfill
 
-   \begin{center}\Large
+   \begin{center}\LARGE
    {\bfseries \@title}\\
    \ \\
-   by\\
    \ \\
    \@author
    \end{center}
@@ -395,30 +392,31 @@ Dipartimento di Informatica, Bioingegneria,\\%[-8pt]
    {\large
     Master Thesis  %%\hfill {\bfseries DIBRIS-TH-\@submityear-\@technumber}
     %%%Technical Reports Series \hfill {\bf DISI-TR-\@submityear-\@technumber}
+   }
+   %\hrulefill
 
-   \hrulefill
-
-   DIBRIS, Universit\`a di Genova}
-
+   
+\vskip 50\p@
    {\normalsize
+   Universit\`a di Genova, DIBRIS
      Via Opera Pia, 13
-     16145 Genova, Italy
+     16145 Genova, Italy\\
    \hfill {\texttt https://www.dibris.unige.it/}}}%
   \vfil\null
   \end{titlepage}%
 
       \begin{titlepage}\begin{center}
-      \null\vfil\vskip 10\p@
-                       {\Large\bfseries \university \vskip 10\p@
-                                   \includegraphics{logoUnige} \vskip 10\p@
-                       \department \vskip 10\p@
+      \null\vfil
+      \includegraphics[width=.2\textwidth]
+      {logo_verticale_BLACK}\vskip 40\p@
+      {\Large\bfseries 
                        \degreetext  
          \ifthenelse{\boolean{draftthesis}}
                     {\vskip 0\p@\large (Draft Copy)}{}\vskip 40\p@}
-                    {\LARGE   \bfseries\@title \vskip 10\p@}
-         {\Large by \vskip 10\p@
-           \@author \vskip 10\p@
-\large {Advisor: \@advisor  \hskip \fill  Examiner: \@examiner \vskip 10\p@}
+                    {\LARGE   \bfseries\@title \vskip 60\p@}
+         { 
+           \Large \@author \vskip 60\p@
+\large Advisor: \@advisor  \hskip \fill  Examiner: \@examiner \vskip 10\p@
          }     
       \vfill
           {\Large \@submitmonth, \@submityear}
