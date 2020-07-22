@@ -164,3 +164,4 @@ thesis/*/*.aux
 
 thesis/images/similarity_graphs/filtered/*.pdf
 thesis/images/similarity_graphs/non-filtered/*.pdf
+.vscode/settings.json
