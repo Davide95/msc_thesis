@@ -59,7 +59,7 @@ def build_dataset(structure, content):
     return x, y
 
 
-    # The execution starts here
+# The execution starts here
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
                         level=logging.INFO)
@@ -93,4 +93,3 @@ if __name__ == "__main__":
 
     TESTS = [[val] for val in np.linspace(0, 1, 20)]
     print(CLF.predict(TESTS))
-    
