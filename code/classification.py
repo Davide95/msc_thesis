@@ -4,6 +4,8 @@ import logging
 import numpy as np
 import networkx as nx
 import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import f1_score, matthews_corrcoef, accuracy_score
 
 
 def load_structure():
@@ -30,49 +32,14 @@ def load_structure():
     return structure_graph
 
 
-def RDN(G, n_sub):
-    '''It samples a subgraph from G by random selcting n_sub nodes based on the degree distribution.'''
-    n_nodes = len(G.nodes())
-    assert n_sub <= n_nodes and n_sub > 0
-
-    degree = np.asarray([d for n, d in G.degree()])
-    norm_degree = (1/np.sum(degree))*degree
-
-    sampled = np.random.choice(
-        np.arange(n_nodes), n_sub, replace=False, p=norm_degree)
-
-    return sampled
-
-
-def build_pos_dataset(structure, content, sampled):
-    train = []
-    test = []
-
+def build_dataset(structure, content):
+    x, y = [], []
     for from_node in range(structure.shape[0]):
         for to_node in range(from_node):
-            if structure[from_node, to_node] == 1:
-                content_val = content[from_node, to_node]
-                if from_node in sampled and to_node in sampled:
-                    train.append([content_val, 1])
-                else:
-                    test.append([content_val, 1])
+            x.append([content[from_node, to_node]])
+            y.append(structure[from_node, to_node])
 
-    return np.asarray(train), np.asarray(test)
-
-
-def build_neg_dataset(structure, content, ratio):
-    train = []
-    test = []
-    for from_node in range(structure.shape[0]):
-        for to_node in range(from_node):
-            if structure[from_node, to_node] == 0:
-                content_val = content[from_node, to_node]
-                if np.random.binomial(1, ratio):
-                    train.append([content_val, 0])
-                else:
-                    test.append([content_val, 0])
-
-    return np.asarray(train), np.asarray(test)
+    return x, y
 
 
     # The execution starts here
@@ -85,23 +52,28 @@ if __name__ == "__main__":
                         help='filename of the CSV containing the preprocessed scraped data')
     PARSER.add_argument('distances_matrix',
                         help='filename of the .npz representing the distance matrix')
-    PARSER.add_argument('train_size',
-                        help='It represent the percentage of the dataset to include in the train split',
-                        type=float, default=0.7)
     ARGS = PARSER.parse_args()
 
     STRUCTURE = load_structure()
     STRUCTURE_ADJ = np.array(nx.to_numpy_matrix(STRUCTURE, dtype=np.int32))
     np.fill_diagonal(STRUCTURE_ADJ, 0)
-    CONTENT_ADJ = np.load(ARGS.distances_matrix).astype(int)
+    CONTENT_ADJ = np.load(ARGS.distances_matrix).astype(float)
 
-    TRAIN_NUM = int(len(STRUCTURE.nodes()) * ARGS.train_size)
-    TRAIN_NODES = RDN(STRUCTURE, TRAIN_NUM)
+    X, Y = build_dataset(STRUCTURE_ADJ, CONTENT_ADJ)
+    UNIQUE, COUNTS = np.unique(Y, return_counts=True)
+    COUNTS = COUNTS / np.sum(COUNTS)
+    print('Unbalancedness:', UNIQUE, COUNTS)
 
-    TRAIN_POS, TEST_POS = build_pos_dataset(STRUCTURE_ADJ, CONTENT_ADJ, TRAIN_NODES)
-    TRAIN_POS_RATIO = TRAIN_POS.shape[0] / (TRAIN_POS.shape[0] + TEST_POS.shape[0])
-    print('Train (positive labels)', TRAIN_POS_RATIO, '% of the dataset.')
+    CLF = LogisticRegression(penalty='none', fit_intercept=False)
+    CLF.fit(X, Y)
+    print('Threshold:', CLF.coef_)
+    print('Intercept:', CLF.intercept_)
 
-    TRAIN_NEG, TEST_NEG = build_neg_dataset(STRUCTURE_ADJ, CONTENT_ADJ, TRAIN_POS_RATIO)
-    TRAIN_NEG_RATIO = TRAIN_NEG.shape[0] / (TRAIN_NEG.shape[0] + TEST_NEG.shape[0])
-    print('Train (negative labels)', TRAIN_NEG_RATIO, '% of the dataset.')
+    PREDICTED = CLF.predict(X)
+    print('Accuracy:', accuracy_score(Y, PREDICTED))
+    print('F1 score:', f1_score(Y, PREDICTED))
+    print('MCC:', matthews_corrcoef(Y, PREDICTED))
+
+    TESTS = [[val] for val in np.linspace(0, 1, 20)]
+    print(CLF.predict(TESTS))
+    
