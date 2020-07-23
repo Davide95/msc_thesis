@@ -47,7 +47,7 @@ def convert(structure, content):
 
     for index, row in content.iterrows():
         url.append(str(index))
-        page_content.append(row.values.tostring())
+        page_content.append(','.join(map(str, row.values)))
         connected_to.append(','.join(map(str, structure.neighbors(index))))
 
     return pd.DataFrame(data={'url': url,

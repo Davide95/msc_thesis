@@ -27,12 +27,14 @@ from sklearn.metrics import f1_score, matthews_corrcoef, accuracy_score
 
 def load_structure():
     structure_df = pd.read_csv(ARGS.preprocessed_data, usecols=[
-                               'url', 'connected_to'])
+                               'url', 'connected_to'],
+                               dtype={'url': 'str', 'connected_to': 'str'} )
 
     structure_graph = nx.Graph()
 
     # Load nodes
     structure_graph.add_nodes_from(structure_df['url'].values)
+    print(structure_df['url'].values)
 
     # Load edges
     for _, row in structure_df.iterrows():
@@ -75,6 +77,8 @@ if __name__ == "__main__":
     STRUCTURE_ADJ = np.array(nx.to_numpy_matrix(STRUCTURE, dtype=np.int32))
     np.fill_diagonal(STRUCTURE_ADJ, 0)
     CONTENT_ADJ = np.load(ARGS.distances_matrix).astype(float)
+    print('Structure shape:', STRUCTURE_ADJ.shape)
+    print('Content shape:', CONTENT_ADJ.shape)
 
     X, Y = build_dataset(STRUCTURE_ADJ, CONTENT_ADJ)
     UNIQUE, COUNTS = np.unique(Y, return_counts=True)

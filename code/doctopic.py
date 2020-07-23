@@ -30,6 +30,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import CountVectorizer
+from scipy import sparse
 
 from gensim.matutils import Sparse2Corpus, corpus2dense
 from gensim.models import HdpModel
@@ -108,6 +109,20 @@ def parse_html(chunkdir):
     )['content']
 
     return (raw,)
+
+
+def read_bow():
+    '''Read BOW instead of computing it.'''
+    dataframe = pd.read_csv(ARGS.filename, usecols=['content'])
+
+    content = list(map(lambda x: np.fromstring(x, dtype=np.int32, sep=','),
+                       dataframe['content'].values))
+    content = np.asarray(content)
+
+    # Since we don't have a vocabulary, it's a 1:1 map with the indexes
+    vocab = dict([k, k] for k in range(content[0].shape[0]))
+
+    return (sparse.csr_matrix(content), vocab)
 
 
 def bow(raw):
@@ -193,12 +208,19 @@ if __name__ == "__main__":
                         help='Title of the plots')
     PARSER.add_argument('--max_time', type=int, default=3600,
                         help='Maximum number of seconds of training time')
+    PARSER.add_argument('--skip_parsing', action='store_true',
+                        help='Skip the HTML parsing if the content is in the BOW format')
     ARGS = PARSER.parse_args()
 
     nltk.download('stopwords')
 
     PARAMS = ()
-    STEPS = [prep_csv, parse_html, bow, hda, plot_topic_importance]
+
+    if not ARGS.skip_parsing:
+        STEPS = [prep_csv, parse_html, bow, hda, plot_topic_importance]
+    else:
+        STEPS = [read_bow, hda, plot_topic_importance]
+
     for step in STEPS:
         print('Running step', step.__name__)
 
