@@ -45,13 +45,5 @@ Given two discrete probability distributions $p$ and $q$, the Hellinger distance
 \[\mathit{HD}(p, q) = \mathit{HD}(q, p) = \frac{1}{\sqrt{2}} \sqrt{\sum_i (\sqrt{p(i)} - \sqrt{q(i)})^2}\]
 Note that in the literature the Hellinger distance is defined in different ways (e.g. with or without $\frac{1}{\sqrt{2}}$).
 
-\section{Jensen–Shannon divergence}
-The Jensen–Shannon divergence of two probability distributions $p$ and $q$ is defined as:
-\[ \mathit{JS}(p \| q) = \frac{\mathit{KL}(p \| m) + \mathit{KL}(q \| m)}{2} \]
-where $m = \frac{p+q}{2}$.
-
-Note that it has the same advantages over the Kullback–Leibler divergence
-as previously discussed for the Hellinger distance.
-
 \section{References}
 The interested reader may refer to \cite{Joyce2011}, \cite{61115} and \cite{Hellinger1909} for further analysis of the topic.
