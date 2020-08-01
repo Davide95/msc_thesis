@@ -1,27 +1,16 @@
 \chapter{Experiments}
 This chapter explains step-by-step our original work, built on top of the theory presented in the previous chapters.
-Steps are grouped into sections, sorted by chronological order.
 
+Steps are grouped into sections, sorted by chronological order.
 The last section (Section \ref{scaling}) considers instead the scalability issues that we encountered and how we managed them.
 
-\section{Source code}
-All source code is licensed under the GNU General Public License v3.0 and it can be found at \url{https://github.com/Davide95/msc_thesis/tree/master/code}.
 
-All code is written in Python 3.7. The external libraries used are reported in the relative \texttt{requirements.txt} file and can be installed through the command \texttt{pip install -r requirements.txt}.
-
-A set of tests that can be found at \url{https://github.com/Davide95/msc_thesis/tree/master/tests} were done to check the validity of the code.
-The source code was also analyzed with \say{flake8} and \say{pylint}.
-
-All experiments were tested on a PowerEdge T630 server with the following characteristics:
-\begin{itemize}
-    \item Intel(R) Xeon(R) CPU E5-2630 v3 @ 2.40GHz (2 sockets)
-    \item 8x16GiB of RAM
-\end{itemize}
 
 \section{Crawling}
-In order to collect data, we selected some monolingual websites to experiment with (see Table \ref{table:dbinfo}).
+In order to collect data, 
+we implemented a spider that given a particular domain, it downloads and store all HTML documents 
+and the relative structure built upon the links that we encounter.
 
-Then, we implemented a spider to download and store all HTML documents in a particular domain.
 The application can be summarized with these steps:
 \begin{enumerate}
     \item first, the software starts from an URL defined by the user, putting it into a pool
@@ -30,67 +19,11 @@ The application can be summarized with these steps:
     \item all links of that webpage which are in the specified domain are stored. They are also put into the pool if they were not analyzed previously
     \item loop to step 2 until there are no links left
 \end{enumerate}
+
 The final result is a set of tuples \texttt{(url, connected\_to, content)}, where \texttt{url} is the URL of a particular page, \texttt{connected\_to} is its set of links and \texttt{content} is its HTML source code.
 Scrapy allows saving these results in different formats, but we choose to save everything in CSV files in order to re-use them easily in the next phases.
 
-To get an idea of the size of each dataset, we report the number of documents and the number of unique words in Table \ref{table:dbdata}.
-During the scraping of \say{goop}, we realized that there were errors. We then decided to keep it anyway in order to observe if and how the next step will be affected.
-
-\begin{table}[H]
-    \resizebox{\columnwidth}{!}{
-        \begin{tabular}{ |l|l|l|l|l| }
-            \hline
-            ID                & URL                                & Domain                & Language & Date of acquisition \\
-            \hline
-            \hline
-            bnu               & https://english.bnu.edu.cn/        & english.bnu.edu.cn    & en       & 2020-04-26          \\
-            \hline
-            goop              & https://goop.com/                  & goop.com              & en       & 2020-04-26          \\
-            \hline
-            ilblogdellestelle & https://www.ilblogdellestelle.it/  & ilblogdellestelle.it  & it       & 2020-04-26          \\
-            \hline
-            msccrociere       & https://www.msccrociere.it/        & msccrociere.it        & it       & 2020-04-26          \\
-            \hline
-            unige             & https://corsi.unige.it             & corsi.unige.it        & it       & 2020-06-03          \\
-            \hline
-            postgraduate      & https://www.postgraduateforum.com/ & postgraduateforum.com & en       & 2020-04-26          \\
-            \hline
-        \end{tabular}
-    }
-    \caption{List of websites crawled. Languages follow the ISO 639-1 format, while dates are represented according to ISO 8601.}
-    \label{table:dbinfo}
-\end{table}
-
-\begin{table}[H]
-    \begin{center}
-        \begin{tabular}{ |l|l|l| }
-            \hline
-            ID                & N. of documents & N. of unique words \\
-            \hline
-            bnu               & 1354            & 15336              \\
-            \hline
-            goop              & 26094           & 114655             \\
-            \hline
-            ilblogdellestelle & 27772           & 133369             \\
-            \hline
-            msccrociere       & 558             & 21332              \\
-            \hline
-            unige             & 20722           & 29286              \\
-            \hline
-            postgraduate      & 48803           & 114831             \\
-            \hline
-        \end{tabular}
-    \end{center}
-    \caption{
-        The number of documents and unique words for each dataset obtained during the crawling phase.
-        During the count of unique words, everything which is not text (HTML tags, CSS, Javascript, ...) is excluded.
-    }
-    \label{table:dbdata}
-\end{table}
-
-\section{Data preparation} \label{preprocessing}
 Before using the scraped data, we performed a data preparation phase over it.
-
 In this phase we make a strong assumption about webpages:
 different URLs with the same scheme correspond to the same page.
 For instance, \url{http://www.example.com} and \url{https://www.example.com}
@@ -99,62 +32,58 @@ are considered links to the same resource.
 Following this assumtion, we then removed all duplicates from the \say{url} column
 of the .csv files: only the first occurrence of each URL is kept.
 
-As we can see from Table \ref{table:dbprocdata}, the number of documents decreases after pre-processing,
-while the number of unique words is still the same for each website.
-This fact confirms empirically the validity of the assumption made before for the data considered.
+As a dataset, we decided to scrape \url{corsi.unige.it} starting the procedure from \url{https://corsi.unige.it}. 
+This decision was made for the following reasons:
+\begin{itemize}
+    \item it is monolingual (pages are in italian)
+    \item we have prior knowledge of its structure 
+    \item we know that it has recurring patterns in its content
+\end{itemize}
+In particular, we leverage the last point in Section MIAOMIAOMIAO to evaluate the quality of the inferred network.
 
-\begin{table}[H]
-    \begin{center}
-        \begin{tabular}{ |l|l|l| }
-            \hline
-            ID                & N. of documents & N. of unique words \\
-            \hline
-            bnu               & 993             & 15336              \\
-            \hline
-            goop              & 26093           & 114655             \\
-            \hline
-            ilblogdellestelle & 27771           & 133369             \\
-            \hline
-            msccrociere       & 557             & 21332              \\
-            \hline
-            unige             & 20722           & 29286              \\
-            \hline
-            postgraduate      & 48802           & 114831             \\
-            \hline
-        \end{tabular}
-    \end{center}
-    \caption{
-        The number of documents and unique words for each dataset after the preprocessing phase.
-    }
-    \label{table:dbprocdata}
-\end{table}
+Thanks to the scraping started on 3 June 2020, we obtained a dataset of 20722 documents and 29286 unique terms. 
+After the preprocessing phase, the number of documents and words remain the same.
+These results are consistent with our prior knowledge of the website and the assumtion we made before.
+
+
 
 \section{Similarity graph} \label{sgexp}
-For each dataset obtained in the phase described in Section \ref{preprocessing},
-we perform Topic Modeling using HDP. In particular, the content of each HTML document is
+After preprocessing, we performed Topic Modeling using HDP. 
+In particular, in this phase the content of each HTML document is
 parsed and only the raw text is kept to be used for inference. Common stop words are also removed.
 
 Given the document-topic matrix,
-we compute the Hellinger distance (see Section \ref{hd}) between each pair of documents $(p, q)$:
+we then computed the Hellinger distance (see Section \ref{hd}) between each pair of documents $(p, q)$:
 \[\mathit{HD}(p, q) = \mathit{HD}(q, p) = \frac{1}{\sqrt{2}} \sqrt{\sum_i (\sqrt{p(i)} - \sqrt{q(i)})^2}\]
-The final output is a sort of similarity graph represented through an adjacency matrix.
-Each edge weight $w$ is in the interval $[0, 1]$;
-$1-w$ can be viewed as how the two pages are similar.
+The final output is can be viewed as a similarity graph represented through an adjacency matrix.
+Since each computed Hellinger distance $d$ is always in the interval $[0, 1]$ by definition, the distance 
+$1-d$ can be viewed as the weight of the edge between two documents.
 
 One problem that we must deal with is the fact that
 webpages in a domain could have portions of HTML in common which are not relevant to the content of the page itself.
-An example is the headers and footers on websites.
-To avoid this issue, we decided to filter out the words that appear in more than 50\% of documents.
-To compare the filtered version with the non-filtered, we plot the average value of each topic in the corpus.
-Applying a filter in some cases tends to smooth topics preponderance.
-We then finally decided to use the filtered version from now on.
+For this reason, we decided to keep two similarity graphs:
+\begin{itemize}
+    \item a filtered version where words that appear in more than 50\% of documents are not considered
+    \item an unfiltered one
+\end{itemize}
+
+
+
+\section{Scaling issues} \label{scaling}
+
+All source code is licensed under the GNU General Public License v3.0 and it can be found at \url{https://github.com/Davide95/msc_thesis/tree/master/code}.
+It is written in Python 3.7 and the external libraries used are reported in the relative \texttt{requirements.txt} file.
+The source code was also analyzed with \say{flake8} and \say{pylint} to improve readability and to spot bugs.
 
 During the writing of the source code, we encountered some scalability issues related to
 the size of the datasets and the computational complexity of the algorithms used.
 This section contains a summary of the main strategies used to overcome this
-problem.
+problem. All experiments were tested on a PowerEdge T630 server with the following characteristics:
+\begin{itemize}
+    \item Intel(R) Xeon(R) CPU E5-2630 v3 @ 2.40GHz (2 sockets)
+    \item 8x16GiB of RAM
+\end{itemize}
 
-\section{Scaling issues} \label{scaling}
 \subsection{NumPy}
 The majority of operations in our source code are applied to vectors and matrices.
 Modern CPUs provide SIMD (Single Instruction, Multiple Data) instructions like
