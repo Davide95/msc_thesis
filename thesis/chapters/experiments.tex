@@ -20,14 +20,15 @@ The application can be summarized with these steps:
     \item loop to step 2 until there are no links left
 \end{enumerate}
 
-The final result is a set of tuples \texttt{(url, connected\_to, content)}, where \texttt{url} is the URL of a particular page, \texttt{connected\_to} is its set of links and \texttt{content} is its HTML source code.
+The final result is a set of tuples \texttt{(url, connected\_to, content)}, where \texttt{url} is the URL of a particular page, \texttt{connected\_to} is its set of links and \texttt{content} is the content of the \say{<main>} tag.
 Scrapy allows saving these results in different formats, but we choose to save everything in CSV files in order to re-use them easily in the next phases.
+Note that we consider only what it is inside of the \say{<main>} tag, in order to store only the main content for each page.
 
 Before using the scraped data, we performed a data preparation phase over it.
 In this phase we make a strong assumption about webpages:
 different URLs with the same scheme correspond to the same page.
 For instance, \url{http://www.example.com} and \url{https://www.example.com}
-are considered links to the same resource.
+are considered links to the same resource. 
 
 Following this assumtion, we then removed all duplicates from the \say{url} column
 of the .csv files: only the first occurrence of each URL is kept.
