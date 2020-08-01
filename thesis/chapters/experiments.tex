@@ -1,5 +1,5 @@
 \chapter{Experiments}
-This chapter explains step-by-step our original work, built on top of the theory presented in the previous chapters.
+This chapter explains step-by-step our original work, built on top of the theory presented before.
 
 Steps are grouped into sections, sorted by chronological order.
 The last section (Section \ref{scaling}) considers instead the scalability issues that we encountered and how we managed them.
@@ -15,58 +15,63 @@ The application can be summarized with these steps:
 \begin{enumerate}
     \item first, the software starts from an URL defined by the user, putting it into a pool
     \item if the pool is not empty, the application will get a link from it, starting its download. After getting the link, it is removed from the pool
-    \item if the content is a valid HTML document, it is stored
+    \item if the content is a valid HTML document it is stored
     \item all links of that webpage which are in the specified domain are stored. They are also put into the pool if they were not analyzed previously
     \item loop to step 2 until there are no links left
 \end{enumerate}
 
-The final result is a set of tuples \texttt{(url, connected\_to, content)}, where \texttt{url} is the URL of a particular page, \texttt{connected\_to} is its set of links and \texttt{content} is the content of the \say{<main>} tag.
+The final result is a set of tuples \texttt{(url, connected\_to, content)}, where \texttt{url} is the URL of a particular page, \texttt{connected\_to} is its set of links and \texttt{content} is the content of the \say{\textless main\textgreater} tag.
 Scrapy allows saving these results in different formats, but we choose to save everything in CSV files in order to re-use them easily in the next phases.
-Note that we consider only what it is inside of the \say{<main>} tag, in order to store only the main content for each page.
+Note that we consider only what it is inside of the \say{\textless main\textgreater} tag, in order to store only the main content for each page.
 
 Before using the scraped data, we performed a data preparation phase over it.
-In this phase we make a strong assumption about webpages:
+During this step, we made a strong assumption about webpages:
 different URLs with the same scheme correspond to the same page.
 For instance, \url{http://www.example.com} and \url{https://www.example.com}
 are considered links to the same resource. 
 
-Following this assumtion, we then removed all duplicates from the \say{url} column
-of the .csv files: only the first occurrence of each URL is kept.
+Following this assumption, we then removed all duplicates from the \say{url} column
+of the .csv file: only the first occurrence of each URL is kept.
 
-As a dataset, we decided to scrape \url{corsi.unige.it} starting the procedure from \url{https://corsi.unige.it}. 
+In order to use it as a dataset, we decided to scrape \url{corsi.unige.it} starting the procedure from \url{https://corsi.unige.it}. 
 This decision was made for the following reasons:
 \begin{itemize}
-    \item it is monolingual (pages are in italian)
+    \item it is monolingual (pages are in Italian)
     \item we have prior knowledge of its structure 
     \item we know that it has recurring patterns in its content
 \end{itemize}
-In particular, we leverage the last point in Section MIAOMIAOMIAO to evaluate the quality of the inferred network.
+Note that in Section \ref{eval} we leverage the last point to evaluate the quality of the inferred network.
 
 Thanks to the scraping started on 3 June 2020, we obtained a dataset of 20722 documents and 29286 unique terms. 
-After the preprocessing phase, the number of documents and words remain the same.
-These results are consistent with our prior knowledge of the website and the assumtion we made before.
+After the preprocessing phase, the number of documents and words remained the same.
+These results are consistent with our prior knowledge of the website and with the assumption that we made before.
 
 
 
 \section{Similarity graph} \label{sgexp}
-After preprocessing, we performed Topic Modeling using HDP. 
-In particular, in this phase the content of each HTML document is
+After preprocessing we performed Topic Modeling using HDP. 
+In this phase the content of each HTML document is
 parsed and only the raw text is kept to be used for inference. Common stop words are also removed.
 
 Given the document-topic matrix,
 we then computed the Hellinger distance (see Section \ref{hd}) between each pair of documents $(p, q)$:
 \[\mathit{HD}(p, q) = \mathit{HD}(q, p) = \frac{1}{\sqrt{2}} \sqrt{\sum_i (\sqrt{p(i)} - \sqrt{q(i)})^2}\]
-The final output is can be viewed as a similarity graph represented through an adjacency matrix.
+The final output can be viewed as a similarity graph represented through an adjacency matrix.
 Since each computed Hellinger distance $d$ is always in the interval $[0, 1]$ by definition, the distance 
-$1-d$ can be viewed as the weight of the edge between two documents.
+$1-d$ could be used as the weight of the edge between each pair of documents.
 
 One problem that we must deal with is the fact that
 webpages in a domain could have portions of HTML in common which are not relevant to the content of the page itself.
-For this reason, we decided to keep two similarity graphs:
+For this reason, from now on we decided to keep two similarity graphs:
 \begin{itemize}
     \item a filtered version where words that appear in more than 50\% of documents are not considered
     \item an unfiltered one
 \end{itemize}
+
+
+
+\section{Evaluation of the results} \label{eval}
+\dots
 
 
 
