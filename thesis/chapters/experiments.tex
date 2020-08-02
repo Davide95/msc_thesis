@@ -89,7 +89,7 @@ to have a procedure that resembles the one presented in Section \ref{threshold-a
 which filters out spurious weights given a particular p-value.
 
 This procedure was repeated 10 times with a p-value of 0.01. Results can be consulted in Figure \ref{fig:threshold-box}.
-The averaged results were used to produce the two binarized network.
+The averaged results were used to produce the two unweighted networks.
 
 \begin{figure}[ht]
     \centering
@@ -98,6 +98,41 @@ The averaged results were used to produce the two binarized network.
     \caption{Boxplot of the computed thresholds for the filtered version (left) and the unfiltered one (right).}
     \label{fig:threshold-box}
 \end{figure}
+
+\section{Data exploration}
+We then compared the structure of the website built through hyperlinks and the inferred network. 
+In this scenario each link tag is considered an undirected and unweighted edge 
+between the URL of the webpage in which it is found and the URL of its \say{href} tag.
+
+The following proprieties were analyzed:
+\begin{itemize}
+    \item degree distribution
+    \item clustering coefficient
+\end{itemize}
+where the clustering coefficient of a node is the fraction of possible triangles through that node 
+and the average clustering coefficient is just an average between all node of a graph.
+The histograms of the two proprieties expressed can be seen in Figure \ref{fig:exploration}. 
+
+Thanks to this analysis we can both conclude that the inferred networks and the website structure 
+are graphs with different characteristics. 
+In particular, the structure is more sparse than the inferred networks and it is less clustered.
+
+\begin{figure}[ht]
+    \centering
+    \subfigure{\includegraphics[width=0.5\textwidth]{images/data-exploration/dd/structure.png}}%
+    \subfigure{\includegraphics[width=0.5\textwidth]{images/data-exploration/cc/structure.png}}
+    \subfigure{\includegraphics[width=0.5\textwidth]{images/data-exploration/dd/content-filtered.png}}%
+    \subfigure{\includegraphics[width=0.5\textwidth]{images/data-exploration/cc/content-filtered.png}}
+    \subfigure{\includegraphics[width=0.5\textwidth]{images/data-exploration/dd/content-full.png}}%
+    \subfigure{\includegraphics[width=0.5\textwidth]{images/data-exploration/cc/content-full.png}}
+    \caption{Cumulative distribution function of the node degrees (first column) 
+    and the clustering coefficient (second column).
+    The first row is the resulted computations on the structure of the website, while
+    the second and third row show the results respectively from the filtered similarity graph and the unfiltered one.}
+    \label{fig:exploration}
+\end{figure}
+
+
 
 \section{Evaluation of the results} \label{eval}
 \dots
