@@ -6,7 +6,7 @@ The last section (Section \ref{scaling}) considers instead the scalability issue
 
 
 
-\section{Crawling}
+\section{Crawling} \label{crawling}
 In order to collect data, 
 we implemented a spider that given a particular domain, it downloads and store all HTML documents 
 and the relative structure built upon the links that we encounter.
@@ -68,7 +68,35 @@ For this reason, from now on we decided to keep two similarity graphs:
     \item an unfiltered one
 \end{itemize}
 
+\section{Weight binarization of the network}
+We now want to find a good threshold to obtain a sparse representation of the fully connected network built before.
 
+Unfortunately, we can not use the same approach of ARACNE (see Section \ref{aracne}) 
+since shuffling the data do not produce probability distributions. 
+
+To overcame this issue, we built a scraper which samples pages of \url{wikipedia.it} with replacment,
+using the URL \url{https://it.wikipedia.org/wiki/Speciale:PaginaCasuale}.
+The basic idea is that a relatively small number of random pages does unlikely share topics and 
+the resulting Hellinger distance between them can be considered noise. 
+Furthermore, we have to collect enought documents to have a meaningful HDP model.
+
+For this reason, we decided to scrape 100 pages and to compute the two similarity graphs as previously done for \url{corsi.unige.it}. 
+Since the number of Wikipedia webpages is greater than one milion\footnote{Source: \url{https://it.wikipedia.org/w/index.php?title=Speciale:Statistiche\&action=raw}},
+the probability of sampling the same document more than once is relatively small. 
+Thanks to this, it was possible 
+to have a procedure that resembles the one presented in Section \ref{threshold-aracne} 
+which filters out spurious weights given a particular p-value.
+
+This procedure was repeated 10 times with a p-value of 0.01. Results can be consulted from Figure \ref{fig:threshold-box}.
+The averaged results was used to produce the two binarized network.
+
+\begin{figure}[ht]
+    \centering
+    \subfigure{\includegraphics[width=0.5\textwidth]{images/threshold-50.eps}}%
+    \subfigure{\includegraphics[width=0.5\textwidth]{images/threshold-full.eps}}
+    \caption{Boxplot of the computed threshold for the filtered version (left) and the unfiltered one (right).}
+    \label{fig:threshold-box}
+\end{figure}
 
 \section{Evaluation of the results} \label{eval}
 \dots

@@ -19,6 +19,7 @@ import argparse
 import glob
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def random_threshold(filename):
@@ -49,15 +50,26 @@ if __name__ == "__main__":
     PARSER.add_argument(
         'p_value', type=float,
         help='Prior belief on how much our documents are truly indipdendent')
+    PARSER.add_argument('--plot_thresholds', type=str, default=None,
+                        help='Path where to plot the threshold values')
     ARGS = PARSER.parse_args()
-    
+
     filenames = glob.glob(ARGS.pathname)
     print('Filenames extracted:', filenames)
-    
+
     thresholds = []
     for filename in filenames:
-    	threshold = random_threshold(filename)
-    	thresholds.append(threshold)
-    	
-    print('Threshold average:', np.average(thresholds))
-    print('Threshold standard deviation:', np.std(thresholds))
+        threshold = random_threshold(filename)
+        thresholds.append(threshold)
+
+    average = np.average(thresholds)
+    std = np.std(thresholds)
+    
+    print('Threshold average:', average)
+    print('Threshold standard deviation:', std)
+
+    if ARGS.plot_thresholds is not None:
+        plt.boxplot(thresholds)
+        plt.ylabel('Hellinger distance')
+        plt.title(f'Average: {average:.2g}, standard deviation: {std:.2g}')
+        plt.savefig(ARGS.plot_thresholds)

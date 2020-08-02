@@ -5,7 +5,7 @@ that describe the relationships between data.
 In particular, in this chapter, we describe ARACNE, an algorithm introduced by \cite{DBLP:journals/bmcbi/MargolinNBWSFC06}
 for the reconstruction of Gene Regulatory Networks (GRNs).
 
-\section{ARACNE}
+\section{ARACNE} \label{aracne}
 ARACNE (Algorithm for the Reconstruction of Accurate Cellular Network)
 can describe the interactions in cellular networks
 starting from microarray expression profiles;
@@ -48,7 +48,7 @@ Finally, we compute the MI between two genes $x, y$ using the formula:
                                       & \approx \frac{1}{M} \sum_{i=1}^{M} \log [\frac{\hat{p}(x_i, y_i)}{\hat{p}(x_i) \hat{p}(y_i)}]
 \end{align*}
 
-\subsection{Identification of a meaningful threshold}
+\subsection{Identification of a meaningful threshold} \label{threshold-aracne}
 Since the MI can not be zero by construction
 and there might be spurious dependencies between genes,
 we now want to find a threshold for which
