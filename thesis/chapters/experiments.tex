@@ -100,22 +100,23 @@ The averaged results were used to produce the two unweighted networks.
 \end{figure}
 
 \section{Data exploration}
-We then compared the structure of the website built through hyperlinks and the inferred network. 
-In this scenario each link tag is considered an undirected and unweighted edge 
-between the URL of the webpage in which it is found and the URL of its \say{href} tag.
+We then compared the structure of the website built through hyperlinks and the inferred networks. 
+In this scenario, each link tag is considered an undirected and unweighted edge 
+between the URL of the webpage in which it is found and the URL of its \say{href} attribute.
 
 The following proprieties were analyzed:
 \begin{itemize}
-    \item degree distribution
-    \item clustering coefficient
+    \item the degree distribution
+    \item the clustering coefficient
 \end{itemize}
-where the clustering coefficient of a node is the fraction of possible triangles through that node 
-and the average clustering coefficient is just an average between all node of a graph.
-The histograms of the two proprieties expressed can be seen in Figure \ref{fig:exploration}. 
+where the clustering coefficient of a node is the number of possible triangles through that node normalized 
+by the potential maximum number of them 
+and the average clustering coefficient is just an average between all nodes of a graph.
+The histograms of the two proprieties expressed before can be seen in Figure \ref{fig:exploration}. 
 
-Thanks to this analysis we can both conclude that the inferred networks and the website structure 
+Thanks to this analysis we concluded that the inferred networks and the website structure 
 are graphs with different characteristics. 
-In particular, the structure is more sparse than the inferred networks and it is less clustered.
+In particular, the structure is sparser and less clustered than the inferred networks.
 
 \begin{figure}[ht]
     \centering
@@ -126,8 +127,8 @@ In particular, the structure is more sparse than the inferred networks and it is
     \subfigure{\includegraphics[width=0.5\textwidth]{images/data-exploration/dd/content-full.png}}%
     \subfigure{\includegraphics[width=0.5\textwidth]{images/data-exploration/cc/content-full.png}}
     \caption{Cumulative distribution function of the node degrees (first column) 
-    and the clustering coefficient (second column).
-    The first row is the resulted computations on the structure of the website, while
+    and the clustering coefficients (second column).
+    The first row is referring to the structure of the website, while
     the second and third row show the results respectively from the filtered similarity graph and the unfiltered one.}
     \label{fig:exploration}
 \end{figure}
