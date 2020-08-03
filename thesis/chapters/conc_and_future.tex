@@ -6,7 +6,16 @@ edges express similarities of the content.
 In particular, we worked with scraped websites
 showing that for our data it is possible to construct
 a graph of relations between thousands of webpages
-without scaling issues.
+without scaling issues. 
+Note that being a website is not a requirement and 
+our pipeline can be used in the future also for 
+datasets which are only a collection of documents.
+
+An extension of our pipeline might be to consider the semantic tags, 
+assigning different weights to the text inside them. 
+An example could be to consider each title inside a \say{\textless h1\textgreater} 
+tag twice important than text outside it, 
+counting the words twice during the Bag-of-Words conversion.
 
 Due to limited time, we dealt with monolingual
 websites, but we propose an approach to overcome this issue.
@@ -14,7 +23,6 @@ The problem can be divided into two steps:
 an automatic identification of the language of a portion of text and
 the production of an algorithm to have the same Bag-of-Words
 representation for each concept expressed in different languages.
-
 Since we are working with web data, it is possible to retrieve the language
 of the content of each webpage by looking at the Content-Language entity header
 (see \cite{rfc7231}) or the lang global attribute
@@ -26,7 +34,6 @@ When both options are not available,
 a language identification model
 (see fastText resources\footnote{\url{https://fasttext.cc/docs/en/language-identification.html}})
 could be used as a failover.
-
 In order to have different languages with a common Bag-of-Words
 representation, we could translate each document to a pre-defined language
 and then compute the BoW format for each document as previously done.
@@ -39,3 +46,11 @@ The assumption we made in the last scenario is that words in different languages
 the same meaning and for this reason different word vectors of different languages differ only on the basis
 of the vector space in which they are represented.
 The interested reader may refer to \cite{DBLP:journals/corr/abs-1804-07745} for further analysis of the topic.
+
+Preliminary results suggest that the inferred network can 
+model relations between topics. 
+Further analyses could be made with different datasets in order to 
+empirically verify what we observed with our data. 
+In particular, we propose Cora\footnote{\url{https://linqs.soe.ucsc.edu/data}} 
+since it provides a network of connections between documents that can be used as 
+a ground truth.
