@@ -1,0 +1,19 @@
+\chapter{Introduction and motivation}
+
+In the field of biology, unsupervised methods like ARACNE (see \cite{DBLP:journals/bmcbi/MargolinNBWSFC06}) 
+are used to obtain gene regulatory networks starting from microarray expression profiles. 
+
+Methods like Relational Topic Model (introduced in \cite{pmlr-v5-chang09a}) were also proposed to 
+model a collection of documents and the links between them in a supervised way. 
+
+The goal of this thesis is to propose a novel approach to perform network inference given a collection of 
+webpages scraped from a website, taking the best from the two methods cited before. 
+In particular, the final result is an unweighted and undirected graph which connects pages with similar content.
+
+The manuscript is organized as follows: 
+in Chapter \ref{wordemb} we present some techniques to represent words numerically. 
+In Chapter \ref{topicmod} we move from word to document representations and we describe Topic Modeling. 
+In Chapter \ref{networks} we describe network inference, presenting ARACNE.
+In Chapter \ref{experiments} and Chapter \ref{conclusions} we explain step-by-step our original work 
+and we propose some future directions. 
+Finally, Appendices \ref{ann}, \ref{pdib}, \ref{sdist} and \ref{vi} cover a part of the background knowledge needed to read this document.

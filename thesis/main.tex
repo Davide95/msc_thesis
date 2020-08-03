@@ -35,9 +35,15 @@
 \maketitle
 
 \begin{abstract}
-    \begin{center}
-        \includegraphics[width=0.5\textwidth]{images/meme.jpg}
-    \end{center}
+    Network inference is the process of uncovering relations between data, 
+    particularly useful in biology to reconstruct gene regulatory networks. 
+    Supervised methods were also proposed in the past 
+    to summarize a network of documents and predict links between them.
+
+    In this thesis, we propose an unsupervised approach 
+    to extract an undirected and unweighted graph given a collection of texts.
+    In particular, we present a pipeline to construct 
+    and use a dataset composed of pages of a given website.
 \end{abstract}
 
 \dedication{
@@ -71,9 +77,7 @@
 \setcounter{tocdepth}{1}
 \tableofcontents
 
-\chapter{Introduction and motivation}
-\dots
-
+\input{chapters/introduction.tex}
 \input{chapters/wordEmbedding.tex}
 \input{chapters/topicModeling.tex}
 \input{chapters/networks.tex}
