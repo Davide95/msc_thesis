@@ -99,7 +99,7 @@ The averaged results were used to produce the two unweighted networks.
     \label{fig:threshold-box}
 \end{figure}
 
-\section{Data exploration}
+\section{Data exploration} \label{dataexp}
 We then compared the structure of the website built through hyperlinks and the inferred networks. 
 In this scenario, each link tag is considered an undirected and unweighted edge 
 between the URL of the webpage in which it is found and the URL of its \say{href} attribute.
@@ -139,20 +139,20 @@ In particular, the structure is sparser and less clustered than the inferred net
 
 Evaluating the quality of the result is not a trivial task. 
 
-Since we knew from the Data exploration phase that the inferred networks are sparse, 
+Since we knew from Section \ref{dataexp} that the inferred networks are sparse, 
 we focused our analysis only on the links between documents. 
 
-Through our previous knowledge of the structure of the UniGe website, we knew that 
-all courses provided by UniGe have a particular starting page and 
+Thanks to the prior knowledge of the structure of the UniGe website, we knew that 
+all courses provided by UniGe have a particular starting page and that
 they share a common tree-like structure. 
-For instance, all courses have a page called "Orientamento" which share a similar content. 
+For instance, all courses have a page called "Orientamento" which have similar content everywhere. 
 Figure \ref{fig:unige-structure} shows this pattern graphically.
 
 In order to provide a score for evaluating if the inferred networks have a meaningful structure, 
 we grouped pages by their similarities (e.g. all "Orientamento" webpages are in the same group) and 
-we check how many pages in the group are connected to each other. 
+we checked how many pages in the group are connected. 
 
-The results show that the not filtered network is able to recover more than the 82\% of the edges, 
+The results show that the not filtered network recovers more than the 82\% of the edges, 
 while the filtered one identifies more than the 99\% of them. 
 
 \begin{figure}[H]
