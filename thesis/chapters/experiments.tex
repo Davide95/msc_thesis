@@ -136,9 +136,31 @@ In particular, the structure is sparser and less clustered than the inferred net
 
 
 \section{Evaluation of the results} \label{eval}
-\dots
 
+Evaluating the quality of the result is not a trivial task. 
 
+Since we knew from the Data exploration phase that the inferred networks are sparse, 
+we focused our analysis only on the links between documents. 
+
+Through our previous knowledge of the structure of the UniGe website, we knew that 
+all courses provided by UniGe have a particular starting page and 
+they share a common tree-like structure. 
+For instance, all courses have a page called "Orientamento" which share a similar content. 
+Figure \ref{fig:unige-structure} shows this pattern graphically.
+
+In order to provide a score for evaluating if the inferred networks have a meaningful structure, 
+we grouped pages by their similarities (e.g. all "Orientamento" webpages are in the same group) and 
+we check how many pages in the group are connected to each other. 
+
+The results show that the not filtered network is able to recover more than the 82\% of the edges, 
+while the filtered one identifies more than the 99\% of them. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/unige-structure.eps}
+    \caption{Subsampling of the UniGe website structure with titles translated to English.}
+    \label{fig:unige-structure}
+\end{figure}
 
 \section{Scaling issues} \label{scaling}
 
