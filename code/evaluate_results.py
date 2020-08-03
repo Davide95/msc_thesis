@@ -25,6 +25,8 @@ from scipy.sparse import load_npz
 def evaluate_data(content, slugs, urls):
     '''Evaluate all dataset.'''
 
+    slugs = ['/' + slug for slug in slugs]
+
     n_tot = 0
     n_connected = 0
     for slug in slugs:
