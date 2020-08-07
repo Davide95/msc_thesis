@@ -8,7 +8,7 @@ The last section (Section \ref{scaling}) considers instead the scalability issue
 
 \section{Crawling} \label{crawling}
 In order to collect data, 
-we implemented a spider that given a particular domain, it downloads and store all HTML documents 
+we implemented a spider using Scrapy that given a particular domain, it downloads and store all HTML documents 
 and the relative structure built upon the links that we encounter.
 
 The application can be summarized with these steps:
@@ -21,17 +21,17 @@ The application can be summarized with these steps:
 \end{enumerate}
 
 The final result is a set of tuples \texttt{(url, connected\_to, content)}, where \texttt{url} is the URL of a particular page, \texttt{connected\_to} is its set of links and \texttt{content} is the content of the \say{\textless main\textgreater} tag.
-Scrapy allows saving these results in different formats, but we choose to save everything in CSV files in order to re-use them easily in the next phases.
+Scrapy allows saving these results in different formats, but we chose to save everything in CSV files in order to re-use them easily in the next phases.
 Note that we consider only what it is inside of the \say{\textless main\textgreater} tag, in order to store only the main content for each page.
 
 Before using the scraped data, we performed a data preparation phase over it.
-During this step, we made a strong assumption about webpages:
-different URLs with the same scheme correspond to the same page.
+During this step, we made a strong assumption about webpages: 
+URLs with same path but different scheme correspond to the same page. 
 For instance, \url{http://www.example.com} and \url{https://www.example.com}
 are considered links to the same resource. 
 
 Following this assumption, we then removed all duplicates from the \say{url} column
-of the .csv file: only the first occurrence of each URL is kept.
+of the CSV file: only the first occurrence of each URL is kept.
 
 In order to use it as a dataset, we decided to scrape \url{corsi.unige.it} starting the procedure from \url{https://corsi.unige.it}. 
 This decision was made for the following reasons:
