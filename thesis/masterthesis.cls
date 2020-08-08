@@ -416,7 +416,7 @@
                     {\LARGE   \bfseries\@title \vskip 60\p@}
          { 
            \Large \@author \vskip 60\p@
-\large Advisor: \@advisor  \hskip \fill  Examiner: \@examiner \vskip 10\p@
+\large Advisors: \@advisor  \hskip \fill  Examiner: \@examiner \vskip 10\p@
          }     
       \vfill
           {\Large \@submitmonth, \@submityear}
