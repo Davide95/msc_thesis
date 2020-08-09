@@ -75,7 +75,7 @@ Unfortunately, we cannot use the same approach of ARACNE (see Section \ref{aracn
 since we have to deal with probability distributions instead of samples, breaking the 
 possibility of shuffling the data. 
 
-To overcome this issue, we built a scraper which samples pages of \url{wikipedia.it} with replacement,
+To overcome this issue, we built a scraper which samples randomly pages of \url{wikipedia.it} with replacement,
 using the URL \url{https://it.wikipedia.org/wiki/Speciale:PaginaCasuale}.
 The basic idea is that it is unlikely that a relatively small number of random pages share topics; 
 the resulting Hellinger distance between them can be then considered noise. 
